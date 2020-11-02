@@ -1,15 +1,17 @@
 import React from 'react';
+import Logo from '../components/Logo';
+import MyInput from '../components/MyInput';
 import SignInButton from '../components/SignInButton';
 
 import data from '../assets/img/data.svg';
 
 const Login = () => {
+  const name = 'Re3';
+
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center bg-gray-200 py-16">
-      <p className="text-6xl font-roboto text-black font-semibold">Re3</p>
-      <p className="text-3xl font-roboto text-black">
-        Reproducibility, Reusability, Readability
-      </p>
+      <Logo name={name} />
+      <MyInput />
       <div className="w-4/5 relative h-full flex flex-row justify-center items-center">
         <img
           alt="data"
