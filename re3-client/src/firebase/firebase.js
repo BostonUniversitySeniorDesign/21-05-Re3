@@ -44,7 +44,7 @@ export default class Firebase {
     return this.auth().onAuthStateChanged(callback);
   };
 
-  addUserDb = async () => {
+  addUserDb = async () => {    
     const user = await this.auth().currentUser;
     this.db.collection("users").doc(user.uid).set({
       name: user.displayName
@@ -54,6 +54,30 @@ export default class Firebase {
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
+    });
+  }
+
+  downloadFile = async () => {
+    var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
+
+    gsRef.getDownloadURL().then(function(url) {
+      console.log(url);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.send();
+
+      xhr.onload = function() {
+        if (xhr.status !== 200) { // analyze HTTP status of the response
+          alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+        } else { // show the result
+          //alert(`Done, got ${xhr.response.length} bytes`); // response is the server
+          window.open(url);
+        }
+      };
+    }).catch(function(error) {
+      // Handle any errors
+      console.log("error occured")
     });
   }
 }

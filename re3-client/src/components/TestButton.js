@@ -1,7 +1,7 @@
 import React, { useContext }  from 'react';
 import { FirebaseContext } from '../firebase';
 
-const TestButton = () => {
+const TestAddUser = () => {
     const firebase = useContext(FirebaseContext);
     const adduserdb = async () => {
         firebase.addUserDb();
@@ -14,4 +14,4 @@ const TestButton = () => {
   );
 };
 
-export default TestButton;
+export default TestAddUser;
