@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import SignOutButton from '../components/SignOutButton';
+import TestButton from '../components/TestButton';
 import { AuthContext } from '../firebase';
 
 const Dashboard = () => {
@@ -8,6 +9,8 @@ const Dashboard = () => {
     <div className="bg-gray-200 w-screen h-screen flex flex-col items-center justify-center">
       <p className="text-2xl font-roboto text-center text-black mb-4">{`Signed in as ${user.displayName} 🚀`}</p>
       <SignOutButton />
+      <br/>
+      <TestButton />
     </div>
   );
 };

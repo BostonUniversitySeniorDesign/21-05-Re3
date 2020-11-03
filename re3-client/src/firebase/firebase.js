@@ -1,5 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -15,6 +17,8 @@ export default class Firebase {
   constructor() {
     app.initializeApp(config);
     this.auth = app.auth;
+    this.db = app.firestore();
+    this.storage = app.storage();
   }
 
   isAuthenticated = async () => {
@@ -39,4 +43,17 @@ export default class Firebase {
   authSubscriber = (callback) => {
     return this.auth().onAuthStateChanged(callback);
   };
+
+  addUserDb = async () => {
+    const user = await this.auth().currentUser;
+    this.db.collection("users").doc(user.uid).set({
+      name: user.displayName
+    }, { merge: true })
+    .then(function() {
+      console.log("Document written with ID: ", user.uid);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+  }
 }
