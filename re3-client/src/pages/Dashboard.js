@@ -11,11 +11,11 @@ const Dashboard = () => {
     <div className="bg-gray-200 w-screen h-screen flex flex-col items-center justify-center">
       <p className="text-2xl font-roboto text-center text-black mb-4">{`Signed in as ${user.displayName} 🚀`}</p>
       <SignOutButton />
-      <br/>
+      <br />
       <TestAddUser />
-      <br/>
+      <br />
       <TestDownloadFile />
-      <br/>
+      <br />
       <TestDisplayFile />
     </div>
   );
