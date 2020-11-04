@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import SignOutButton from '../components/SignOutButton';
 import TestAddUser from '../components/TestButton';
 import TestDownloadFile from '../components/TestDownloadFile';
+import TestDisplayFile from '../components/TestDisplayFile';
 import { AuthContext } from '../firebase';
 
 const Dashboard = () => {
@@ -14,6 +15,8 @@ const Dashboard = () => {
       <TestAddUser />
       <br/>
       <TestDownloadFile />
+      <br/>
+      <TestDisplayFile />
     </div>
   );
 };
