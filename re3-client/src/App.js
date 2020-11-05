@@ -10,6 +10,8 @@ import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
+import HomePage from './pages/HomePage';
+import NotFound from './pages/NotFound';
 import { AuthContext } from './firebase';
 
 const App = () => {
@@ -34,6 +36,12 @@ const App = () => {
           render={() => (user ? <Redirect to="dashboard" /> : <Login />)}
         />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
+
+        <Route exact path="/homepage" component={HomePage} />
+        <Redirect to="/homepage" />
+        
+        <Route exact path="/404" component={NotFound} />
+        <Redirect to="/404"/> 
       </Switch>
     </Router>
   );
