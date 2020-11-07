@@ -5,9 +5,8 @@ import HeaderSignUpButton from "./HeaderSignUpButton";
 const HomePageHeader = () => {
     return (
         <div>
-            <div className="bg-indigo-400 border flex flex-row relative px-full py-4 rounded">
+            <div className="bg-blue-500 border flex flex-row relative px-full py-4 rounded">
             <HomePageButton/>
-            {/* <div className="bg-indigo-400 border flex flex-reverserow relative px-full py-4 rounded"></div> */}
             <HeaderLoginButton/>
             <HeaderSignUpButton/>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 // import Logo from '../components/Logo';
 // import MyInput from '../components/MyInput';
-//import Header from "../components/HomePageHeader"
+import Header from '../components/SignUpHeader';
 import SignInButton from '../components/SignInButton';
 
 import data from '../assets/img/data.svg';
@@ -12,7 +12,7 @@ const Login = () => {
 
   return (
     <div>
-    {/* <Header/> */}
+    <Header/>
     <div className="w-screen h-screen flex flex-col justify-center items-center bg-gray-200 py-16">
       
       {/* <Logo name={name} /> */}

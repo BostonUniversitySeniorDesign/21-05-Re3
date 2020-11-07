@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
 import HomePage from './pages/HomePage';
+import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import { AuthContext } from './firebase';
 
@@ -37,11 +38,16 @@ const App = () => {
         />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
-        <Route exact path="/homepage" component={HomePage} />
-        <Redirect to="/homepage" />
-        
         <Route exact path="/404" component={NotFound} />
-        <Redirect to="/404"/> 
+        <Route exact path="/homepage" component={HomePage} />
+        <Route exact path="/signup" component={SignUp} />
+        <Redirect to="/404" />
+
+        {/* <Route exact path="/homepage" component={HomePage} />
+        <Redirect to="/homepage" /> */}
+
+        {/* <Route exact path="/signup" component={SignUp} /> */}
+        {/* <Redirect to="/signup" /> */}
       </Switch>
     </Router>
   );
