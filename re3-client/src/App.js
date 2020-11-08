@@ -42,12 +42,6 @@ const App = () => {
         <Route exact path="/homepage" component={HomePage} />
         <Route exact path="/signup" component={SignUp} />
         <Redirect to="/404" />
-
-        {/* <Route exact path="/homepage" component={HomePage} />
-        <Redirect to="/homepage" /> */}
-
-        {/* <Route exact path="/signup" component={SignUp} /> */}
-        {/* <Redirect to="/signup" /> */}
       </Switch>
     </Router>
   );
