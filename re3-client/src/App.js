@@ -7,11 +7,11 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
 import HomePage from './pages/HomePage';
-import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import { AuthContext } from './firebase';
 
@@ -30,17 +30,18 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
+        <Route
+          exact
+          path="/"
+          render={() => (user ? <Redirect to="dashboard" /> : <HomePage />)}
+        />
         <Route
           exact
           path="/login"
           render={() => (user ? <Redirect to="dashboard" /> : <Login />)}
         />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
-
+        <PrivateRoute exact path="/dashboard" component={Onboarding} />
         <Route exact path="/404" component={NotFound} />
-        <Route exact path="/homepage" component={HomePage} />
-        <Route exact path="/signup" component={SignUp} />
         <Redirect to="/404" />
       </Switch>
     </Router>

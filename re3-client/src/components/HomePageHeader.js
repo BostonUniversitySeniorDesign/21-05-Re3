@@ -1,17 +1,13 @@
 import React from 'react';
-import HomePageButton from "./HeaderHomePageButton";
-import HeaderLoginButton from "./HeaderLoginButton1";
-import HeaderSignUpButton from "./HeaderSignUpButton";
+import HomePageButton from './HeaderHomePageButton';
+import HeaderLoginButton from './HeaderLoginButton1';
 const HomePageHeader = () => {
-    return (
-        <div>
-            <div className="bg-blue-500 border flex flex-row relative px-full py-4 rounded">
-            <HomePageButton/>
-            <HeaderLoginButton/>
-            <HeaderSignUpButton/>
-            </div>
-        </div>
-    );
+  return (
+    <div className="w-full bg-blue-500 flex flex-row justify-between relative py-4 px-10">
+      <HomePageButton />
+      <HeaderLoginButton />
+    </div>
+  );
 };
 
 export default HomePageHeader;
