@@ -9,6 +9,7 @@ const HomePage = () => {
   return (
     <div>
       <Header />
+
       <div className=" flex flex-col justify-center items-center bg-gray-200">
         <img
           alt="firstPic"
@@ -24,7 +25,6 @@ const HomePage = () => {
           src={re3Logo}
           className="w-1/4 full justify-center items-center"
         />
-
         <div className="text-3xl text-black text-center flex font-hairline font-roboto font-hairline">
           Reproducibility, Reusability, Readability
         </div>
@@ -54,6 +54,7 @@ const HomePage = () => {
           Something Something
         </div>
       </div>
+
     </div>
   );
 };

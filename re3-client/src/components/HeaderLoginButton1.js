@@ -8,8 +8,7 @@ const HeaderLoginButton = () => {
   return (
     <button
       onClick={() => page()}
-      className="text-2xl font-robot text-white hover:text-black cursor-pointer rounded-md"
-    >
+      className="text-2xl font-robot text-white hover:text-black cursor-pointer rounded-md">
       Login
     </button>
   );

@@ -19,7 +19,7 @@ const SignUp = () => {
                         <div className="text-3xl text-black  justify-center items-center text-center flex font-hairline font-roboto font-hairline my-10">
                             Sign Up
                         </div>
-                        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <div class="mb-6 flex flex-row justify-center items-center">
                                 <input class="shadow appearance-none border rounded w-full mx-1 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="FirstName" type="text" placeholder="First Name" />
                                 <input class="shadow appearance-none border rounded w-full mx-1 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="LastName" type="text" placeholder="Last Name" />
@@ -41,7 +41,7 @@ const SignUp = () => {
                                     already have an account? Login
                                 </a>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

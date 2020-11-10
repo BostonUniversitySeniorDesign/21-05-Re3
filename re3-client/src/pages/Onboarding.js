@@ -15,6 +15,7 @@ const Onboarding = () => {
             We need some information before you can continue.
           </p>
         </div>
+        <SignOutButton/>
       </div>
     </div>
   );
