@@ -4,8 +4,9 @@ import React from 'react';
 import Header from '../components/SignUpHeader';
 import SignInButton from '../components/SignInButton';
 
-import data from '../assets/img/data.svg';
+// import data from '../assets/img/data.svg';
 import re3Logo from '../assets/img/LOGO3.png'
+import SignUpPic from '../assets/img/undraw_Login_re_4vu2.svg'
 
 const Login = () => {
   // const name = 'Re3';
@@ -26,9 +27,9 @@ const Login = () => {
       </div>
       <div className="w-4/5 relative h-full flex flex-row justify-center items-center">
         <img
-          alt="data"
-          src={data}
-          className="w-4/6 px-4 absolute flex-wrap left-0 pr-56"
+          alt="SignUpPic"
+          src={SignUpPic}
+          className="w-4/6 px-4 py-6 absolute flex-wrap left-0 pr-56 my-12"
         />
         <div className="w-1/2"></div>
         <div className="w-5/12 z-10 flex items-center justify-center">
