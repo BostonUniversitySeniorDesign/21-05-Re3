@@ -1,13 +1,13 @@
 import React from 'react';
 // import HomePageButton from './HeaderHomePageButton';
-import HeaderLoginButton from './HeaderLoginButton1';
-const HomePageHeader = () => {
+import SignOutButton from './SignOutButton';
+const OnboardingHeader = () => {
   return (
     <div className="w-full bg-blue-500 flex flex-row justify-end relative py-4 px-10">
       {/* <HomePageButton /> */}
-      <HeaderLoginButton />
+      <SignOutButton />
     </div>
   );
 };
 
-export default HomePageHeader;
+export default OnboardingHeader;
