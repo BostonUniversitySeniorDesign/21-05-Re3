@@ -80,6 +80,10 @@ export default class Firebase {
   }
   
   addSnippetRating = async (rating) => {
+    if(isNaN(rating))
+    {
+      return;
+    }
     var currentsnippet = "snippet"+this.snippet.toString();
     const user = await this.auth().currentUser;
     this.db.collection("ratings").doc(currentsnippet).set({

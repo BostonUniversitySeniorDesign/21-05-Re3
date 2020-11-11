@@ -11,7 +11,7 @@ const Dashboard = () => {
   const firebase = useContext(FirebaseContext);
   const [currentAnswer, setCurrentAnswer] = useState('');
   const submit = () => {
-    firebase.addSnippetRating(currentAnswer);
+    firebase.addSnippetRating(parseInt(currentAnswer));
   };
   return (
     <div className="bg-gray-200 w-screen h-screen flex flex-col items-center justify-center">
