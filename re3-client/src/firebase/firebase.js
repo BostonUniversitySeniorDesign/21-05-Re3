@@ -18,6 +18,7 @@ export default class Firebase {
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
+    this.snippet = 1;
   }
 
   isAuthenticated = async () => {
@@ -65,6 +66,7 @@ export default class Firebase {
       console.log("error occured")
     });
   }  
+
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
@@ -75,5 +77,19 @@ export default class Firebase {
     });
     return fetch(url)
       .then((res) => {return res.text()});
-}
+  }
+  
+  addSnippetRating = async (rating) => {
+    var currentsnippet = "snippet"+this.snippet.toString();
+    const user = await this.auth().currentUser;
+    this.db.collection("ratings").doc(currentsnippet).set({
+      [user.uid]: rating
+    },)
+    .then(function() {
+      console.log("Rating:",rating, "added to", currentsnippet, "from", user.uid);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+  }
 }
