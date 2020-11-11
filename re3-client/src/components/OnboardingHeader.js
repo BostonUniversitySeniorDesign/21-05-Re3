@@ -3,8 +3,7 @@ import React from 'react';
 import SignOutButton from './SignOutButton';
 const OnboardingHeader = () => {
   return (
-    <div className="w-full bg-blue-500 flex flex-row justify-end relative py-4 px-10">
-      {/* <HomePageButton /> */}
+    <div className="w-full bg-blue-500 flex flex-row justify-end py-4 px-10">
       <SignOutButton />
     </div>
   );

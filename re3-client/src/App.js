@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Onboarding from './pages/Onboarding';
-import Dashboard from './pages/Dashboard';
+// import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
 import HomePage from './pages/HomePage';

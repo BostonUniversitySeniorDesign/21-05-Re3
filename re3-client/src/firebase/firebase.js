@@ -32,6 +32,16 @@ export default class Firebase {
     }
   };
 
+  isOnboarded = async () => {
+    // Return if user has completed onboarding question. Can maybe be included in googleSignIn?
+    return;
+  };
+
+  submitOnboarding = async () => {
+    // Upload answer to onboarding question (and other info from google user) to db
+    return;
+  };
+
   signOut = async () => {
     this.auth().signOut();
   };
