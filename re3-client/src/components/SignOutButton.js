@@ -9,8 +9,7 @@ const SignOutButton = () => {
   return (
     <button
       onClick={() => signout()}
-      className="text-xl font-robot px-8 py-3 bg-blue-500 text-white hover:bg-blue-700 cursor-pointer rounded-md"
-    >
+      className="text-2xl font-robot text-white hover:text-black cursor-pointer rounded-md" >
       Sign out
     </button>
   );
