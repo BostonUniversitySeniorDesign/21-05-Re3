@@ -56,7 +56,7 @@ const Onboarding = () => {
                   answer={currentAnswer}
                   setAnswer={setCurrentAnswer}
                 >
-                  >5 years
+                  5 years
                 </OnboardingOption>
               </div>
             </div>

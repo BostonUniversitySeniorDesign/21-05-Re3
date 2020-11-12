@@ -17,7 +17,7 @@ const HomePage = () => {
           className="w-1/3 full justify-center items-center my-6"
         />
 
-        <div className="text-6xl text-black text-center flex font-hairline font-roboto font-hairline my-10">
+        <div className="text-6xl text-black text-center flex font-roboto font-hairline my-10">
           Who are we?
         </div>
         <img
@@ -25,10 +25,10 @@ const HomePage = () => {
           src={re3Logo}
           className="w-1/4 full justify-center items-center"
         />
-        <div className="text-3xl text-black text-center flex font-hairline font-roboto font-hairline">
+        <div className="text-3xl text-black text-center flex font-roboto font-hairline">
           Reproducibility, Reusability, Readability
         </div>
-        <div className="text-4xl text-black text-center flex font-hairline font-roboto font-hairline my-12">
+        <div className="text-4xl text-black text-center flex font-roboto font-hairline my-12">
           What do we do?
         </div>
         <img
@@ -36,13 +36,13 @@ const HomePage = () => {
           src={secondPic}
           className="w-1/3 full justify-center items-center my-6"
         />
-        <div className="text-2xl text-black text-center flex font-hairline font-roboto font-hairline my-10 mx-40">
+        <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
           We offer a platform that will assest researchers in bettering the
           readability of their code and to asses the reproducibility of the same
           code
         </div>
 
-        <div className="text-4xl text-black text-center flex font-hairline font-roboto font-hairline my-10">
+        <div className="text-4xl text-black text-center flex font-roboto font-hairline my-10">
           Why use our platform?
         </div>
         <img
@@ -50,7 +50,7 @@ const HomePage = () => {
           src={thirdPic}
           className="w-1/3 full justify-center items-center my-6"
         />
-        <div className="text-2xl text-black text-center flex font-hairline font-roboto font-hairline my-10 mx-40">
+        <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
           Something Something
         </div>
       </div>
