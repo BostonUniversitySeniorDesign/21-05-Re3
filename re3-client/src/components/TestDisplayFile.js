@@ -1,18 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import { FirebaseContext } from '../firebase';
 
-const TestDisplayFile = () => {
-  const [fileContents, setState] = useState('');
+const TestDisplayFile = ({snippet}) => {
+  const [fileContents, setFileContents] = useState('');
   const firebase = useContext(FirebaseContext);
-  const displayfile = async () => {
+  useEffect(() => {
     firebase.DisplayContents().then((res) => {
-      setState(res);
+      setFileContents(res);
     });
-  };
-  displayfile();
+  }, [])
+
+  //displayfile();
+  console.log("Before returning")
   return (
-    <div className="h-74 overflow-y-auto overflow-x-hidden rounded border-2 border-blue-400 px-4 py-4">
-      {fileContents.split('\n').map((item, key) => {
+    <div className="w-full min-h-screen flex flex-col justify-center items-center">
+    <div className="h-40 w-1/2 overflow-y-auto overflow-x-hidden rounded border-2 border-blue-400 px-10 py-4">
+      {snippet.split('\n').map((item, key) => {
         return (
           <span key={key}>
             {item}
@@ -21,6 +24,9 @@ const TestDisplayFile = () => {
         );
       })}
     </div>
+    {/*<button onClick={() => nextSnippet()}>next</button>*/}
+    </div>
+    
   );
 };
 

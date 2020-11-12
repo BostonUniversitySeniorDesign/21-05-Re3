@@ -18,7 +18,8 @@ export default class Firebase {
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
-    this.snippet = 1;
+    this.folderName = 'gs://re3-fb.appspot.com/snippets';
+    this.currentSnippet = 0;
   }
 
   isAuthenticated = async () => {
@@ -67,28 +68,56 @@ export default class Firebase {
     });
   }  
 
-  // Display the content inside the file after fetching it from the Firebase storage
-  DisplayContents = async () => {
-    var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
+  // Display the content inside the file after fetching it from the Firebase storage and go get the next snipppet
+  DisplayContents = async (num) => {
+    // Get the snippet that the current user last worked on
+    const user = this.auth().currentUser;
+    var docRef = this.db.collection("users").doc(user.uid);
+    var snippet;
+    await docRef.get().then(function(doc) {
+      if (doc.exists) {
+          snippet = doc.data().currentSnippet;
+      } else {
+        console.log("No such document!");
+        }
+      }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+    // Get the next snippet
+    snippet = snippet + 1;
+    //Save it in a class variable to use it in addSnippetRating
+    this.currentSnippet = snippet;
+    //Store the current snippet in firestore 
+    await docRef.set({
+      currentSnippet: snippet
+    }, { merge: true })
+    .then(function() {
+      console.log("Updated ", user.displayName, "'s snippet count on firestore");
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
+    // Get the snippet from storage to display and send it the display file function
+    var gsRef = this.storage.refFromURL(this.folderName+'/snippet'+String(snippet)+'.R');
     var url = await gsRef.getDownloadURL().then(function(url) {
       return url;
     }).catch(function(error) {
       console.error("Error adding document: ", error);
     });
-    return fetch(url)
+    return await fetch(url)
       .then((res) => {return res.text()});
   }
-  
+
   addSnippetRating = async (rating) => {
     if(isNaN(rating))
     {
       return;
     }
-    var currentsnippet = "snippet"+this.snippet.toString();
+    var currentsnippet = "snippet"+this.currentSnippet.toString();
     const user = await this.auth().currentUser;
     this.db.collection("ratings").doc(currentsnippet).set({
       [user.uid]: rating
-    },)
+    },{merge: true})
     .then(function() {
       console.log("Rating:",rating, "added to", currentsnippet, "from", user.uid);
     })
