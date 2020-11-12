@@ -1,5 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -15,6 +17,8 @@ export default class Firebase {
   constructor() {
     app.initializeApp(config);
     this.auth = app.auth;
+    this.db = app.firestore();
+    this.currentSnippet = 0;
   }
 
   isAuthenticated = async () => {
@@ -37,8 +41,23 @@ export default class Firebase {
     return;
   };
 
-  submitOnboarding = async () => {
-    // Upload answer to onboarding question (and other info from google user) to db
+  // Upload name, email, experience to firestore 
+  submitOnboarding = async (currentAnswer) => {
+    var snippet = 0;
+    console.log(currentAnswer);
+    const user = this.auth().currentUser;
+    this.db.collection("users").doc(user.uid).set({
+      name: user.displayName,
+      experience: currentAnswer,
+      email: user.email,
+      currentSnippet: snippet
+    }, { merge: true })
+    .then(function() {
+      console.log("Updated ", user.displayName, "'s info on firestore");
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+    });
     return;
   };
 
