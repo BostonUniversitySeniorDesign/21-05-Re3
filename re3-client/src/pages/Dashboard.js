@@ -29,13 +29,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-gray-200 w-screen h-screen flex flex-col items-center justify-center">
+    <div className="bg-gray-200 w-screen min-h-screen flex flex-col items-center justify-center">
       <p className="text-2xl font-roboto text-center text-black mb-4">{`Signed in as ${user.displayName} 🚀`}</p>
       <SignOutButton />
-      <br />
-      <TestAddUser />
-      <br />
-      <TestDownloadFile />
       <br />
       <TestDisplayFile snippet={fileContents} />
       <br />

@@ -19,7 +19,7 @@ export default class Firebase {
     this.db = app.firestore();
     this.storage = app.storage();
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
-    this.currentSnippet = 0;
+    this.currentSnippet = 1;
   }
 
   isAuthenticated = async () => {
@@ -74,6 +74,7 @@ export default class Firebase {
     const user = this.auth().currentUser;
     var docRef = this.db.collection("users").doc(user.uid);
     var snippet;
+    
     await docRef.get().then(function(doc) {
       if (doc.exists) {
           snippet = doc.data().currentSnippet;
@@ -83,20 +84,7 @@ export default class Firebase {
       }).catch(function(error) {
       console.log("Error getting document:", error);
     });
-    // Get the next snippet
-    snippet = snippet + 1;
-    //Save it in a class variable to use it in addSnippetRating
-    this.currentSnippet = snippet;
-    //Store the current snippet in firestore 
-    await docRef.set({
-      currentSnippet: snippet
-    }, { merge: true })
-    .then(function() {
-      console.log("Updated ", user.displayName, "'s snippet count on firestore");
-    })
-    .catch(function(error) {
-      console.error("Error adding document: ", error);
-    });
+
     // Get the snippet from storage to display and send it the display file function
     var gsRef = this.storage.refFromURL(this.folderName+'/snippet'+String(snippet)+'.R');
     var url = await gsRef.getDownloadURL().then(function(url) {
@@ -109,20 +97,40 @@ export default class Firebase {
   }
 
   addSnippetRating = async (rating) => {
-    if(isNaN(rating))
+    if(isNaN(rating) || this.currentSnippet >= 4)
     {
       return;
     }
-    var currentsnippet = "snippet"+this.currentSnippet.toString();
+
+    // Store rating of snippet
+    var currentsnippet = this.currentSnippet;
+    var snippetString = "snippet"+currentsnippet.toString();
     const user = await this.auth().currentUser;
-    this.db.collection("ratings").doc(currentsnippet).set({
+    this.db.collection("ratings").doc(snippetString).set({
       [user.uid]: rating
     },{merge: true})
     .then(function() {
-      console.log("Rating:",rating, "added to", currentsnippet, "from", user.uid);
+      console.log("Rating:",rating, "added to", snippetString, "from", user.uid);
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
+      return;
     });
+
+    // increment current snippet
+    currentsnippet = currentsnippet+1;
+    
+    this.db.collection("users").doc(user.uid).set({
+      currentSnippet: currentsnippet
+    },{merge: true})
+    .then(function() {
+      console.log("User currentSnippet updated to", currentsnippet);
+      
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+      return;
+    });
+    this.currentSnippet = currentsnippet;
   }
 }
