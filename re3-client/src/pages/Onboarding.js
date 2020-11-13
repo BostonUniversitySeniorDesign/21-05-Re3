@@ -1,14 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../firebase';
+import { FirebaseContext } from '../firebase';
 import OnboardingHeader from '../components/OnboardingHeader';
 import OnboardingOption from '../components/OnboardingOption';
 
 const Onboarding = () => {
   const user = useContext(AuthContext);
   const [currentAnswer, setCurrentAnswer] = useState('');
+  const firebase = useContext(FirebaseContext);
 
   const submit = () => {
-    alert('For secret team');
+    firebase.submitOnboarding(currentAnswer);
   };
 
   return (
