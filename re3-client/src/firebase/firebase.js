@@ -20,6 +20,7 @@ export default class Firebase {
     this.storage = app.storage();
     this.currentSnippet = 1;
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
+    this.userOnboarded = false;
   }
 
   isAuthenticated = async () => {
