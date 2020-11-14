@@ -1,34 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FirebaseContext } from '../firebase';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import {docco} from 'react-syntax-highlighter/dist/esm/styles/hljs';
-// import {r} from 'react-syntax-highlighter/dist/esm/languages/hljs'; //its supposed to be this but it produces a blank page when I use R language
-import {c} from 'react-syntax-highlighter/dist/esm/languages/hljs';
+import Highlight, { defaultProps } from 'prism-react-renderer';
+import theme from 'prism-react-renderer/themes/palenight';
+import Prism from 'prism-react-renderer/prism';
 
-// registerLanguage('R', R);
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+
+require('prismjs/components/prism-r');
 
 const TestDisplayFile = () => {
-  const [fileContents, setState] = useState('');
+  const [fileContents, setFileContents] = useState('');
   const firebase = useContext(FirebaseContext);
-  
-  
-  const displayfile = async () => {
+
+  useEffect(() => {
     firebase.DisplayContents().then((res) => {
-      setState(res);
+      setFileContents(res);
     });
-  };
- 
-  displayfile();
-  
+  }, [firebase]);
+
   return (
-    
-    <div className="bg-white overflow-y-scroll w-4/5 h-3/4 rounded border-4 border-blue-400  m-10">
-      <SyntaxHighlighter language={c} style= {docco}>
-       
-        {fileContents}
-      
-      </SyntaxHighlighter>
-    </div>
+    <Highlight {...defaultProps} theme={theme} code={fileContents} language="r">
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <pre
+          className={`text-left p-4 w-3/4 h-86 overflow-scroll ${className}`}
+          style={style}
+        >
+          {tokens.map((line, i) => (
+            <div
+              className="table-row"
+              key={i}
+              {...getLineProps({ line, key: i })}
+            >
+              <span className="table-cell text-right pr-4 opacity-50 select-none">
+                {i + 1}
+              </span>
+              <span className="table-cell">
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token, key })} />
+                ))}
+              </span>
+            </div>
+          ))}
+        </pre>
+      )}
+    </Highlight>
   );
 };
 

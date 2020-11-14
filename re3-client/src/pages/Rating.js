@@ -1,110 +1,56 @@
 import React, { useState } from 'react';
-// import TestAddUser from '../components/TestButton';
-// import TestDownloadFile from '../components/TestDownloadFile';
 import RatingNumberButton from '../components/RatingNumberButton';
 import TestDisplayFile from '../components/TestDisplayFile';
-// import { AuthContext } from '../firebase';
 import Header from '../components/RatingHeader';
-import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg'
-import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg'
+import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
+import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 
-const Dashboard = () => {
-    // const user = useContext(AuthContext);
-    const [currentAnswer, setCurrentAnswer] = useState('');
-    return (
-        <div>
-            <Header />
-            <div className=" bg-gray-200 text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
-                Rate This Code:
-                </div>
-            <div className="bg-gray-200 w-screen h-screen flex flex-col items-center justify-center">
+const Rating = () => {
+  const [currentAnswer, setCurrentAnswer] = useState('');
+  return (
+    <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
+      <Header />
+      <div className="self-start text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
+        How would you rate the readability of this code?
+      </div>
+      <TestDisplayFile />
+      <div className="flex flex-row items-center justify-center">
+        <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
 
-                <TestDisplayFile />
-                
-            </div>
-            <div className=" bg-gray-200 text-3xl text-black text-left font-hairline font-roboto px-8">
-                    How Readable is this code?</div>
-
-                <div className=" bg-gray-200 flex flex-row items-center justify-center">
-
-                <img
-                        alt="SadFace"
-                        src={SadFace}
-                        className="w-1/6 full justify-start p-4"
-                    />
-
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        1
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          1
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        2
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          2
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        3
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          3
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        4
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          4
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        5
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          5
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        6
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          6
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        7
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          7
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        8
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          8
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        9
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          9
         </RatingNumberButton>
-                    <RatingNumberButton
-                        answer={currentAnswer}
-                        setAnswer={setCurrentAnswer}
-                    >
-                        10
+        <RatingNumberButton answer={currentAnswer} setAnswer={setCurrentAnswer}>
+          10
         </RatingNumberButton>
-                    <img
-                        alt="HappyFace"
-                        src={HappyFace}
-                        className="w-1/6 full justify-start p-4"
-                    />
-
-                </div>
-
-
-        </div>
-
-    );
+        <img alt="HappyFace" src={HappyFace} className="w-1/6 p-4" />
+      </div>
+    </div>
+  );
 };
 
-export default Dashboard;
+export default Rating;
