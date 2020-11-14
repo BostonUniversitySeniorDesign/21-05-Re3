@@ -72,7 +72,7 @@ export default class Firebase {
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
-    this.currentSnippet = 0;
+    this.currentSnippet = 1;
   }
 
   isAuthenticated = async () => {
@@ -155,5 +155,40 @@ export default class Firebase {
     });
     return fetch(url)
       .then((res) => {return res.text()});
-}
+  }
+
+  addSnippetRating = async (rating) => {
+    if(isNaN(rating) || this.currentSnippet >= 4)
+    {
+      return;
+    }
+    // Store rating of snippet
+    var currentsnippet = this.currentSnippet;
+    var snippetString = "snippet"+currentsnippet.toString();
+    const user = await this.auth().currentUser;
+    this.db.collection("ratings").doc(snippetString).set({
+      [user.uid]: rating
+    },{merge: true})
+    .then(function() {
+      console.log("Rating:",rating, "added to", snippetString, "from", user.uid);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+      return;
+    });
+    // increment current snippet
+    currentsnippet = currentsnippet+1;
+    this.db.collection("users").doc(user.uid).set({
+      currentSnippet: currentsnippet
+    },{merge: true})
+    .then(function() {
+      console.log("User currentSnippet updated to", currentsnippet);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+      return;
+    });
+    this.currentSnippet = currentsnippet;
+  }
+
 }
