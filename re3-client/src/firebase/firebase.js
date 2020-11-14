@@ -71,19 +71,6 @@ export default class Firebase {
     return this.auth().onAuthStateChanged(callback);
   };
 
-  // addUserDb = async () => {    
-  //   const user = await this.auth().currentUser;
-  //   this.db.collection("users").doc(user.uid).set({
-  //     name: user.displayName
-  //   }, { merge: true })
-  //   .then(function() {
-  //     console.log("Document written with ID: ", user.uid);
-  //   })
-  //   .catch(function(error) {
-  //     console.error("Error adding document: ", error);
-  //   });
-  // }
-
   downloadFile = async () => {
     var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
     gsRef.getDownloadURL().then(function(url) {
@@ -93,6 +80,7 @@ export default class Firebase {
       console.log("error occured")
     });
   }  
+  
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
