@@ -7,8 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import Onboarding from './pages/Onboarding';
-// import Dashboard from './pages/Dashboard';
+// import Onboarding from './pages/Onboarding';
+import Rating from './pages/Rating';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
 import HomePage from './pages/HomePage';
@@ -40,7 +40,7 @@ const App = () => {
           path="/login"
           render={() => (user ? <Redirect to="dashboard" /> : <Login />)}
         />
-        <PrivateRoute exact path="/dashboard" component={Onboarding} />
+        <PrivateRoute exact path="/dashboard" component={Rating} />
         <Route exact path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>
