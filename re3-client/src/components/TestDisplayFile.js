@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FirebaseContext } from '../firebase';
+import React from 'react';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/palenight';
 import Prism from 'prism-react-renderer/prism';
@@ -8,18 +7,9 @@ import Prism from 'prism-react-renderer/prism';
 
 require('prismjs/components/prism-r');
 
-const TestDisplayFile = () => {
-  const [fileContents, setFileContents] = useState('');
-  const firebase = useContext(FirebaseContext);
-
-  useEffect(() => {
-    firebase.DisplayContents().then((res) => {
-      setFileContents(res);
-    });
-  }, [firebase]);
-
+const TestDisplayFile = ({ snippet }) => {
   return (
-    <Highlight {...defaultProps} theme={theme} code={fileContents} language="r">
+    <Highlight {...defaultProps} theme={theme} code={snippet} language="r">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={`text-left p-4 w-3/4 h-86 overflow-scroll ${className}`}
