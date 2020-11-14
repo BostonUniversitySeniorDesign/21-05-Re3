@@ -73,6 +73,7 @@ export default class Firebase {
     this.db = app.firestore();
     this.storage = app.storage();
     this.currentSnippet = 1;
+    this.folderName = 'gs://re3-fb.appspot.com/snippets';
   }
 
   isAuthenticated = async () => {
@@ -97,7 +98,7 @@ export default class Firebase {
 
   // Upload name, email, experience to firestore 
   submitOnboarding = async (currentAnswer) => {
-    var snippet = 0;
+    var snippet = 1;
     console.log(currentAnswer);
     const user = this.auth().currentUser;
     this.db.collection("users").doc(user.uid).set({
@@ -107,6 +108,7 @@ export default class Firebase {
       currentSnippet: snippet
     }, { merge: true })
     .then(function() {
+      this.userOnboarded = true;
       console.log("Updated ", user.displayName, "'s info on firestore");
     })
     .catch(function(error) {
@@ -147,13 +149,27 @@ export default class Firebase {
   }  
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
-    var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
+    // Get the snippet that the current user last worked on
+    const user = this.auth().currentUser;
+    var docRef = this.db.collection("users").doc(user.uid);
+    var snippet;
+    await docRef.get().then(function(doc) {
+      if (doc.exists) {
+          snippet = doc.data().currentSnippet;
+      } else {
+        console.log("No such document!");
+        }
+      }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+    // Get the snippet from storage to display and send it the display file function
+    var gsRef = this.storage.refFromURL(this.folderName+'/snippet'+String(snippet)+'.R');
     var url = await gsRef.getDownloadURL().then(function(url) {
       return url;
     }).catch(function(error) {
       console.error("Error adding document: ", error);
     });
-    return fetch(url)
+    return await fetch(url)
       .then((res) => {return res.text()});
   }
 

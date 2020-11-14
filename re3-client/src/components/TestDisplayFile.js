@@ -8,7 +8,7 @@ import Prism from 'prism-react-renderer/prism';
 
 require('prismjs/components/prism-r');
 
-const TestDisplayFile = () => {
+const TestDisplayFile = ({snippet}) => {
   const [fileContents, setFileContents] = useState('');
   const firebase = useContext(FirebaseContext);
 
@@ -19,7 +19,7 @@ const TestDisplayFile = () => {
   }, [firebase]);
 
   return (
-    <Highlight {...defaultProps} theme={theme} code={fileContents} language="r">
+    <Highlight {...defaultProps} theme={theme} code={snippet} language="r">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={`text-left p-4 w-3/4 h-86 overflow-scroll ${className}`}
