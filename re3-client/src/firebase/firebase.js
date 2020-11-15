@@ -73,7 +73,8 @@ export default class Firebase {
   };
 
   downloadFile = async () => {
-    var gsRef = this.storage.refFromURL('gs://re3-fb.appspot.com/doi107910DVN2IT7IF/Disc&PolBehav_ReplicationCode.R')
+    var gsRef = this.storage.refFromURL(this.folderName + "/snippet" + this.currentSnippet + '.R');
+    
     gsRef.getDownloadURL().then(function(url) {
       console.log(url);
       window.open(url,"_self");
