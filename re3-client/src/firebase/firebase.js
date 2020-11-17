@@ -129,7 +129,7 @@ export default class Firebase {
   };
 
   addSnippetRating = async (rating) => {
-    if (isNaN(rating) || this.currentSnippet >= 4) {
+    if (isNaN(rating) || this.currentSnippet >= 101) {
       return;
     }
     // Store rating of snippet
