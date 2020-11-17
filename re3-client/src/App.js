@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import './tailwind.output.css';
 import {
   BrowserRouter as Router,
@@ -7,25 +7,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-// import Onboarding from './pages/Onboarding';
 import Rating from './pages/Rating';
 import Login from './pages/Login';
-import Loading from './pages/Loading';
 import HomePage from './pages/HomePage';
 import NotFound from './pages/NotFound';
 import { AuthContext } from './firebase';
 
 const App = () => {
-  const [initializing, setInitializing] = useState(true);
   const user = useContext(AuthContext);
-
-  setTimeout(() => {
-    setInitializing(false);
-  }, 3000);
-
-  if (initializing && user == null) {
-    return <Loading />;
-  }
 
   return (
     <Router>

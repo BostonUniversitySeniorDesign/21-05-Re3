@@ -5,7 +5,7 @@ import { FirebaseContext } from '../firebase';
 const SignInButton = () => {
   const firebase = useContext(FirebaseContext);
   const login = async () => {
-    firebase.googleSignIn();
+    await firebase.googleSignIn();
   };
   return <GoogleButton onClick={() => login()} />;
 };

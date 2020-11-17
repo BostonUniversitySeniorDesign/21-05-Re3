@@ -1,16 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../firebase';
 import { FirebaseContext } from '../firebase';
+import useRouter from '../utils/Router';
 import OnboardingHeader from '../components/OnboardingHeader';
 import OnboardingOption from '../components/OnboardingOption';
 
 const Onboarding = () => {
   const user = useContext(AuthContext);
-  const [currentAnswer, setCurrentAnswer] = useState('');
   const firebase = useContext(FirebaseContext);
+  const router = useRouter();
+  const [currentAnswer, setCurrentAnswer] = useState('');
 
-  const submit = () => {
-    firebase.submitOnboarding(currentAnswer);
+  const submit = async () => {
+    await firebase.submitOnboarding(currentAnswer);
+    router.push('/dashboard');
   };
 
   return (
