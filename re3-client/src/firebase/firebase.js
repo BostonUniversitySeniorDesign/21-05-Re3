@@ -129,9 +129,6 @@ export default class Firebase {
   };
 
   addSnippetRating = async (rating) => {
-    if (isNaN(rating) || this.currentSnippet >= 101) {
-      return;
-    }
     // Store rating of snippet
     var currentsnippet = this.currentSnippet;
     var snippetString = 'snippet' + currentsnippet.toString();
@@ -159,6 +156,9 @@ export default class Firebase {
         console.error('Error adding document: ', error);
         return;
       });
+    if (isNaN(rating) || this.currentSnippet >= 100) {
+        return;
+    }
     // increment current snippet
     currentsnippet = currentsnippet + 1;
     this.db
