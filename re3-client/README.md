@@ -1,4 +1,4 @@
-# Re3
+# RE3
 ## Steps to clone and open the project in a web browser 
 <ol>
 <li> git clone git@github.com:BostonUniversitySeniorDesign/21-05-Re3.git </li>
