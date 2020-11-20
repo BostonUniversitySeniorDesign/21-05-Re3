@@ -3,6 +3,8 @@
 <ol>
 <li> git clone git@github.com:BostonUniversitySeniorDesign/21-05-Re3.git </li>
 
+<li>cd into re3-client</li>
+
 <li> npm install </li>
 
 <li> npm start </li>
