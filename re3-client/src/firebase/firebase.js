@@ -13,9 +13,10 @@ const config = {
   appId: '1:121193880841:web:7d662547f9bbf78df487d8'
 };
 
+app.initializeApp(config);
+
 export default class Firebase {
   constructor() {
-    app.initializeApp(config);
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
