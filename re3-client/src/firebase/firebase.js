@@ -102,6 +102,7 @@ export default class Firebase {
       .then(function (doc) {
         if (doc.exists) {
           snippet = doc.data().currentSnippet;
+          this.currentSnippet = snippet;
         } else {
           console.log('No such document!');
         }
