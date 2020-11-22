@@ -3,19 +3,17 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
-const config = {
-  apiKey: 'AIzaSyDm7t3kFLtOriXhZyOOJReon1qnuubUbvE',
-  authDomain: 're3-fb.firebaseapp.com',
-  databaseURL: 'https://re3-fb.firebaseio.com',
-  projectId: 're3-fb',
-  storageBucket: 're3-fb.appspot.com',
-  messagingSenderId: '121193880841',
-  appId: '1:121193880841:web:7d662547f9bbf78df487d8'
-};
-
 export default class Firebase {
   constructor() {
-    app.initializeApp(config);
+    app.initializeApp({
+      apiKey: 'AIzaSyDm7t3kFLtOriXhZyOOJReon1qnuubUbvE',
+      authDomain: 're3-fb.firebaseapp.com',
+      databaseURL: 'https://re3-fb.firebaseio.com',
+      projectId: 're3-fb',
+      storageBucket: 're3-fb.appspot.com',
+      messagingSenderId: '121193880841',
+      appId: '1:121193880841:web:7d662547f9bbf78df487d8'
+    });
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
