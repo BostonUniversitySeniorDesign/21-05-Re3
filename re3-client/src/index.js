@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Firebase, { FirebaseContext } from './firebase';
+import FirebaseInstance, { FirebaseContext } from './firebase';
 import { AuthProvider } from './firebase';
 
 ReactDOM.render(
-  <FirebaseContext.Provider value={new Firebase()}>
+  <FirebaseContext.Provider value={FirebaseInstance}>
     <AuthProvider>
       <React.StrictMode>
         <App />

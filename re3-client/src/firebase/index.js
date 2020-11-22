@@ -5,4 +5,5 @@ import Firebase from './firebase';
 export { FirebaseContext, withFirebase };
 export { AuthContext, AuthProvider };
 
-export default Firebase;
+const FirebaseInstance = new Firebase();
+export default FirebaseInstance;
