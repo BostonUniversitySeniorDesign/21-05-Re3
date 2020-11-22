@@ -97,12 +97,11 @@ export default class Firebase {
     const user = this.auth().currentUser;
     var docRef = this.db.collection('users').doc(user.uid);
     var snippet;
-    await docRef
+    snippet = await docRef
       .get()
       .then(function (doc) {
         if (doc.exists) {
-          snippet = doc.data().currentSnippet;
-          this.currentSnippet = snippet;
+          return doc.data().currentSnippet;
         } else {
           console.log('No such document!');
         }
@@ -110,6 +109,7 @@ export default class Firebase {
       .catch(function (error) {
         console.log('Error getting document:', error);
       });
+    this.currentSnippet = snippet;
     // Get the snippet from storage to display and send it the display file function
     var gsRef = this.storage.refFromURL(
       this.folderName + '/snippet' + String(snippet) + '.R'
