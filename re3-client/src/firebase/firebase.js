@@ -178,4 +178,32 @@ export default class Firebase {
       });
     this.currentSnippet = currentsnippet;
   };
+
+  decrementSnippetCounter = async () => {
+    // Store rating of snippet
+    var currentsnippet = this.currentSnippet;
+    const user = await this.auth().currentUser;
+    if (this.currentSnippet >= 100) {
+      return;
+    }
+    // increment current snippet
+    currentsnippet = currentsnippet - 1;
+    this.db
+      .collection('users')
+      .doc(user.uid)
+      .set(
+        {
+          currentSnippet: currentsnippet
+        },
+        { merge: true }
+      )
+      .then(function () {
+        console.log('User currentSnippet updated to', currentsnippet);
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+        return;
+      });
+    this.currentSnippet = currentsnippet;
+  };
 }

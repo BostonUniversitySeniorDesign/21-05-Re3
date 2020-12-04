@@ -23,8 +23,15 @@ const Rating = () => {
   };
 
   const submit = (value) => {
-    firebase.addSnippetRating(parseInt(value));
-    nextSnippet();
+    if (value !== "Back"){
+      firebase.addSnippetRating(parseInt(value));
+      nextSnippet();
+    }
+    else{
+      firebase.decrementSnippetCounter();
+      nextSnippet();
+    }
+
   };
   return (
     <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
@@ -35,6 +42,7 @@ const Rating = () => {
       <TestDisplayFile snippet={fileContents} />
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
+        <RatingNumberButton submit={submit}>Back</RatingNumberButton>
         <RatingNumberButton submit={submit}>1</RatingNumberButton>
         <RatingNumberButton submit={submit}>2</RatingNumberButton>
         <RatingNumberButton submit={submit}>3</RatingNumberButton>
