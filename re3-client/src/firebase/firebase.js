@@ -19,6 +19,8 @@ export default class Firebase {
     this.storage = app.storage();
     this.currentSnippet = 1;
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
+    this.userOnboarded = false;
+    this.maxSnippet = 101; //currently 4 but need to change to 100 
   }
 
   isAuthenticated = async () => {
@@ -75,6 +77,26 @@ export default class Firebase {
     return this.auth().onAuthStateChanged(callback);
   };
 
+  UpdatingRatingInUserCollection = async (rating) => {
+    if(this.currentSnippet > this.maxSnippet){
+      return;
+    }
+    else{
+      const user =  this.auth().currentUser;
+      var currentsnippet = this.currentSnippet;
+      var snippetString = "snippet"+currentsnippet.toString();
+      console.log(snippetString);
+      this.db.collection("users").doc(user.uid).set({
+        [snippetString] : rating
+      },{merge: true}).then(function () {
+        console.log("document ", snippetString," with submitted rating ", rating)
+      }).catch(function (error) {
+        console.log("ok");
+      });
+    }
+  };
+
+
   downloadFile = async () => {
     var gsRef = this.storage.refFromURL(
       this.folderName + '/snippet' + this.currentSnippet + '.R'
@@ -128,6 +150,9 @@ export default class Firebase {
   };
 
   addSnippetRating = async (rating) => {
+    if (isNaN(rating) || this.currentSnippet >= 101) {
+      return;
+    }
     // Store rating of snippet
     var currentsnippet = this.currentSnippet;
     var snippetString = 'snippet' + currentsnippet.toString();
