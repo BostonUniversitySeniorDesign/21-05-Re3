@@ -1,6 +1,6 @@
-const TestPrevSnippet = ({goback}) => {
+const TestPrevSnippet = ({goBack}) => {
   const prevsnippet = async () => {
-      goback();
+      goBack();
     };
   return (
     <button onClick={() => prevsnippet()}className="text-xl font-robot px-8 py-3 bg-blue-500 text-white hover:bg-blue-700 cursor-pointer rounded-md"

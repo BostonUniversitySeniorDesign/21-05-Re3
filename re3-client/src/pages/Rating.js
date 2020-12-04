@@ -17,7 +17,7 @@ const Rating = () => {
     });
   }, [firebase]);
 
-  const nextSnippet = () => {
+  const dispSnippet = () => {
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
     });
@@ -25,12 +25,12 @@ const Rating = () => {
 
   const submit = (value) => {
     firebase.addSnippetRating(parseInt(value));
-    nextSnippet();
+    dispSnippet();
   }
   
-  const goback = () => {
+  const goBack = () => {
     firebase.decrementSnippetCounter();
-    nextSnippet();
+    dispSnippet();
   }
 
   return (
@@ -42,7 +42,7 @@ const Rating = () => {
       <TestDisplayFile snippet={fileContents} />
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
-        <TestPrevSnippet goback={goback} />
+        <TestPrevSnippet goBack={goBack} />
         <RatingNumberButton submit={submit}>1</RatingNumberButton>
         <RatingNumberButton submit={submit}>2</RatingNumberButton>
         <RatingNumberButton submit={submit}>3</RatingNumberButton>

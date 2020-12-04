@@ -180,31 +180,43 @@ export default class Firebase {
   };
 
   decrementSnippetCounter = async () => {
-    // Store rating of snippet
-    var currentsnippet = this.currentSnippet;
-    const user = await this.auth().currentUser;
-    if (this.currentSnippet <= 1) {
+    var snippet; 
+    const user = this.auth().currentUser;
+    var docRef = this.db.collection('users').doc(user.uid);
+    snippet = await docRef
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          return doc.data().currentSnippet;
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch(function (error) {
+        console.log('Error getting document:', error);
+      });
+    if (snippet <= 1) {
       alert("You are on the first snippet.")
       return;
     }
-    // increment current snippet
-    currentsnippet = currentsnippet - 1;
+    // decrement current snippet
+    snippet = snippet - 1;
     this.db
       .collection('users')
       .doc(user.uid)
       .set(
         {
-          currentSnippet: currentsnippet
+          currentSnippet: snippet
         },
         { merge: true }
       )
       .then(function () {
-        console.log('User currentSnippet updated to', currentsnippet);
+        console.log('User currentSnippet updated to', snippet);
       })
       .catch(function (error) {
         console.error('Error adding document: ', error);
         return;
       });
-    this.currentSnippet = currentsnippet;
+    this.currentSnippet = snippet; 
   };
 }
