@@ -5,6 +5,7 @@ import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
+import TestPrevSnippet from '../components/TestPrevSnippet';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
@@ -23,26 +24,25 @@ const Rating = () => {
   };
 
   const submit = (value) => {
-    if (value !== "Back"){
-      firebase.addSnippetRating(parseInt(value));
-      nextSnippet();
-    }
-    else{
-      firebase.decrementSnippetCounter();
-      nextSnippet();
-    }
+    firebase.addSnippetRating(parseInt(value));
+    nextSnippet();
+  }
+  
+  const goback = () => {
+    firebase.decrementSnippetCounter();
+    nextSnippet();
+  }
 
-  };
   return (
     <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
       <Header />
-      <div className="self-start text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
+      <div className="self-center text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
         How would you rate the readability of this code?
       </div>
       <TestDisplayFile snippet={fileContents} />
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
-        <RatingNumberButton submit={submit}>Back</RatingNumberButton>
+        <TestPrevSnippet goback={goback} />
         <RatingNumberButton submit={submit}>1</RatingNumberButton>
         <RatingNumberButton submit={submit}>2</RatingNumberButton>
         <RatingNumberButton submit={submit}>3</RatingNumberButton>

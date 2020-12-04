@@ -183,7 +183,8 @@ export default class Firebase {
     // Store rating of snippet
     var currentsnippet = this.currentSnippet;
     const user = await this.auth().currentUser;
-    if (this.currentSnippet >= 100) {
+    if (this.currentSnippet <= 1) {
+      alert("You are on the first snippet.")
       return;
     }
     // increment current snippet
