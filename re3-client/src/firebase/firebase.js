@@ -36,6 +36,23 @@ export default class Firebase {
     return exists;
   };
 
+  getUserCurrentSnippet = async () => {
+    const user = this.auth().currentUser;
+    if (user == null) {
+      return;
+    }
+    console.log(user.uid)
+    const snippetRef = this.db.collection('users').doc(user.uid);
+    await snippetRef.get()
+      .then(function (doc) {
+        if (doc.exists) {
+          return doc.data().currentSnippet;
+        } else {
+          console.log('No such document!');
+        }
+      });
+  };
+
   googleSignIn = async () => {
     try {
       const provider = new this.auth.GoogleAuthProvider();
