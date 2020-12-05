@@ -28,8 +28,8 @@ const Rating = () => {
     dispSnippet();
   }
   
-  const goBack = () => {
-    firebase.decrementSnippetCounter();
+  const goBack = async () => {
+    await firebase.decrementSnippetCounter();
     dispSnippet();
   }
 

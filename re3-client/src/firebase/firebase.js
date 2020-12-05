@@ -110,6 +110,7 @@ export default class Firebase {
         console.log('Error getting document:', error);
       });
     this.currentSnippet = snippet;
+    console.log("displaying " + snippet);
     // Get the snippet from storage to display and send it the display file function
     var gsRef = this.storage.refFromURL(
       this.folderName + '/snippet' + String(snippet) + '.R'
@@ -179,29 +180,16 @@ export default class Firebase {
     this.currentSnippet = currentsnippet;
   };
 
-  decrementSnippetCounter = async () => {
-    var snippet; 
+  decrementSnippetCounter = async () => {   
+    var snippet = this.currentSnippet;
     const user = this.auth().currentUser;
-    var docRef = this.db.collection('users').doc(user.uid);
-    snippet = await docRef
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          return doc.data().currentSnippet;
-        } else {
-          console.log('No such document!');
-        }
-      })
-      .catch(function (error) {
-        console.log('Error getting document:', error);
-      });
     if (snippet <= 1) {
       alert("You are on the first snippet.")
       return;
     }
     // decrement current snippet
     snippet = snippet - 1;
-    this.db
+    await this.db
       .collection('users')
       .doc(user.uid)
       .set(
@@ -217,6 +205,6 @@ export default class Firebase {
         console.error('Error adding document: ', error);
         return;
       });
-    this.currentSnippet = snippet; 
+    this.currentSnippet = snippet;
   };
 }
