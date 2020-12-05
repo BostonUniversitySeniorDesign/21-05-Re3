@@ -4,19 +4,20 @@ import TestDisplayFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
-import ProgressBar from '../components/ProgressBar'
 import { FirebaseContext } from '../firebase';
 import TestPrevSnippet from '../components/TestPrevSnippet';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
   const [fileContents, setFileContents] = useState('');
-
-  const [completed, setCompleted] = useState(0);
+  const [completed, setCompleted] = useState(null);
 
   useEffect(() => {
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
+    });
+    firebase.getCurrentSnippetFirstTime().then((res) => {
+      setCompleted(res)
     });
   }, [firebase]);
 
@@ -26,14 +27,22 @@ const Rating = () => {
     });
   };
 
-  const submit = (value) => {
-    firebase.addSnippetRating(parseInt(value));
+  const updateCompleted = () => {
+    firebase.getCurrentSnippet().then((res) => {
+      setCompleted(res);
+    });
+  }
+
+  const submit = async (value) => {
+    await firebase.addSnippetRating(parseInt(value));
+    updateCompleted();
     dispSnippet();
   }
   
   const goBack = async () => {
     await firebase.decrementSnippetCounter();
-    dispSnippet();
+    await dispSnippet();
+    updateCompleted();
   }
 
   return (
@@ -59,9 +68,24 @@ const Rating = () => {
         <img alt="HappyFace" src={HappyFace} className="w-1/6 p-4" />
       </div>
 
-      <div>
-      <ProgressBar bgcolor={"#6a1b9a"} completed={completed}/>
+      <div className="relative pt-1">
+      <div className="flex mb-2 items-center justify-between">
+        <div>
+          <span className="text-l font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+            Task in progress
+          </span>
+        </div>
+        <div className="text-right">
+          <span className="text-l font-semibold inline-block text-blue-600">
+            {completed}%
+          </span>
+        </div>
       </div>
+      <div className="overflow-hidden h-2 mb-4 text-l flex rounded bg-blue-200">
+        <div style={{ width : `${completed}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+      </div>
+    </div>
+
     </div>
   );
 };

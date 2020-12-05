@@ -3,21 +3,22 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
+const config = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID
+};
 export default class Firebase {
   constructor() {
-    app.initializeApp({
-      apiKey: 'AIzaSyDm7t3kFLtOriXhZyOOJReon1qnuubUbvE',
-      authDomain: 're3-fb.firebaseapp.com',
-      databaseURL: 'https://re3-fb.firebaseio.com',
-      projectId: 're3-fb',
-      storageBucket: 're3-fb.appspot.com',
-      messagingSenderId: '121193880841',
-      appId: '1:121193880841:web:7d662547f9bbf78df487d8'
-    });
+    app.initializeApp(config);
     this.auth = app.auth;
     this.db = app.firestore();
     this.storage = app.storage();
-    this.currentSnippet = 1;
+    this.currentSnippet = null;
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
   }
 
@@ -36,21 +37,30 @@ export default class Firebase {
     return exists;
   };
 
-  getUserCurrentSnippet = async () => {
+  getCurrentSnippetFirstTime = async () => {
     const user = this.auth().currentUser;
     if (user == null) {
       return;
     }
-    console.log(user.uid)
-    const snippetRef = this.db.collection('users').doc(user.uid);
-    await snippetRef.get()
-      .then(function (doc) {
-        if (doc.exists) {
-          return doc.data().currentSnippet;
-        } else {
-          console.log('No such document!');
-        }
-      });
+    var ref = this.db.collection('users').doc(user.uid);
+    let currentSnippetx = await ref.get().then(function (doc) {
+      if (doc.exists) {
+        console.log("This is what complete is updated to")
+        console.log((doc.data().currentSnippet))
+        return doc.data().currentSnippet;
+      } else {
+        return -1;
+      }
+    }).catch(function (error) {
+      console.log("error")
+      return -1;
+    });
+    this.currentSnippet = currentSnippetx;
+    return currentSnippetx
+  }
+
+  getCurrentSnippet = async () => {
+    return this.currentSnippet;
   };
 
   googleSignIn = async () => {
