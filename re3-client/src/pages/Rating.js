@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import RatingNumberButton from '../components/RatingNumberButton';
 import TestDisplayFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
-import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
+import HappyFace from '../assets/img/undraw_joyride_hnno.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
 
@@ -29,7 +29,7 @@ const Rating = () => {
   return (
     <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
       <Header />
-      <div className="self-start text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
+      <div className="self-center text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
         How would you rate the readability of this code?
       </div>
       <TestDisplayFile snippet={fileContents} />
@@ -45,7 +45,7 @@ const Rating = () => {
         <RatingNumberButton submit={submit}>8</RatingNumberButton>
         <RatingNumberButton submit={submit}>9</RatingNumberButton>
         <RatingNumberButton submit={submit}>10</RatingNumberButton>
-        <img alt="HappyFace" src={HappyFace} className="w-1/6 p-4" />
+        <img alt="HappyFace" src={HappyFace} className="w-1/5 p-4" />
       </div>
     </div>
   );
