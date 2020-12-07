@@ -23,6 +23,7 @@ export default class Firebase {
     this.maxSnippet = 101; //currently 4 but need to change to 100 
   }
 
+
   isAuthenticated = async () => {
     const user = this.auth().currentUser;
     return user == null ? false : true;
@@ -36,6 +37,32 @@ export default class Firebase {
     const ref = this.db.collection('users').doc(user.uid);
     const exists = (await ref.get()).exists;
     return exists;
+  };
+
+  getCurrentSnippetFirstTime = async () => {
+    const user = this.auth().currentUser;
+    if (user == null) {
+      return;
+    }
+    var ref = this.db.collection('users').doc(user.uid);
+    let currentSnippetx = await ref.get().then(function (doc) {
+      if (doc.exists) {
+        console.log("This is what complete is updated to")
+        console.log((doc.data().currentSnippet))
+        return doc.data().currentSnippet;
+      } else {
+        return -1;
+      }
+    }).catch(function (error) {
+      console.log("error")
+      return -1;
+    });
+    this.currentSnippet = currentSnippetx;
+    return currentSnippetx
+  }
+
+  getCurrentSnippet = async () => {
+    return this.currentSnippet;
   };
 
   googleSignIn = async () => {
@@ -132,6 +159,7 @@ export default class Firebase {
         console.log('Error getting document:', error);
       });
     this.currentSnippet = snippet;
+    console.log("displaying " + snippet);
     // Get the snippet from storage to display and send it the display file function
     var gsRef = this.storage.refFromURL(
       this.folderName + '/snippet' + String(snippet) + '.R'
@@ -202,5 +230,33 @@ export default class Firebase {
         return;
       });
     this.currentSnippet = currentsnippet;
+  };
+
+  decrementSnippetCounter = async () => {   
+    var snippet = this.currentSnippet;
+    const user = this.auth().currentUser;
+    if (snippet <= 1) {
+      alert("You are on the first snippet.")
+      return;
+    }
+    // decrement current snippet
+    snippet = snippet - 1;
+    await this.db
+      .collection('users')
+      .doc(user.uid)
+      .set(
+        {
+          currentSnippet: snippet
+        },
+        { merge: true }
+      )
+      .then(function () {
+        console.log('User currentSnippet updated to', snippet);
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+        return;
+      });
+    this.currentSnippet = snippet;
   };
 }
