@@ -5,34 +5,69 @@ import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_joyride_hnno.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
+import ProgressBar from '../components/ProgressBar';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
   const [fileContents, setFileContents] = useState('');
+  const [completed, setCompleted] = useState(null);
 
   useEffect(() => {
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
     });
+    firebase.getCurrentSnippetFirstTime().then((res) => {
+      setCompleted(res);
+    });
   }, [firebase]);
 
-  const nextSnippet = () => {
+  const dispSnippet = () => {
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
     });
   };
 
-  const submit = (value) => {
-    firebase.addSnippetRating(parseInt(value));
-    nextSnippet();
+  const updateCompleted = () => {
+    firebase.getCurrentSnippet().then((res) => {
+      setCompleted(res);
+    });
   };
+
+  const submit = async (value) => {
+    await firebase.addSnippetRating(parseInt(value));
+    updateCompleted();
+    dispSnippet();
+  };
+
+  const goBack = async () => {
+    await firebase.decrementSnippetCounter();
+    await dispSnippet();
+    updateCompleted();
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
       <Header />
       <div className="self-center text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
         How would you rate the readability of this code?
       </div>
-      <TestDisplayFile snippet={fileContents} />
+      <ProgressBar completed={completed} />
+      <div className="w-full flex flex-row items-center justify-center">
+        <div className="w-1/8 flex flex-col items-end justify-center pr-4">
+          <button
+            className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
+            onClick={() => goBack()}
+          >
+            <IoArrowBackCircleOutline />
+          </button>
+          <p className="text-l font-semibold text-blue-600 uppercase">
+            Go Back
+          </p>
+        </div>
+        <TestDisplayFile snippet={fileContents} />
+        <div className="w-1/8 pl-2" />
+      </div>
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
         <RatingNumberButton submit={submit}>1</RatingNumberButton>
