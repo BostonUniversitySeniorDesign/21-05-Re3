@@ -5,8 +5,8 @@ import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
-import TestPrevSnippet from '../components/TestPrevSnippet';
 import ProgressBar from '../components/ProgressBar';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
@@ -53,10 +53,23 @@ const Rating = () => {
         How would you rate the readability of this code?
       </div>
       <ProgressBar completed={completed} />
-      <TestDisplayFile snippet={fileContents} />
+      <div className="w-full flex flex-row items-center justify-center">
+        <div className="w-1/8 flex flex-col items-end justify-center pr-4">
+          <button
+            className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
+            onClick={() => goBack()}
+          >
+            <IoArrowBackCircleOutline />
+          </button>
+          <p className="text-l font-semibold text-blue-600 uppercase">
+            Go Back
+          </p>
+        </div>
+        <TestDisplayFile snippet={fileContents} />
+        <div className="w-1/8 pl-2" />
+      </div>
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
-        <TestPrevSnippet goBack={goBack} />
         <RatingNumberButton submit={submit}>1</RatingNumberButton>
         <RatingNumberButton submit={submit}>2</RatingNumberButton>
         <RatingNumberButton submit={submit}>3</RatingNumberButton>

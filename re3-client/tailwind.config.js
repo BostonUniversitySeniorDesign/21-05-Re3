@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         roboto: ['Roboto', 'sans-serif']
       },
+      width: {
+        '1/8': '12.5%'
+      },
       height: {
         66: '18rem',
         68: '20rem',
