@@ -18,9 +18,9 @@ export default class Firebase {
     this.db = app.firestore();
     this.storage = app.storage();
     this.currentSnippet = 1;
+    this.snippets = {};
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
   }
-
 
   isAuthenticated = async () => {
     const user = this.auth().currentUser;
@@ -43,21 +43,21 @@ export default class Firebase {
       return;
     }
     var ref = this.db.collection('users').doc(user.uid);
-    let currentSnippetx = await ref.get().then(function (doc) {
-      if (doc.exists) {
-        console.log("This is what complete is updated to")
-        console.log((doc.data().currentSnippet))
-        return doc.data().currentSnippet;
-      } else {
+    let currentSnippetx = await ref
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          return doc.data().currentSnippet;
+        } else {
+          return -1;
+        }
+      })
+      .catch(function (error) {
         return -1;
-      }
-    }).catch(function (error) {
-      console.log("error")
-      return -1;
-    });
+      });
     this.currentSnippet = currentSnippetx;
-    return currentSnippetx
-  }
+    return currentSnippetx;
+  };
 
   getCurrentSnippet = async () => {
     return this.currentSnippet;
@@ -69,7 +69,7 @@ export default class Firebase {
       await this.auth().signInWithPopup(provider);
       return;
     } catch (err) {
-      console.log('auth error', err);
+      return;
     }
   };
 
@@ -110,7 +110,6 @@ export default class Firebase {
     gsRef
       .getDownloadURL()
       .then(function (url) {
-        console.log(url);
         window.open(url, '_self');
       })
       .catch(function (error) {
@@ -137,22 +136,27 @@ export default class Firebase {
         console.log('Error getting document:', error);
       });
     this.currentSnippet = snippet;
-    console.log("displaying " + snippet);
     // Get the snippet from storage to display and send it the display file function
-    var gsRef = this.storage.refFromURL(
-      this.folderName + '/snippet' + String(snippet) + '.R'
-    );
-    var url = await gsRef
-      .getDownloadURL()
-      .then(function (url) {
-        return url;
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
+    if (snippet in this.snippets) {
+      return this.snippets[snippet];
+    } else {
+      var gsRef = this.storage.refFromURL(
+        this.folderName + '/snippet' + String(snippet) + '.R'
+      );
+      var url = await gsRef
+        .getDownloadURL()
+        .then(function (url) {
+          return url;
+        })
+        .catch(function (error) {
+          console.error('Error adding document: ', error);
+        });
+      let contents = await fetch(url).then((res) => {
+        return res.text();
       });
-    return await fetch(url).then((res) => {
-      return res.text();
-    });
+      this.snippets[snippet] = contents;
+      return contents;
+    }
   };
 
   addSnippetRating = async (rating) => {
@@ -170,14 +174,7 @@ export default class Firebase {
         { merge: true }
       )
       .then(function () {
-        console.log(
-          'Rating:',
-          rating,
-          'added to',
-          snippetString,
-          'from',
-          user.uid
-        );
+        return;
       })
       .catch(function (error) {
         console.error('Error adding document: ', error);
@@ -198,7 +195,7 @@ export default class Firebase {
         { merge: true }
       )
       .then(function () {
-        console.log('User currentSnippet updated to', currentsnippet);
+        return;
       })
       .catch(function (error) {
         console.error('Error adding document: ', error);
@@ -207,11 +204,11 @@ export default class Firebase {
     this.currentSnippet = currentsnippet;
   };
 
-  decrementSnippetCounter = async () => {   
+  decrementSnippetCounter = async () => {
     var snippet = this.currentSnippet;
     const user = this.auth().currentUser;
     if (snippet <= 1) {
-      alert("You are on the first snippet.")
+      alert('You are on the first snippet.');
       return;
     }
     // decrement current snippet
@@ -226,10 +223,9 @@ export default class Firebase {
         { merge: true }
       )
       .then(function () {
-        console.log('User currentSnippet updated to', snippet);
+        return;
       })
       .catch(function (error) {
-        console.error('Error adding document: ', error);
         return;
       });
     this.currentSnippet = snippet;
