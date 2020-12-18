@@ -202,8 +202,8 @@ export default class Firebase {
 
   closingPage = async () => {
     // Put global upload here
-    const user = this.auth().currentUser;
     var currentsnippet = this.currentSnippet;
+    const user = this.auth().currentUser;
     if (user == null) {
       return;
     }
