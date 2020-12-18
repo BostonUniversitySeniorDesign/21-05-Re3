@@ -47,7 +47,7 @@ const Onboarding = () => {
         setcurrentUserInfo({...currentUserInfo, courses: currentAnswer});
         setQuestionIdx(questionIdx + 1);
         break;
-      case 4:
+      default:
         await firebase.submitOnboarding({...currentUserInfo, courseLevel: currentAnswer});
         router.push('/dashboard');
         break;
@@ -73,8 +73,8 @@ const Onboarding = () => {
               {questions[questionIdx]}
               </p>
                 {answer[questionIdx].map((item, index) => (
-                  <div className="flex w-full items-center justify-center mb-6">
-                  <OnboardingOption answer={currentAnswer} setAnswer={setCurrentAnswer} key={index}>{item}</OnboardingOption>
+                  <div key={index} className="flex w-full items-center justify-center mb-6">
+                  <OnboardingOption answer={currentAnswer} setAnswer={setCurrentAnswer}>{item}</OnboardingOption>
                   </div>
                 ))}
             </div>
