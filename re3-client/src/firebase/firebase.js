@@ -74,16 +74,21 @@ export default class Firebase {
   };
 
   // Upload name, email, experience to firestore
-  submitOnboarding = async (answer) => {
+  submitOnboarding = async (currentUserInfo) => {
     const user = this.auth().currentUser;
     const ref = this.db.collection('users').doc(user.uid);
+    console.log(currentUserInfo);
     const res = await ref
       .set({
         name: user.displayName,
+        gender: currentUserInfo.gender,
         email: user.email,
-        experience: answer,
+        background: currentUserInfo.background,
+        experience: currentUserInfo.experience,
         isOnboarded: true,
-        currentSnippet: 1
+        currentSnippet: 1,
+        courses: currentUserInfo.courses,
+        courseLevel: currentUserInfo.courseLevel
       })
       .then(() => {
         return 1;
