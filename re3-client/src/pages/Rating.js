@@ -24,7 +24,7 @@ const Rating = () => {
     return () => {
       window.removeEventListener('beforeunload', closing);
     };
-  }, [closing]);
+  });
 
   useEffect(() => {
     firebase.DisplayContents().then((res) => {
