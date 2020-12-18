@@ -230,4 +230,8 @@ export default class Firebase {
       });
     this.currentSnippet = snippet;
   };
+
+  closingPage = async () => {
+    // Put global upload here
+  };
 }
