@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import RatingNumberButton from '../components/RatingNumberButton';
 import TestDisplayFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
@@ -13,14 +13,15 @@ const Rating = () => {
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
 
-  const closing = (e) => {
+  const closing = (e)  => {
     e.preventDefault();
     firebase.closingPage();
     e.returnValue = '';
+    return e;
   };
 
   useEffect(() => {
-    window.addEventListener('beforeunload', closing);
+    window.addEventListener('beforeunload', closing );
     return () => {
       window.removeEventListener('beforeunload', closing);
     };
@@ -28,7 +29,7 @@ const Rating = () => {
 
   useEffect(() => {
     async function firstCall(){
-      await firebase.getCurrentSnippetFirstTime().then((res) => {
+      await firebase.getUserData().then((res) => {
         setCompleted(res);
       });
       firebase.DisplayContents().then((res) => {

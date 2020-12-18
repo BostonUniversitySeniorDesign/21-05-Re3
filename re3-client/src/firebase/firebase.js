@@ -19,6 +19,7 @@ export default class Firebase {
     this.storage = app.storage();
     this.currentSnippet = 1;
     this.snippets = {};
+    this.ratings = {};
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
     this.userOnboarded = false;
     this.maxSnippet = 101; //currently 4 but need to change to 100 
@@ -39,7 +40,7 @@ export default class Firebase {
     return exists;
   };
 
-  getCurrentSnippetFirstTime = async () => {
+  getUserData = async () => {
     const user = this.auth().currentUser;
     if (user == null) {
       return;
@@ -49,7 +50,8 @@ export default class Firebase {
       .get()
       .then(function (doc) {
         if (doc.exists) {
-          return doc.data().currentSnippet;
+          return[doc.data().currentSnippet,doc.data().ratings];
+        
         } else {
           return -1;
         }
@@ -57,9 +59,14 @@ export default class Firebase {
       .catch(function (error) {
         return -1;
       });
-    this.currentSnippet = currentSnippetx;
-    return currentSnippetx;
+    this.currentSnippet = currentSnippetx[0];
+    this.ratings = currentSnippetx[1];
+    if(this.ratings === undefined){
+      this.ratings = {}
+    }
+    return this.currentSnippet;
   };
+
 
   getCurrentSnippet = async () => {
     return this.currentSnippet;
@@ -174,28 +181,7 @@ export default class Firebase {
     // Store rating of snippet
     var currentsnippet = this.currentSnippet;
     var snippetString = 'snippet' + currentsnippet.toString();
-    const user = await this.auth().currentUser;
-    this.db
-      .collection('ratings')
-      .doc(snippetString)
-      .set(
-        {
-          [user.uid]: rating
-        },
-        { merge: true }
-      )
-      .then(function () {
-        console.log(rating + " added to" + snippetString);
-        return;
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-        return;
-      });
-    if (isNaN(rating) || this.currentSnippet >= 100) {
-      return;
-    }
-    // increment current snippet
+    this.ratings[snippetString] = rating;
     this.currentSnippet = currentsnippet + 1;
   };
 
@@ -216,21 +202,15 @@ export default class Firebase {
     if (user == null) {
       return;
     }
-    this.db
-      .collection('users')
-      .doc(user.uid)
-      .set(
-        {
-          currentSnippet: currentsnippet
-        },
-        { merge: true }
-      )
-      .then(function () {
-        return;
+    const ref  = this.db.collection('users').doc(user.uid).set(
+      {currentSnippet : currentsnippet,
+      ratings : this.ratings},{merge:true})
+      .then(function() {
+        console.log("Success");
       })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-        return;
+      .catch(function () {
+        console.log("error")
       });
+    return ref;
   };
 }
