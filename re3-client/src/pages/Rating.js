@@ -65,7 +65,6 @@ const Rating = () => {
       <div className="self-center text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
         How would you rate the readability of this code?
       </div>
-      <button onClick={() => closing()}>ok</button>
       <ProgressBar completed={completed} />
       <div className="w-full flex flex-row items-center justify-center">
         <div className="w-1/8 flex flex-col items-end justify-center pr-4">
