@@ -15,7 +15,7 @@ const Rating = () => {
 
   const closing = (e) => {
     e.preventDefault();
-    // firebase.closingPage();
+    firebase.closingPage();
     e.returnValue = '';
   };
 
@@ -26,12 +26,12 @@ const Rating = () => {
     };
   });
 
-  useEffect(() => {
+  useEffect(async() => {
+    await firebase.getCurrentSnippetFirstTime().then((res) => {
+      setCompleted(res);
+    });
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
-    });
-    firebase.getCurrentSnippetFirstTime().then((res) => {
-      setCompleted(res);
     });
   }, [firebase]);
 

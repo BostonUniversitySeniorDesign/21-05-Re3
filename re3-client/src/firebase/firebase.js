@@ -120,22 +120,8 @@ export default class Firebase {
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
-    const user = this.auth().currentUser;
-    var docRef = this.db.collection('users').doc(user.uid);
-    var snippet;
-    snippet = await docRef
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          return doc.data().currentSnippet;
-        } else {
-          console.log('No such document!');
-        }
-      })
-      .catch(function (error) {
-        console.log('Error getting document:', error);
-      });
-    this.currentSnippet = snippet;
+    var snippet = this.currentSnippet;
+
     // Get the snippet from storage to display and send it the display file function
     if (snippet in this.snippets) {
       return this.snippets[snippet];
@@ -174,6 +160,7 @@ export default class Firebase {
         { merge: true }
       )
       .then(function () {
+        console.log(rating + " added to" + snippetString);
         return;
       })
       .catch(function (error) {
@@ -184,7 +171,26 @@ export default class Firebase {
       return;
     }
     // increment current snippet
-    currentsnippet = currentsnippet + 1;
+    this.currentSnippet = currentsnippet + 1;
+  };
+
+  decrementSnippetCounter = async () => {
+    var snippet = this.currentSnippet;
+    if (snippet <= 1) {
+      alert('You are on the first snippet.');
+      return;
+    }
+    // decrement current snippet
+    this.currentSnippet = snippet - 1;
+  };
+
+  closingPage = async () => {
+    // Put global upload here
+    const user = this.auth().currentUser;
+    var currentsnippet = this.currentSnippet;
+    if (user == null) {
+      return;
+    }
     this.db
       .collection('users')
       .doc(user.uid)
@@ -201,37 +207,5 @@ export default class Firebase {
         console.error('Error adding document: ', error);
         return;
       });
-    this.currentSnippet = currentsnippet;
-  };
-
-  decrementSnippetCounter = async () => {
-    var snippet = this.currentSnippet;
-    const user = this.auth().currentUser;
-    if (snippet <= 1) {
-      alert('You are on the first snippet.');
-      return;
-    }
-    // decrement current snippet
-    snippet = snippet - 1;
-    await this.db
-      .collection('users')
-      .doc(user.uid)
-      .set(
-        {
-          currentSnippet: snippet
-        },
-        { merge: true }
-      )
-      .then(function () {
-        return;
-      })
-      .catch(function (error) {
-        return;
-      });
-    this.currentSnippet = snippet;
-  };
-
-  closingPage = async () => {
-    // Put global upload here
   };
 }
