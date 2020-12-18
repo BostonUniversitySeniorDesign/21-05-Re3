@@ -13,12 +13,25 @@ const Rating = () => {
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
 
+  const closing = (e) => {
+    e.preventDefault();
+    firebase.closingPage();
+    e.returnValue = '';
+  };
+
   useEffect(() => {
+    window.addEventListener('beforeunload', closing);
+    return () => {
+      window.removeEventListener('beforeunload', closing);
+    };
+  });
+
+  useEffect(async() => {
+    await firebase.getCurrentSnippetFirstTime().then((res) => {
+      setCompleted(res);
+    });
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
-    });
-    firebase.getCurrentSnippetFirstTime().then((res) => {
-      setCompleted(res);
     });
   }, [firebase]);
 
