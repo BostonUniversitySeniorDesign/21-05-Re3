@@ -26,13 +26,16 @@ const Rating = () => {
     };
   });
 
-  useEffect(async() => {
-    await firebase.getCurrentSnippetFirstTime().then((res) => {
-      setCompleted(res);
-    });
-    firebase.DisplayContents().then((res) => {
-      setFileContents(res);
-    });
+  useEffect(() => {
+    async function firstCall(){
+      await firebase.getCurrentSnippetFirstTime().then((res) => {
+        setCompleted(res);
+      });
+      firebase.DisplayContents().then((res) => {
+        setFileContents(res);
+      });
+    }
+    firstCall();
   }, [firebase]);
 
   const dispSnippet = () => {
