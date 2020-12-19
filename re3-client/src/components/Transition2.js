@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from '../components/SimpleHeader';
-import thinking from '../assets/img/undraw_thought_process_67my.svg'
+import thinking from '../assets/img/undraw_processing_thoughts_d8ha.svg'
 
-const Transition = () => {
+const Transition2 = () => {
     return (
         <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
             <Header />
-            <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
-                Thank you for answering..
+            <div className="self-start text-4xl text-black font-bold flex text-left font-roboto py-8 px-10">
+                Thank you for completing the survey!
             </div>
             <div className="self-start text-3xl text-black flex text-left font-roboto py-0 px-16">
-                    We will ask you to rate code snippets in a few seconds..    
+                    Your answers will help us immensely   
             </div>
             <img
                 alt="thinking"
@@ -21,4 +21,4 @@ const Transition = () => {
     );
 };
 
-export default Transition;
+export default Transition2;
