@@ -7,11 +7,16 @@ import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
 import ProgressBar from '../components/ProgressBar';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import {AiFillQuestionCircle,AiFillCloseCircle } from 'react-icons/ai';
+
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
+  const [visible, setVisible] = useState(false);
+  
+  
 
   const closing = (e)  => {
     e.preventDefault();
@@ -26,6 +31,8 @@ const Rating = () => {
       window.removeEventListener('beforeunload', closing);
     };
   });
+
+  
 
   useEffect(() => {
     async function firstCall(){
@@ -64,10 +71,31 @@ const Rating = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
+    <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
+      <div className={`absolute w-full h-full z-20 items-center justify-center ${visible ? 'flex' : 'hidden'}`}>
+           <div className="w-3/4 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+             <button onClick={() => setVisible(false)} className="text-3xl self-end text-blue-600">
+               <AiFillCloseCircle/>
+             </button>
+             <p className="text-2xl">
+           Please score this code snippet according to your estimation of readability. Give a low score for low readability and a high score for high readability. Readability is your judgment about how easy a block of code is to understand
+            </p>
+        </div>
+        </div>
+        <div className={`absolute w-full h-full bg-black z-10 opacity-25 ${visible ? 'flex' : 'hidden'}`} />
       <Header />
-      <div className="self-center text-4xl text-black flex text-left font-hairline font-roboto py-6 px-10">
+      <div className="w-full flex flex-row justify-center items-center">
+        <div className="w-1/8"/>
+        <div className="w-3/4 text-4xl text-black text-center flexfont-hairline font-roboto py-6">
         How would you rate the readability of this code?
+      </div>
+      <div className="w-1/8">
+        <button
+              className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
+              onClick={() => setVisible(!visible)}> 
+              <AiFillQuestionCircle />
+        </button>
+      </div>
       </div>
       <ProgressBar completed={completed} />
       <div className="w-full flex flex-row items-center justify-center">
@@ -82,6 +110,7 @@ const Rating = () => {
             Go Back
           </p>
         </div>
+        
         <TestDisplayFile snippet={fileContents} />
         <div className="w-1/8 pl-2" />
       </div>
