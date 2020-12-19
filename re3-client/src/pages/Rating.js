@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect} from 'react';
 import RatingNumberButton from '../components/RatingNumberButton';
-import Test
-playFile from '../components/TestDisplayFile';
+import TestDisplayFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_joyride_hnno.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
