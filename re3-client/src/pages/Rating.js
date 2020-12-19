@@ -6,7 +6,7 @@ import HappyFace from '../assets/img/undraw_joyride_hnno.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
 import ProgressBar from '../components/ProgressBar';
-import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import { IoArrowBackCircleOutline , IoArrowForwardCircleOutline} from 'react-icons/io5';
 import {AiFillQuestionCircle,AiFillCloseCircle } from 'react-icons/ai';
 
 
@@ -71,6 +71,13 @@ const Rating = () => {
     updateCompleted();
   };
 
+  const skip = async (value) => {
+    setDis(true);
+    await firebase.addSnippetRating(0);
+    updateCompleted();
+    dispSnippet();
+  }
+
   return (
     <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
       <div className={`absolute w-full h-full z-20 items-center justify-center ${visible ? 'flex' : 'hidden'}`}>
@@ -113,6 +120,13 @@ const Rating = () => {
         </div>
         
         <TestDisplayFile snippet={fileContents} />
+        <button
+            className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
+            onClick={() => skip()}
+          >
+            <IoArrowForwardCircleOutline />
+        </button>
+
         <div className="w-1/8 pl-2" />
       </div>
       <div className="flex flex-row items-center justify-center">
