@@ -15,6 +15,7 @@ const HomePage = () => {
           src={firstPic}
           className="w-1/3 full justify-center items-center my-6"
         />
+        
 
         <div className="text-6xl text-black text-center flex font-roboto font-hairline my-10">
           Who are we?
@@ -36,8 +37,8 @@ const HomePage = () => {
           className="w-1/3 full justify-center items-center my-6"
         />
         <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
-          We offer a platform that will assist researchers in bettering the
-          readability of their code. We also help readers of said research papers to find the environment that produced those results. 
+        We offer a platform that will assist researchers in bettering the
+           readability of their code. We also help readers of said research papers to find the environment that produced those results. 
         </div>
 
         <div className="text-4xl text-black text-center flex font-roboto font-hairline my-10">
@@ -49,7 +50,7 @@ const HomePage = () => {
           className="w-1/3 full justify-center items-center my-6"
         />
         <div className="text-2xl text-black text-center flex font-roboto font-hairline mx-40 my-10">
-          Why not use a platform that helps you present your code in its most readable version? There is no reason!
+        Why not use a platform that helps you present your code in its most readable version? There is no reason!
           We will also help you find what environment was used to get the results that a paper published. That can't hurt either right? 
         </div>
       </div>
