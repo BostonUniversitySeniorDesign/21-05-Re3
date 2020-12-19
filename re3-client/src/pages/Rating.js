@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect} from 'react';
 import RatingNumberButton from '../components/RatingNumberButton';
-import TestDisplayFile from '../components/TestDisplayFile';
+import Test
+playFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
-import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
+import HappyFace from '../assets/img/undraw_joyride_hnno.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
 import ProgressBar from '../components/ProgressBar';
