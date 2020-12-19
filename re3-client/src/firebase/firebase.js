@@ -22,7 +22,7 @@ export default class Firebase {
     this.ratings = {};
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
     this.userOnboarded = false;
-    this.maxSnippet = 101; //currently 4 but need to change to 100 
+    this.maxSnippet = 101; //currently 4 but need to change to 100
   }
 
   isAuthenticated = async () => {
@@ -50,8 +50,7 @@ export default class Firebase {
       .get()
       .then(function (doc) {
         if (doc.exists) {
-          return[doc.data().currentSnippet,doc.data().ratings];
-        
+          return [doc.data().currentSnippet, doc.data().ratings];
         } else {
           return -1;
         }
@@ -61,12 +60,11 @@ export default class Firebase {
       });
     this.currentSnippet = currentSnippetx[0];
     this.ratings = currentSnippetx[1];
-    if(this.ratings === undefined){
-      this.ratings = {}
+    if (this.ratings === undefined) {
+      this.ratings = {};
     }
     return this.currentSnippet;
   };
-
 
   getCurrentSnippet = async () => {
     return this.currentSnippet;
@@ -117,24 +115,35 @@ export default class Firebase {
   };
 
   UpdatingRatingInUserCollection = async (rating) => {
-    if(this.currentSnippet > this.maxSnippet){
+    if (this.currentSnippet > this.maxSnippet) {
       return;
-    }
-    else{
-      const user =  this.auth().currentUser;
+    } else {
+      const user = this.auth().currentUser;
       var currentsnippet = this.currentSnippet;
-      var snippetString = "snippet"+currentsnippet.toString();
+      var snippetString = 'snippet' + currentsnippet.toString();
       console.log(snippetString);
-      this.db.collection("users").doc(user.uid).set({
-        [snippetString] : rating
-      },{merge: true}).then(function () {
-        console.log("document ", snippetString," with submitted rating ", rating)
-      }).catch(function (error) {
-        console.log("ok");
-      });
+      this.db
+        .collection('users')
+        .doc(user.uid)
+        .set(
+          {
+            [snippetString]: rating
+          },
+          { merge: true }
+        )
+        .then(function () {
+          console.log(
+            'document ',
+            snippetString,
+            ' with submitted rating ',
+            rating
+          );
+        })
+        .catch(function (error) {
+          console.log('ok');
+        });
     }
   };
-
 
   downloadFile = async () => {
     var gsRef = this.storage.refFromURL(
@@ -198,24 +207,5 @@ export default class Firebase {
     }
     // decrement current snippet
     this.currentSnippet = snippet - 1;
-  };
-
-  closingPage = async () => {
-    // Put global upload here
-    var currentsnippet = this.currentSnippet;
-    const user = this.auth().currentUser;
-    if (user == null) {
-      return;
-    }
-    const ref  = this.db.collection('users').doc(user.uid).set(
-      {currentSnippet : currentsnippet,
-      ratings : this.ratings},{merge:true})
-      .then(function() {
-        console.log("Success");
-      })
-      .catch(function () {
-        console.log("error")
-      });
-    return ref;
   };
 }

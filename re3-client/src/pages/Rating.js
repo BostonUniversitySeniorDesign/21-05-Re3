@@ -1,34 +1,26 @@
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import RatingNumberButton from '../components/RatingNumberButton';
 import TestDisplayFile from '../components/TestDisplayFile';
 import Header from '../components/RatingHeader';
 import HappyFace from '../assets/img/undraw_feeling_happy_jymo.svg';
 import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
-import { FirebaseContext } from '../firebase';
+import { FirebaseContext, AuthContext } from '../firebase';
 import ProgressBar from '../components/ProgressBar';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import socketIOClient from 'socket.io-client';
+
+const ENDPOINT = 'http://localhost:4001';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
+  const user = useContext(AuthContext);
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
 
-  const closing = (e)  => {
-    e.preventDefault();
-    firebase.closingPage();
-    e.returnValue = '';
-    return e;
-  };
+  let socket = useRef(null);
 
   useEffect(() => {
-    window.addEventListener('beforeunload', closing );
-    return () => {
-      window.removeEventListener('beforeunload', closing);
-    };
-  });
-
-  useEffect(() => {
-    async function firstCall(){
+    async function firstCall() {
       await firebase.getUserData().then((res) => {
         setCompleted(res);
       });
@@ -38,6 +30,14 @@ const Rating = () => {
     }
     firstCall();
   }, [firebase]);
+
+  useEffect(() => {
+    user.getIdToken(true).then((idToken) => {
+      socket.current = socketIOClient(ENDPOINT, { query: { token: idToken } });
+      socket.current.emit('initSnippet', firebase.currentSnippet);
+    });
+    return () => socket.current.disconnect();
+  }, [user]);
 
   const dispSnippet = () => {
     firebase.DisplayContents().then((res) => {
@@ -52,6 +52,11 @@ const Rating = () => {
   };
 
   const submit = async (value) => {
+    let currentSnippet = firebase.currentSnippet;
+    socket.current.emit('rating', {
+      snippetNumber: currentSnippet,
+      rating: value
+    });
     await firebase.addSnippetRating(parseInt(value));
     updateCompleted();
     dispSnippet();
