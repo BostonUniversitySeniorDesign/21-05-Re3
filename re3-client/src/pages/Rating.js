@@ -12,6 +12,7 @@ const Rating = () => {
   const firebase = useContext(FirebaseContext);
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
+  const [dis, setDis] = useState(false);
 
   const closing = (e)  => {
     e.preventDefault();
@@ -42,6 +43,7 @@ const Rating = () => {
   const dispSnippet = () => {
     firebase.DisplayContents().then((res) => {
       setFileContents(res);
+      setDis(false);
     });
   };
 
@@ -52,6 +54,7 @@ const Rating = () => {
   };
 
   const submit = async (value) => {
+    setDis(true);
     await firebase.addSnippetRating(parseInt(value));
     updateCompleted();
     dispSnippet();
@@ -87,16 +90,16 @@ const Rating = () => {
       </div>
       <div className="flex flex-row items-center justify-center">
         <img alt="SadFace" src={SadFace} className="w-1/6 p-4" />
-        <RatingNumberButton submit={submit}>1</RatingNumberButton>
-        <RatingNumberButton submit={submit}>2</RatingNumberButton>
-        <RatingNumberButton submit={submit}>3</RatingNumberButton>
-        <RatingNumberButton submit={submit}>4</RatingNumberButton>
-        <RatingNumberButton submit={submit}>5</RatingNumberButton>
-        <RatingNumberButton submit={submit}>6</RatingNumberButton>
-        <RatingNumberButton submit={submit}>7</RatingNumberButton>
-        <RatingNumberButton submit={submit}>8</RatingNumberButton>
-        <RatingNumberButton submit={submit}>9</RatingNumberButton>
-        <RatingNumberButton submit={submit}>10</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>1</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>2</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>3</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>4</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>5</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>6</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>7</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>8</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>9</RatingNumberButton>
+        <RatingNumberButton submit={submit} dis={dis}>10</RatingNumberButton>
         <img alt="HappyFace" src={HappyFace} className="w-1/6 p-4" />
       </div>
     </div>
