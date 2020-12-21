@@ -13,7 +13,7 @@ const Onboarding = () => {
 
   const submit = async () => {
     await firebase.submitOnboarding(currentAnswer);
-    router.push('/dashboard');
+    router.push('/thanks');
   };
 
   return (

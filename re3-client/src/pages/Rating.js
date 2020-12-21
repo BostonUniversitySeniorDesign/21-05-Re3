@@ -7,11 +7,15 @@ import SadFace from '../assets/img/undraw_feeling_blue_4b7q.svg';
 import { FirebaseContext } from '../firebase';
 import ProgressBar from '../components/ProgressBar';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import useRouter from '../utils/Router';
+
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
   const [fileContents, setFileContents] = useState('');
   const [completed, setCompleted] = useState(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     firebase.DisplayContents().then((res) => {
@@ -36,6 +40,9 @@ const Rating = () => {
 
   const submit = async (value) => {
     await firebase.addSnippetRating(parseInt(value));
+    if (firebase.currentSnippet === 100) {
+      router.push('/thanksagain')
+    }
     updateCompleted();
     dispSnippet();
   };
