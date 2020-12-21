@@ -29,7 +29,6 @@ const Onboarding = () => {
   ];
 
   const submit = async () => {
-    console.log(currentUserInfo);
     switch(questionIdx) {
       case 0:
         setcurrentUserInfo({gender: currentAnswer});
@@ -49,10 +48,9 @@ const Onboarding = () => {
         break;
       default:
         await firebase.submitOnboarding({...currentUserInfo, courseLevel: currentAnswer});
-        router.push('/dashboard');
+        router.push('/thanks');
         break;
     }
-    console.log(questionIdx);
   };
 
   return (

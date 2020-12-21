@@ -12,6 +12,7 @@ import {
 } from 'react-icons/io5';
 import { AiFillQuestionCircle, AiFillCloseCircle } from 'react-icons/ai';
 import socketIOClient from 'socket.io-client';
+import useRouter from '../utils/Router';
 
 const ENDPOINT = 'https://re3-server.uc.r.appspot.com/';
 
@@ -24,6 +25,8 @@ const Rating = () => {
   const [dis, setDis] = useState(false);
 
   let socket = useRef(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     user.getIdToken(true).then((idToken) => {
@@ -70,6 +73,9 @@ const Rating = () => {
     });
     setDis(true);
     await firebase.addSnippetRating(parseInt(value));
+    if (firebase.currentSnippet === 100) {
+      router.push('/thanksagain')
+    }
     updateCompleted();
     dispSnippet();
   };

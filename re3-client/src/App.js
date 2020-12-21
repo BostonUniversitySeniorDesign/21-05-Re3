@@ -11,7 +11,9 @@ import Rating from './pages/Rating';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import NotFound from './pages/NotFound';
+import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';
+import Transition from './pages/Transition';
 
 const App = () => {
   const user = useContext(AuthContext);
@@ -30,6 +32,8 @@ const App = () => {
           render={() => (user ? <Redirect to="dashboard" /> : <Login />)}
         />
         <PrivateRoute exact path="/dashboard" component={Rating} />
+        <PrivateRoute exact path='/thanks' component={Transition}/>
+        <PrivateRoute exact path='/thanksagain' component={Transition2}/>
         <Route exact path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>
