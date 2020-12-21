@@ -1,0 +1,6 @@
+.gcloudignore
+
+# Node.js dependencies:
+node_modules/
+
+src/

@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d build",
-    "start": "npm run build && node build/app.js",
-    "restart": "rimraf build && npm run start",
-    "dev": "nodemon --exec npm run restart"
+    "start": "node build/app.js",
+    "restart": "rimraf build && npm run build && node build/app.js",
+    "dev": "nodemon --exec npm run restart",
+    "gcp-build": "NODE_ENV=production"
   },
   "keywords": [],
   "author": "",

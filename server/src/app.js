@@ -14,6 +14,10 @@ const port = process.env.PORT || 4001;
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Hi');
+});
+
 const server = http.createServer(app);
 
 const io = require('socket.io')(server, {

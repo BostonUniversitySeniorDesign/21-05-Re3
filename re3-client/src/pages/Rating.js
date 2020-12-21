@@ -13,7 +13,7 @@ import {
 import { AiFillQuestionCircle, AiFillCloseCircle } from 'react-icons/ai';
 import socketIOClient from 'socket.io-client';
 
-const ENDPOINT = 'http://localhost:4001';
+const ENDPOINT = 'https://re3-server.uc.r.appspot.com/';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
@@ -26,6 +26,18 @@ const Rating = () => {
   let socket = useRef(null);
 
   useEffect(() => {
+    user.getIdToken(true).then((idToken) => {
+      socket.current = socketIOClient(ENDPOINT, { query: { token: idToken } });
+      socket.current.emit('initSnippet', firebase.currentSnippet);
+    });
+    return () => {
+      console.log('yuuuhhhppp');
+      socket.current.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     async function firstCall() {
       await firebase.getUserData().then((res) => {
         setCompleted(res);
@@ -36,14 +48,6 @@ const Rating = () => {
     }
     firstCall();
   }, [firebase]);
-
-  useEffect(() => {
-    user.getIdToken(true).then((idToken) => {
-      socket.current = socketIOClient(ENDPOINT, { query: { token: idToken } });
-      socket.current.emit('initSnippet', firebase.currentSnippet);
-    });
-    return () => socket.current.disconnect();
-  }, [user]);
 
   const dispSnippet = () => {
     firebase.DisplayContents().then((res) => {
