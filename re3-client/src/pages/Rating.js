@@ -150,12 +150,17 @@ const Rating = () => {
         </div>
 
         <TestDisplayFile snippet={fileContents} />
+        <div className = "flex flex-col items-center items-end">
         <button
-          className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
-          onClick={() => skip()}
-        >
+          className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600" 
+          onClick={() => skip() }>
           <IoArrowForwardCircleOutline />
         </button>
+        <p className="text-l font-semibold text-blue-600 uppercase">
+          Skip
+        </p>
+        </div>
+
 
         <div className="w-1/8 pl-2" />
       </div>
