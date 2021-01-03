@@ -73,7 +73,7 @@ const Rating = () => {
     });
     setDis(true);
     await firebase.addSnippetRating(parseInt(value));
-    if (firebase.currentSnippet === 100) {
+    if (firebase.currentSnippet >= 101) {
       router.push('/thanksagain')
     }
     updateCompleted();
