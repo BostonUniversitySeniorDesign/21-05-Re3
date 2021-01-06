@@ -27,10 +27,7 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', (socket) => {
-  let allRatings = admin.firestore()
-  .collection('users')
-  .doc(uid).data().ratings;
-  console.log(ratings);
+  let allRatings = {};
   let currentSnippet;
   let token = socket.handshake.query.token;
   let authenticated = false;
@@ -62,7 +59,8 @@ io.on('connection', (socket) => {
         .collection('users')
         .doc(uid)
         .set(
-          { currentSnippet: currentSnippet, ratings: allRatings }
+          { currentSnippet: currentSnippet + 1, ratings: allRatings },
+          { merge: true }
         )
         .then(function () {
           console.log('Success');
