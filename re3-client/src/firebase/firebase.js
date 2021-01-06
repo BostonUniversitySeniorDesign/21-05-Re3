@@ -59,6 +59,9 @@ export default class Firebase {
         return -1;
       });
     this.currentSnippet = currentSnippetx[0];
+    if(this.currentSnippet === 101){
+      this.currentSnippet = 100;
+    }
     this.ratings = currentSnippetx[1];
     if (this.ratings === undefined) {
       this.ratings = {};
@@ -163,8 +166,11 @@ export default class Firebase {
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
+    
+
     var snippet = this.currentSnippet;
 
+    
     // Get the snippet from storage to display and send it the display file function
     if (snippet in this.snippets) {
       return this.snippets[snippet];
