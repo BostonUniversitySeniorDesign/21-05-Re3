@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    if (authenticated) {
+    if (authenticated && Object.keys(allRatings).length != 0) {
       const ref = admin
         .firestore()
         .collection('users')
