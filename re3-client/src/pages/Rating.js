@@ -14,7 +14,7 @@ import { AiFillQuestionCircle, AiFillCloseCircle } from 'react-icons/ai';
 import socketIOClient from 'socket.io-client';
 import useRouter from '../utils/Router';
 
-const ENDPOINT = 'http://localhost:4001';
+const ENDPOINT = 'https://re3-server.uc.r.appspot.com/';
 
 const Rating = () => {
   const firebase = useContext(FirebaseContext);
