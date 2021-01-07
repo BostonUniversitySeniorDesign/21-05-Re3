@@ -18,9 +18,12 @@ export default class Firebase {
     this.db = app.firestore();
     this.storage = app.storage();
     this.currentSnippet = 1;
+    this.snippets = {};
+    this.ratings = {};
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
+    this.userOnboarded = false;
+    this.maxSnippet = 101; //currently 4 but need to change to 100
   }
-
 
   isAuthenticated = async () => {
     const user = this.auth().currentUser;
@@ -37,27 +40,34 @@ export default class Firebase {
     return exists;
   };
 
-  getCurrentSnippetFirstTime = async () => {
+  getUserData = async () => {
     const user = this.auth().currentUser;
     if (user == null) {
       return;
     }
     var ref = this.db.collection('users').doc(user.uid);
-    let currentSnippetx = await ref.get().then(function (doc) {
-      if (doc.exists) {
-        console.log("This is what complete is updated to")
-        console.log((doc.data().currentSnippet))
-        return doc.data().currentSnippet;
-      } else {
+    let currentSnippetx = await ref
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          return [doc.data().currentSnippet, doc.data().ratings];
+        } else {
+          return -1;
+        }
+      })
+      .catch(function (error) {
         return -1;
-      }
-    }).catch(function (error) {
-      console.log("error")
-      return -1;
-    });
-    this.currentSnippet = currentSnippetx;
-    return currentSnippetx
-  }
+      });
+    this.currentSnippet = currentSnippetx[0];
+    if(this.currentSnippet === 101){
+      this.currentSnippet = 100;
+    }
+    this.ratings = currentSnippetx[1];
+    if (this.ratings === undefined) {
+      this.ratings = {};
+    }
+    return this.currentSnippet;
+  };
 
   getCurrentSnippet = async () => {
     return this.currentSnippet;
@@ -69,21 +79,26 @@ export default class Firebase {
       await this.auth().signInWithPopup(provider);
       return;
     } catch (err) {
-      console.log('auth error', err);
+      return;
     }
   };
 
   // Upload name, email, experience to firestore
-  submitOnboarding = async (answer) => {
+  submitOnboarding = async (currentUserInfo) => {
     const user = this.auth().currentUser;
     const ref = this.db.collection('users').doc(user.uid);
+    console.log(currentUserInfo);
     const res = await ref
       .set({
         name: user.displayName,
+        gender: currentUserInfo.gender,
         email: user.email,
-        experience: answer,
+        background: currentUserInfo.background,
+        experience: currentUserInfo.experience,
         isOnboarded: true,
-        currentSnippet: 1
+        currentSnippet: 1,
+        courses: currentUserInfo.courses,
+        courseLevel: currentUserInfo.courseLevel
       })
       .then(() => {
         return 1;
@@ -102,6 +117,37 @@ export default class Firebase {
     return this.auth().onAuthStateChanged(callback);
   };
 
+  UpdatingRatingInUserCollection = async (rating) => {
+    if (this.currentSnippet > this.maxSnippet) {
+      return;
+    } else {
+      const user = this.auth().currentUser;
+      var currentsnippet = this.currentSnippet;
+      var snippetString = 'snippet' + currentsnippet.toString();
+      console.log(snippetString);
+      this.db
+        .collection('users')
+        .doc(user.uid)
+        .set(
+          {
+            [snippetString]: rating
+          },
+          { merge: true }
+        )
+        .then(function () {
+          console.log(
+            'document ',
+            snippetString,
+            ' with submitted rating ',
+            rating
+          );
+        })
+        .catch(function (error) {
+          console.log('ok');
+        });
+    }
+  };
+
   downloadFile = async () => {
     var gsRef = this.storage.refFromURL(
       this.folderName + '/snippet' + this.currentSnippet + '.R'
@@ -110,7 +156,6 @@ export default class Firebase {
     gsRef
       .getDownloadURL()
       .then(function (url) {
-        console.log(url);
         window.open(url, '_self');
       })
       .catch(function (error) {
@@ -121,117 +166,52 @@ export default class Firebase {
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
-    const user = this.auth().currentUser;
-    var docRef = this.db.collection('users').doc(user.uid);
-    var snippet;
-    snippet = await docRef
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          return doc.data().currentSnippet;
-        } else {
-          console.log('No such document!');
-        }
-      })
-      .catch(function (error) {
-        console.log('Error getting document:', error);
-      });
-    this.currentSnippet = snippet;
-    console.log("displaying " + snippet);
+    
+
+    var snippet = this.currentSnippet;
+
+    
     // Get the snippet from storage to display and send it the display file function
-    var gsRef = this.storage.refFromURL(
-      this.folderName + '/snippet' + String(snippet) + '.R'
-    );
-    var url = await gsRef
-      .getDownloadURL()
-      .then(function (url) {
-        return url;
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
+    if (snippet in this.snippets) {
+      return this.snippets[snippet];
+    } else {
+      var gsRef = this.storage.refFromURL(
+        this.folderName + '/snippet' + String(snippet) + '.R'
+      );
+      var url = await gsRef
+        .getDownloadURL()
+        .then(function (url) {
+          return url;
+        })
+        .catch(function (error) {
+          console.error('Error adding document: ', error);
+        });
+      let contents = await fetch(url).then((res) => {
+        return res.text();
       });
-    return await fetch(url).then((res) => {
-      return res.text();
-    });
+      this.snippets[snippet] = contents;
+      return contents;
+    }
   };
 
   addSnippetRating = async (rating) => {
+    if (isNaN(rating) || this.currentSnippet >= 101) {
+      return;
+    }
     // Store rating of snippet
     var currentsnippet = this.currentSnippet;
     var snippetString = 'snippet' + currentsnippet.toString();
-    const user = await this.auth().currentUser;
-    this.db
-      .collection('ratings')
-      .doc(snippetString)
-      .set(
-        {
-          [user.uid]: rating
-        },
-        { merge: true }
-      )
-      .then(function () {
-        console.log(
-          'Rating:',
-          rating,
-          'added to',
-          snippetString,
-          'from',
-          user.uid
-        );
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-        return;
-      });
-    if (isNaN(rating) || this.currentSnippet >= 100) {
-      return;
-    }
-    // increment current snippet
-    currentsnippet = currentsnippet + 1;
-    this.db
-      .collection('users')
-      .doc(user.uid)
-      .set(
-        {
-          currentSnippet: currentsnippet
-        },
-        { merge: true }
-      )
-      .then(function () {
-        console.log('User currentSnippet updated to', currentsnippet);
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-        return;
-      });
-    this.currentSnippet = currentsnippet;
+    this.ratings[snippetString] = rating;
+    this.currentSnippet = currentsnippet + 1;
   };
 
-  decrementSnippetCounter = async () => {   
+  decrementSnippetCounter = async () => {
     var snippet = this.currentSnippet;
-    const user = this.auth().currentUser;
     if (snippet <= 1) {
-      alert("You are on the first snippet.")
+      alert('You are on the first snippet.');
       return;
     }
     // decrement current snippet
-    snippet = snippet - 1;
-    await this.db
-      .collection('users')
-      .doc(user.uid)
-      .set(
-        {
-          currentSnippet: snippet
-        },
-        { merge: true }
-      )
-      .then(function () {
-        console.log('User currentSnippet updated to', snippet);
-      })
-      .catch(function (error) {
-        console.error('Error adding document: ', error);
-        return;
-      });
-    this.currentSnippet = snippet;
+    this.currentSnippet = snippet - 1;
   };
 }
