@@ -18,7 +18,7 @@ const Onboarding = () => {
                     "What is your background?",
                     "How much programming experience do you have?",
                     "What level coding courses are you taking:",
-                    "Are you familiar with R?"];
+                    "Are you familiar with R programming language?"];
 
   const answer = [
     ["Male","Female", "Other", "Rather not say"],
