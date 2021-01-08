@@ -17,16 +17,14 @@ const Onboarding = () => {
                     "What is your gender?",
                     "What is your background?",
                     "How much programming experience do you have?",
-                    "How many courses that required coding did you have (both at school or self-study)?",
                     "What level coding courses are you taking:",
                     "Are you familiar with R?"];
 
   const answer = [
     ["Male","Female", "Other", "Rather not say"],
     ["Science, technology, engineering, maths (STEM)", "Social Science", "Other"],
-    ["0-1 years", "1-3 years", "3-5 years", "more than 5 years"],
-    ["None", "1", "2", "3-5", "more than 5"],
-    ["100-level courses", "200-level courses", "300-level courses", "400-level courses", "I'm a graduate student", "I'm not a CS student"],
+    ["0-1 years", "1-3 years", "3-5 years", " > 5 years"],
+    ["100-level courses", "200-level courses", "300-level courses", "400-level courses", "I'm a graduate student", "I'm not taking coding courses"],
     ["Yes","No"]
   ];
 
