@@ -91,7 +91,7 @@ const Rating = () => {
     let currentSnippet = firebase.currentSnippet;
     socket.current.emit('rating', {
       snippetNumber: currentSnippet,
-      rating: 0
+      rating: '0'
     });
     setDis(true);
     await firebase.addSnippetRating(0);
