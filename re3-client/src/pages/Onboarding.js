@@ -47,7 +47,7 @@ const Onboarding = () => {
         setQuestionIdx(questionIdx + 1);
         break;
       default:
-        await firebase.submitOnboarding({...currentUserInfo, familiarWithR: currentAnswer});
+        await firebase.submitOnboarding({...currentUserInfo, courseLevel: currentAnswer});
         router.push('/thanks');
         break;
     }
