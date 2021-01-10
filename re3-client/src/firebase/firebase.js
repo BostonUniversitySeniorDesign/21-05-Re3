@@ -98,7 +98,7 @@ export default class Firebase {
         isOnboarded: true,
         currentSnippet: 1,
         courses: currentUserInfo.courses,
-        courseLevel: currentUserInfo.courseLevel
+        familiarWithR: currentUserInfo.familiarWithR
       })
       .then(() => {
         return 1;
