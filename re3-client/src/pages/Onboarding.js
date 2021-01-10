@@ -25,7 +25,7 @@ const Onboarding = () => {
     ["Science, technology, engineering, maths (STEM)", "Social Science", "Other"],
     ["0-1 years", "1-3 years", "3-5 years", " > 5 years"],
     ["100-level courses", "200-level courses", "300-level courses", "400-level courses", "I'm a graduate student", "I'm not taking coding courses"],
-    ["Yes","Noo0"]
+    ["Yes","No"]
   ];
 
   const submit = async () => {
