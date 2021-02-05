@@ -92,7 +92,9 @@ def say_hello():
 
 @socketio.on('connect')
 def connect():
-    emit('ack', {'data': 'Connected'}, callback=ack)
+    Version = request.args.get('Version')
+    print('Version  is: ',{Version})
+    emit('ack', {'data': 'Connected'}, callback=ack) 
 
 
 if __name__ == '__main__':

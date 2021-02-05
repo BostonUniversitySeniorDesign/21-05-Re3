@@ -6,6 +6,8 @@ const ENDPOINT = 'http://localhost:8080';
 const RE3Run = () => {
   const [connected, setConnected] = useState(false);
   const [logs, setLogs] = useState([]);
+  const [version, setVersion] = useState(0);
+
   let socket = useRef(null);
   const containerRef = useRef(null);
 
@@ -24,8 +26,10 @@ const RE3Run = () => {
     }
   }, []);
 
+
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT);
+    socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
+    //socket.current = socketIOClient(ENDPOINT);
     socket.current.on('ack', (data, cb) => {
       cb();
       setConnected(true);
@@ -53,6 +57,7 @@ const RE3Run = () => {
           </p>
         ))}
       </div>
+      <input type="text" value={version} placeholder="version" onChange={e => setVersion(e.target.value)}/>
       <button
         onClick={() => connect()}
         disabled={connected}
