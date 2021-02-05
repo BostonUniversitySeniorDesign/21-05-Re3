@@ -29,7 +29,6 @@ const RE3Run = () => {
 
   const connect = () => {
     socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
-    //socket.current = socketIOClient(ENDPOINT);
     socket.current.on('ack', (data, cb) => {
       cb();
       setConnected(true);
