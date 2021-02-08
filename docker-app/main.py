@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from subprocess import PIPE, Popen
 from flask_socketio import SocketIO, emit, disconnect
@@ -14,6 +14,7 @@ def border_msg(msg):
     return "+{dash}+\n| {msg} |\n+{dash}+".format(dash=dash,msg=msg)
 
 def build_and_run():
+    print('Version inside build_and_run is: ',version)
     print('running')
     p3 = Popen(['docker', 'build', '-t', 're3-image', '.'], \
         shell=False, stdout=PIPE, stderr=PIPE)
@@ -83,6 +84,7 @@ def build_and_run():
     return 'success'
 
 def ack():
+    print('Version inside ack is: ',version)
     print('Message was received')
     build_and_run()
 
@@ -92,8 +94,9 @@ def say_hello():
 
 @socketio.on('connect')
 def connect():
-    Version = request.args.get('Version')
-    print('Version  is: ',{Version})
+    global version
+    version = request.args.get('Version')
+    print('Version  is: ',version)
     emit('ack', {'data': 'Connected'}, callback=ack) 
 
 
