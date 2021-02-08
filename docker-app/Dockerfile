@@ -1,6 +1,6 @@
 FROM continuumio/miniconda
 
-ARG r_version=3.6.0
+ARG R_VER
 
 #'--build-arg' , 'some_variable_name=a_value'
 # ARG some_variable_name
@@ -21,9 +21,8 @@ RUN echo 'alias vim="vim.tiny"' >> ~/.bashrc
 RUN conda init bash
 
 # create env and install R 
-
 RUN conda create -y --name venv -c conda-forge \
-                    r=$r_version \
+                    r=${R_VER} \
                     r-essentials
 RUN conda install -y --name venv python=3.6 \
                                  pip

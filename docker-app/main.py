@@ -16,7 +16,7 @@ def border_msg(msg):
 def build_and_run():
     print('Version inside build_and_run is: ',version)
     print('running')
-    p3 = Popen(['docker', 'build', '-t', 're3-image', '.'], \
+    p3 = Popen(['docker', 'build', '--build-arg' , 'R_VER=version', '-t', 're3-image', '.'], \
         shell=False, stdout=PIPE, stderr=PIPE)
     res = ""
     try:
