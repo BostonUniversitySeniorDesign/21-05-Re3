@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
 // import FileDetails from '../components/FileDetails';
 import PopUpButton from '../components/PopUpButton'
+import useRouter from '../utils/Router';
 
 var items = [
     { name:
@@ -77,11 +78,14 @@ var items = [
   { name:
   '3.0.0'}
 ];
-var Rversion= document.getElementById('customSearch');
+//var Rversion= document.getElementById('customSearch');
 // var help;
 
-
 const ReproducabilityInit = () => {
+  const router = useRouter();
+  const [selectedRversion,SetRversion] = useState('');
+  console.log(selectedRversion)
+  // router.push('/re3-run');
 //   const firebase = useContext(FirebaseContext);
   return (
     <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
@@ -95,7 +99,7 @@ const ReproducabilityInit = () => {
           R Version Used
         </div>
         <div className="self-start py-8">
-          <DropDown title="Select Version" data={items}/>
+          <DropDown title="Select Version" data={items} SetRversion={SetRversion}/>
 
           {/* <button onClick={()=> alert(Rversion.value)}>Help2</button> */}
         </div>
@@ -123,6 +127,7 @@ const ReproducabilityInit = () => {
 
         {/* <p id="fp"></p> */}
       </div>
+      <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"> Run Code </button>
     </div>
   );
 };
