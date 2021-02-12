@@ -127,7 +127,7 @@ const ReproducabilityInit = () => {
 
         {/* <p id="fp"></p> */}
       </div>
-      <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"> Run Code </button>
+      <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white" onClick={() => router.push('/re3-run')}> Run Code </button>
     </div>
   );
 };
