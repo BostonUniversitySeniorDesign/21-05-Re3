@@ -14,6 +14,8 @@ import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';
 import Transition from './pages/Transition';
+import BestPractices from './pages/BestPractices';
+import CodeReadability from './pages/CodeReadability'
 
 const App = () => {
   const user = useContext(AuthContext);
@@ -34,6 +36,8 @@ const App = () => {
         <PrivateRoute exact path="/dashboard" component={Rating} />
         <PrivateRoute exact path='/thanks' component={Transition}/>
         <PrivateRoute exact path='/thanksagain' component={Transition2}/>
+        <Route exact path='/bestpractices' component={BestPractices}/>
+        <Route exact path='/code-readability-services' component={CodeReadability}/>
         <Route exact path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>
