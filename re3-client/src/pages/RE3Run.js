@@ -4,81 +4,46 @@ import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
 // import FileDetails from '../components/FileDetails';
-import PopUpButton from '../components/PopUpButton'
+import PopUpButton from '../components/PopUpButton';
 
 const ENDPOINT = 'http://localhost:8080';
 
 var items = [
-  { name:
-'4.0.3'},
-{ name:
-'4.0.2'},
-{ name:
-'4.0.1'},
-{ name:
-'4.0.0'},
-{ name:
-'3.6.3'},
-{ name:
-'3.6.2'},
-{ name:
-'3.6.1'},
-{ name:
-'3.6.0'},
-{ name:
-'3.5.3'},
-{ name:
-'3.5.2'},
-{ name:
-'3.5.1'},
-{ name:
-'3.5.0'},
-{ name:
-'3.4.4'},
-{ name:
-'3.4.3'},
-{ name:
-'3.4.2'},
-{ name:
-'3.4.1'},
-{ name:
-'3.4.0'},
-{ name:
-'3.3.3'},
-{ name:
-'3.3.2'},
-{ name:
-'3.3.1'},
-{ name:
-'3.3.0'},
-{ name:
-'3.2.5'},
-{ name:
-'3.2.4'},
-{ name:
-'3.2.3'},
-{ name:
-'3.2.2'},
-{ name:
-'3.2.1'},
-{ name:
-'3.2.0'},
-{ name:
-'3.1.3'},
-{ name:
-'3.1.2'},
-{ name:
-'3.1.1'},
-{ name:
-'3.1.0'},
-{ name:
-'3.0.3'},
-{ name:
-'3.0.2'},
-{ name:
-'3.0.1'},
-{ name:
-'3.0.0'}
+  { name: '4.0.3' },
+  { name: '4.0.2' },
+  { name: '4.0.1' },
+  { name: '4.0.0' },
+  { name: '3.6.3' },
+  { name: '3.6.2' },
+  { name: '3.6.1' },
+  { name: '3.6.0' },
+  { name: '3.5.3' },
+  { name: '3.5.2' },
+  { name: '3.5.1' },
+  { name: '3.5.0' },
+  { name: '3.4.4' },
+  { name: '3.4.3' },
+  { name: '3.4.2' },
+  { name: '3.4.1' },
+  { name: '3.4.0' },
+  { name: '3.3.3' },
+  { name: '3.3.2' },
+  { name: '3.3.1' },
+  { name: '3.3.0' },
+  { name: '3.2.5' },
+  { name: '3.2.4' },
+  { name: '3.2.3' },
+  { name: '3.2.2' },
+  { name: '3.2.1' },
+  { name: '3.2.0' },
+  { name: '3.1.3' },
+  { name: '3.1.2' },
+  { name: '3.1.1' },
+  { name: '3.1.0' },
+  { name: '3.0.3' },
+  { name: '3.0.2' },
+  { name: '3.0.1' },
+  { name: '3.0.0' }
 ];
 
 const RE3Run = () => {
@@ -87,20 +52,18 @@ const RE3Run = () => {
   const [logs, setLogs] = useState([]);
   const containerRef = useRef(null);
   let socket = useRef(null);
-  const [selectedRversion,SetRversion] = useState('');
-  console.log(selectedRversion)
+  const [selectedRversion, SetRversion] = useState('');
+  console.log(selectedRversion);
 
   useEffect(() => {
     return () => {
-      if(socket === null){
-        socket.current.disconnect();
-      }
+      socket.current.disconnect();
     };
   }, [socket]);
 
   useEffect(() => {
-    if (containerRef === null) {
-        containerRef.current.addEventListener('DOMNodeInserted', (event) => {
+    if (containerRef.current !== null) {
+      containerRef.current.addEventListener('DOMNodeInserted', (event) => {
         const { currentTarget: target } = event;
         target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
       });
@@ -118,52 +81,63 @@ const RE3Run = () => {
     });
   };
 
-  if (!buildContainer){
+  console.log(buildContainer);
+
+  if (!buildContainer) {
     return (
       <div className="w-full min-h-screen bg-gray-200 flex flex-col items-center justify-start">
-      <Header />
-      <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
-        Code Information
-      </div>
+        <Header />
+        <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
+          Code Information
+        </div>
 
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          R Version Used
-        </div>
-        <div className="self-start py-8">
-          <DropDown title="Select Version" data={items} SetRversion={SetRversion}/>
+        <div className="flex flex-row justify-start self-start">
+          <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
+            R Version Used
+          </div>
+          <div className="self-start py-8">
+            <DropDown
+              title="Select Version"
+              data={items}
+              SetRversion={SetRversion}
+            />
 
-          {/* <button onClick={()=> alert(Rversion.value)}>Help2</button> */}
+            {/* <button onClick={()=> alert(Rversion.value)}>Help2</button> */}
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          Files to Upload
+        <div className="flex flex-row justify-start self-start">
+          <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
+            Files to Upload
+          </div>
+          <div className="self-start py-8">
+            <UploadButton />
+          </div>
         </div>
-        <div className="self-start py-8">
-          <UploadButton />
-        </div>
-      </div>
 
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          Order of Files
-        </div>
-        {/* <FileDetails/> */}
-        {/* <button className="border border-black rounded-md h-8 w-24"
+        <div className="flex flex-row justify-start self-start">
+          <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
+            Order of Files
+          </div>
+          {/* <FileDetails/> */}
+          {/* <button className="border border-black rounded-md h-8 w-24"
         onClick = {FileDetails}>
             idk
         </button> */}
-        <PopUpButton/>
+          <PopUpButton />
 
-        {/* <p id="fp"></p> */}
+          {/* <p id="fp"></p> */}
+        </div>
+        <button
+          className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
+          onClick={() => setBuildContainer(true)}
+        >
+          {' '}
+          Run Code{' '}
+        </button>
       </div>
-      <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white" onClick={setBuildContainer(true)}> Run Code </button>
-    </div>
     );
-  }
-  else{
+  } else {
     return (
       <div className="w-full bg-gray-200 min-h-screen flex flex-col items-center justify-center py-16">
         <p className="font-roboto text-6xl text-black mb-2">RE3 Run</p>
