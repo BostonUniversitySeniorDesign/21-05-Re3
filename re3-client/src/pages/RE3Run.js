@@ -48,12 +48,11 @@ var items = [
 
 const RE3Run = () => {
   const [buildContainer, setBuildContainer] = useState(false);
-  const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(false);
   const [logs, setLogs] = useState([]);
   const containerRef = useRef(null);
   let socket = useRef(null);
-  const [selectedRversion, SetRversion] = useState('');
-  console.log(selectedRversion);
+  const [selectedRversion, SetRversion] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -71,7 +70,7 @@ const RE3Run = () => {
   }, []);
 
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT);
+    socket.current = socketIOClient(ENDPOINT, {query: {Version: selectedRversion}});
     socket.current.on('ack', (data, cb) => {
       cb();
       setConnected(true);
@@ -80,8 +79,6 @@ const RE3Run = () => {
       setLogs((oldLogs) => [...oldLogs, data.log]);
     });
   };
-
-  console.log(buildContainer);
 
   if (!buildContainer) {
     return (

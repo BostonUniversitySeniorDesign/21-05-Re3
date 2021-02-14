@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from subprocess import PIPE, Popen
 from flask_socketio import SocketIO, emit, disconnect
@@ -15,8 +15,9 @@ def border_msg(msg):
 
 def build_and_run():
     print('running')
-    p3 = Popen(['docker', 'build', '-t', 're3-image', '.'], \
-        shell=False, stdout=PIPE, stderr=PIPE)
+    print(f'R_VER={version}')
+    p3 = Popen(['docker', 'build', '--build-arg' , f'R_VER={version}' , '-t', 're3-image', '.'], \
+        shell=False, stdout=PIPE, stderr=PIPE) 
     res = ""
     try:
         emit('stdout', {'log': border_msg("BUILDING IMAGE...")})
@@ -92,6 +93,10 @@ def say_hello():
 
 @socketio.on('connect')
 def connect():
+    global version
+    version = request.args.get('Version')
+    print("version:")
+    print(version)
     emit('ack', {'data': 'Connected'}, callback=ack)
 
 
