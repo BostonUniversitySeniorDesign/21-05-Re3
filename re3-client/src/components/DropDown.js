@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 function DropDown(props) {
 
   const [data] = useState(props.data);
-
+  
   const [selectedData, updateSelectedData] = useState('');
 
   function handleChange(event) {
     updateSelectedData(event.target.value);
+    props.SetRversion(selectedData);
     // if (props.ver) props.ver.value =  selectedData;
   }
   let options = data.map((data) => (
@@ -34,7 +35,7 @@ function DropDown(props) {
 
       {/* <button className="bg-black text-white"
       onClick= {()=> alert(selectedData)}
-      >help </button> */}
+      > show version</button>
       {/* version of R is {selectedData} */}
     </div>
   );

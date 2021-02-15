@@ -4,6 +4,8 @@ import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import Temp2 from '../components/Temp2';
+import useRouter from '../utils/Router';
+
 var items = [
     { name:
   '4.0.3'},
@@ -76,9 +78,8 @@ var items = [
   { name:
   '3.0.0'}
 ];
-// var Rversion= document.getElementById('customSearch');
+//var Rversion= document.getElementById('customSearch');
 // var help;
-
 
 const ReproducabilityInit = () => {
     const [visible, setVisible] = useState(false);
@@ -103,6 +104,11 @@ const ReproducabilityInit = () => {
     }
   }
   
+  const router = useRouter();
+  const [selectedRversion,SetRversion] = useState('');
+  console.log(selectedRversion)
+  // router.push('/re3-run');
+//   const firebase = useContext(FirebaseContext);
   return (
     <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
       <Header />
@@ -149,7 +155,7 @@ const ReproducabilityInit = () => {
           R Version Used
         </div>
         <div className="self-start py-8">
-          <DropDown title="Select Version" data={items}/>
+          <DropDown title="Select Version" data={items} SetRversion={SetRversion}/>
 
           {/* <button onClick={()=> alert(Rversion.value)}>Help2</button> */}
         </div>
@@ -175,6 +181,7 @@ const ReproducabilityInit = () => {
           Order Files
         </button>
       </div>
+      <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white" onClick={() => router.push('/re3-run')}> Run Code </button>
     </div>
   );
 };
