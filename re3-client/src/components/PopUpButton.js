@@ -1,30 +1,66 @@
 import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
-// import FileDetails from '../components/FileDetails'
+import Temp2 from '../components/Temp2';
 
 const PopUpButton = () => {
+
   const [visible, setVisible] = useState(false);
+  const [myFiles, setFiles] = useState([]);
+
+//   let options = myFiles.map((item, idx) => [
+//     { id: idx.toString(), content: item }
+//   ]);
+
+// function removeDuplicates(data){
+//     let r= data.filter((value,index)=> data.indexOf(value)===index);
+//     console.log("no duplicated");
+//     console.log(r);
+//     return r;
+// }
 
   function FileDetailsInfo() {
     // GET THE FILE INPUT.
     var fi = document.getElementById('myfile');
-
+    var files = new Array(fi.length);
     // VALIDATE OR CHECK IF ANY FILE IS SELECTED.
     if (fi.files.length > 0) {
-      setVisible(!visible);
+      
 
       // THE TOTAL FILE COUNT.
-      document.getElementById('fp').innerHTML =
-        'Total Files: <b>' + fi.files.length + '</b></br >';
+      //   document.getElementById('fp').innerHTML =
+      //     'Total Files: <b>' + fi.files.length + '</b></br >';
 
       // RUN A LOOP TO CHECK EACH SELECTED FILE.
       for (var i = 0; i <= fi.files.length - 1; i++) {
-        var fname = fi.files.item(i).name; // THE NAME OF THE FILE.
-
-        // SHOW THE EXTRACTED DETAILS OF THE FILE.
-        document.getElementById('fp').innerHTML =
-          document.getElementById('fp').innerHTML + '<br /> ' + fname;
+        // var fname = fi.files.item(i).name; // THE NAME OF THE FILE.
+        files[i] = fi.files.item(i);
+        console.log('file' + i + ' ' + files[i]);
       }
+      var newfiles = myFiles.concat(files);
+    //   console.log("newfiles");
+    //   console.log(newfiles);
+      let uniquefiles = [...new Set(newfiles)];
+      setFiles(uniquefiles);
+    //   console.log("uniqe files");
+    //   console.log(uniquefiles);
+    //   console.log('myFiles' + myFiles);
+    //   console.log('options' + options);
+      setVisible(!visible);
+      //   const newContainer = document.createElement("DragAndDropContainer");
+      //   var att = document.createAttribute("data");
+      //   att.value = files;
+      //   newContainer.setAttributeNode(att);
+      //   const currentDiv = document.getElementById("fp");
+      //   document.body.appendChild(newContainer, currentDiv);
+      //   <DragAndDropContainer data = {files}/>
+      //   for( var j =0 ; j <= files.length-1; j++){
+      //     // var fname = files[j].name; // THE NAME OF THE FILE.
+      //     document.getElementById('fp').innerHTML =
+      //     // document.createElement('div')=
+      //         <DragAndDropContainer items = {files}/>
+      // document.getElementById('fp').innerHTML + '<br /> ' +
+      //     fname;
+      //   }
     } else {
       alert('Please select a file.');
     }
@@ -44,9 +80,15 @@ const PopUpButton = () => {
           >
             <AiFillCloseCircle />
           </button>
-          <p className="text-2xl" id="fp">
-            {/* <FileDetails/> */}
-          </p>
+          {/* <button onClick={() => console.log(myFiles)}>help</button> */}
+          <div className="flex flex-row m-2 p-2">
+            <Temp2
+              list={myFiles.map((item, idx) => ({
+                id: (idx + 1).toString(),
+                content: item
+              }))}
+            />
+          </div>
         </div>
       </div>
       <div
@@ -64,15 +106,6 @@ const PopUpButton = () => {
         </button>
       </div>
     </div>
-    // <div>
-    //     <button
-    //         className="transition duration-500 ease-in-out transform hover:scale-125 text-6xl text-blue-600"
-    //         onClick={() => setVisible(!visible)}
-    //       >Pop Up</button>
-
-    //       <FileDetails/>
-    //       <p id= "fp"></p>
-    // </div>
   );
 };
 export default PopUpButton;

@@ -9,7 +9,6 @@ function DropDown(props) {
 
   function handleChange(event) {
     updateSelectedData(event.target.value);
-
     // if (props.ver) props.ver.value =  selectedData;
   }
   let options = data.map((data) => (
@@ -33,9 +32,9 @@ function DropDown(props) {
         {options}
       </select>
 
-      <button className="bg-black text-white"
+      {/* <button className="bg-black text-white"
       onClick= {()=> alert(selectedData)}
-      >help </button>
+      >help </button> */}
       {/* version of R is {selectedData} */}
     </div>
   );

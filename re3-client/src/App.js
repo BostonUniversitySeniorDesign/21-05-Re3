@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import Rating from './pages/Rating';
+import Rating from './pages/ReproducabilityInit';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import RE3Run from './pages/RE3Run';
@@ -15,6 +15,8 @@ import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';
 import Transition from './pages/Transition';
+
+
 
 const App = () => {
   const user = useContext(AuthContext);
