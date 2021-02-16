@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import Temp2 from '../components/Temp2';
+import Temp2 from './DragAndDrop';
 
 const PopUpButton = () => {
 

@@ -3,7 +3,7 @@ import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import Temp2 from '../components/Temp2';
+import DragAndDrop from '../components/DragAndDrop';
 import useRouter from '../utils/Router';
 
 var items = [
@@ -82,7 +82,8 @@ var items = [
 // var help;
 
 const ReproducabilityInit = () => {
-    const [visible, setVisible] = useState(false);
+    const [visible1, setVisible1] = useState(false);
+    const [visible2, setVisible2] = useState(false);
   const [myFiles, setFiles] = useState([]);
 
   function FileDetailsInfo() {
@@ -98,7 +99,7 @@ const ReproducabilityInit = () => {
       var newfiles = myFiles.concat(files);
       let uniquefiles = [...new Set(newfiles)];
       setFiles(uniquefiles);
-      setVisible(!visible);
+      setVisible1(!visible1);
     } else {
       alert('Please select a file.');
     }
@@ -116,19 +117,19 @@ const ReproducabilityInit = () => {
       
       <div
         className={`absolute w-full min-h-screen z-20 items-center justify-center content-center self-start ${
-          visible ? 'flex' : 'hidden'
+          visible1 ? 'flex' : 'hidden'
         }`}
       >
         <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
           <button
-            onClick={() => setVisible(!visible)}
+            onClick={() => setVisible1(!visible1)}
             className="text-2xl self-end text-blue-600"
           >
             <AiFillCloseCircle />
           </button>
           {/* <button onClick={() => console.log(myFiles)}>help</button> */}
           <div className="flex flex-row m-2 p-2">
-            <Temp2
+            <DragAndDrop
               list={myFiles.map((item, idx) => ({
                 id: (idx + 1).toString(),
                 content: item
@@ -139,12 +140,34 @@ const ReproducabilityInit = () => {
       </div>
       <div
         className={`absolute w-full h-full bg-black z-10 opacity-25 ${
-          visible ? 'flex' : 'hidden'
+          visible1 ? 'flex' : 'hidden'
         }`}
       />
-      <div className="w-1/8">
+      {/* <div className="w-1/8"> 
         
+      </div>  */}
+
+      <div
+        className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
+          visible2 ? 'flex' : 'hidden'
+        }`}
+      >
+        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+          <button
+            onClick={() => setVisible2(!visible2)}
+            className="text-2xl self-end text-blue-600"
+          >
+            <AiFillCloseCircle />
+          </button>
+          {/* <button onClick={() => console.log(myFiles)}>help</button> */}
+          Hello
+        </div>
       </div>
+      <div
+        className={`absolute w-full h-full bg-black z-40 opacity-25 ${
+          visible2 ? 'flex' : 'hidden'
+        }`}
+      />
     
       <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
         Code Information
@@ -179,6 +202,18 @@ const ReproducabilityInit = () => {
           onClick={FileDetailsInfo}
         >
           Order Files
+        </button>
+      </div>
+
+      <div className="flex flex-row justify-start self-start">
+        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
+          Key Words
+        </div>
+        <button
+          className="mx-8 my-6 text-black cursor-pointer rounded-md border border-black bg-gray-300 h-12 w-32 "
+          onClick={() => setVisible2(!visible2)}
+        >
+          Enter Key Words
         </button>
       </div>
       <button className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white" onClick={() => router.push('/re3-run')}> Run Code </button>

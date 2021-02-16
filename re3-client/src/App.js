@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import Rating from './pages/ReproducabilityInit';
+import Rating from './pages/RE3Run';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import RE3Run from './pages/RE3Run';
