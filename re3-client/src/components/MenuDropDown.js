@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
 import {AiOutlineMenu} from 'react-icons/ai';
+import useRouter from '../utils/Router';
 
 const MenuDropDown = () => {
+    const router = useRouter();
+    function pushpage(page) {
+        router.push(`${page}`);
+    }
     const [drop, setDrop]= useState(false);
     var hide ="transform opacity-0 scale-95";
     var show="transform opacity-100 scale-100";
@@ -28,9 +33,10 @@ const MenuDropDown = () => {
       >
         <div className="py-1">
           <a
-            href="/"
+            href="/homepage"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             role="menuitem"
+            onClick={() => pushpage("/homepage")}
           >
             Home
           </a>
@@ -40,8 +46,16 @@ const MenuDropDown = () => {
             href="/dashboard"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             role="menuitem"
+            onClick={() => pushpage("/dashboard")}
           >
             Rating
+          </a>
+          <a
+            href="/re3-run"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+          >
+            Reproducability
           </a>
         </div>
         <div className="py-1">
@@ -49,6 +63,7 @@ const MenuDropDown = () => {
             href="/thanks"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             role="menuitem"
+            onClick={() => pushpage("/thanks")}
           >
             Readability (whatever we call the MLM)
           </a>

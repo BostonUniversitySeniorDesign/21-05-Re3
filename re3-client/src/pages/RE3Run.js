@@ -84,6 +84,8 @@ const RE3Run = () => {
 
       var newfiles = myFiles.concat(files); //I thought this would do it .. didn't work
       let uniquefiles = [...new Set(newfiles)];
+      console.log(myFiles);
+      console.log(uniquefiles);
       setFiles(uniquefiles);
       setVisible1(!visible1);
     } else {

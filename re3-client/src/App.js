@@ -7,9 +7,10 @@ import {
   Redirect
 } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
-import Rating from './pages/RE3Run';
+import Rating from './pages/Rating';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
+import HomePage2 from './pages/MenuPage';
 import RE3Run from './pages/RE3Run';
 import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
@@ -38,6 +39,7 @@ const App = () => {
         <Route exact path="/re3-run" component={RE3Run} />
         <PrivateRoute exact path="/dashboard" component={Rating} />
         <PrivateRoute exact path="/thanks" component={Transition} />
+        <PrivateRoute exact path="/homepage" component={HomePage2} />
         <PrivateRoute exact path="/thanksagain" component={Transition2} />
         <Route exact path="/ReproducabilityInit" component={ReproducabilityInit}/>
         <Route exact path="/404" component={NotFound} />

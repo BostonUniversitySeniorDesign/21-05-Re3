@@ -1,6 +1,6 @@
 import React from 'react';
 import SignOutButton from './SignOutButton';
-import MenuDropDown from '../components/MenuDropDown'
+import MenuDropDown from '../components/MenuDropDown';
 
 
 const RatingHeader = () => {
