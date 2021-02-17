@@ -59,13 +59,17 @@ const RE3Run = () => {
   const [logs, setLogs] = useState([]);
   const containerRef = useRef(null);
   let socket = useRef(null);
-  const [selectedRversion, SetRversion] = useState(0);
+  const [version, setVersion] = useState(0);
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [myFiles, setFiles] = useState([]);
+  
   var title = document.getElementById('title');
   var name = document.getElementById('authorName');
   var keywords = document.getElementById('keyWords');
+  // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
+  const [orderedFiles, setOrderedFiles] = useState([]);
+  console.log(orderedFiles);
 
   function FileDetailsInfo() {
     //TODO remove repeat duplicate files in the array
@@ -103,9 +107,7 @@ const RE3Run = () => {
   }, []);
 
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT, {
-      query: { Version: selectedRversion }
-    });
+    socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
     socket.current.on('ack', (data, cb) => {
       cb();
       setConnected(true);
@@ -162,6 +164,7 @@ const RE3Run = () => {
                   id: (idx + 1).toString(),
                   content: item
                 }))}
+                setParentOrder={setOrderedFiles}
               />
             </div>
           </div>
@@ -177,7 +180,7 @@ const RE3Run = () => {
             visible2 ? 'flex' : 'hidden'
           }`}
         >
-          <div className="w-1/2 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
             <button
               onClick={() => setVisible2(!visible2)}
               className="text-2xl self-end text-blue-600"
@@ -227,14 +230,14 @@ const RE3Run = () => {
               R Version Used
             </div>
             <div>
-              <DropDown
-                title="Select Version"
-                data={items}
-                SetRversion={SetRversion}
-              />
-            </div>
+            <DropDown
+              title="Select Version"
+              data={items}
+              setVersion={setVersion}
+            />
+          </div>
             <div>
-            {selectedRversion === 0 ? hourglass : checkmark}
+            {version === 0 ? hourglass : checkmark}
             </div>
           </div>
 
@@ -261,7 +264,7 @@ const RE3Run = () => {
               </button>
             </div>
             <div>
-            {selectedRversion === 0 ? hourglass : checkmark}
+            {orderedFiles.length === 0 ? hourglass : checkmark}
             </div>
           </div>
 
@@ -278,7 +281,7 @@ const RE3Run = () => {
             </button>
             </div>
             <div>
-            {selectedRversion === 0 ? hourglass : checkmark}
+            {version === 0 ? hourglass : checkmark}
             </div>
           </div>
           <div className ="row-span-5 items-center self-end">
