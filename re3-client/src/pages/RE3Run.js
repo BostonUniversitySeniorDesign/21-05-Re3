@@ -3,10 +3,15 @@ import socketIOClient from 'socket.io-client';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
-// import FileDetails from '../components/FileDetails';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import ThePic from '../assets/img/undraw_online_articles_79ff.svg';
+import {
+  AiFillCloseCircle,
+  AiOutlineHourglass,
+  AiOutlineCheck
+} from 'react-icons/ai';
 import DragAndDrop from '../components/DragAndDrop';
-// import PopUpButton from '../components/PopUpButton';
+import TextInput from '../components/TextInput';
+
 
 const ENDPOINT = 'http://localhost:8080';
 
@@ -58,9 +63,12 @@ const RE3Run = () => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [myFiles, setFiles] = useState([]);
+  var title = document.getElementById('title');
+  var name = document.getElementById('authorName');
+  var keywords = document.getElementById('keyWords');
 
-
-  function FileDetailsInfo() { //TODO remove repeat duplicate files in the array
+  function FileDetailsInfo() {
+    //TODO remove repeat duplicate files in the array
     // GET THE FILE INPUT.
     var fi = document.getElementById('myfile');
     var files = new Array(fi.length);
@@ -69,12 +77,11 @@ const RE3Run = () => {
       for (var i = 0; i <= fi.files.length - 1; i++) {
         files[i] = fi.files.item(i);
       }
-      
-      var newfiles = myFiles.concat(files);//I thought this would do it .. didn't work
+
+      var newfiles = myFiles.concat(files); //I thought this would do it .. didn't work
       let uniquefiles = [...new Set(newfiles)];
       setFiles(uniquefiles);
       setVisible1(!visible1);
-
     } else {
       alert('Please select a file.');
     }
@@ -96,7 +103,9 @@ const RE3Run = () => {
   }, []);
 
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT, {query: {Version: selectedRversion}});
+    socket.current = socketIOClient(ENDPOINT, {
+      query: { Version: selectedRversion }
+    });
     socket.current.on('ack', (data, cb) => {
       cb();
       setConnected(true);
@@ -106,106 +115,178 @@ const RE3Run = () => {
     });
   };
 
+  let hourglass = (
+    <div className="text-gray-700 bg-gray-400 rounded-full text-2xl w-6">
+      <AiOutlineHourglass />
+    </div>
+  );
+  let checkmark = (
+    <div className="text-white bg-blue-400 rounded-full text-2xl w-6">
+      <AiOutlineCheck />
+    </div>
+  );
+  function tmp() {
+    // var title = document.getElementById('title');
+    // var name = document.getElementById('authorName');
+    // var keywords = document.getElementById('keyWords');
+    var arr = keywords.value.split(/\s*(?:,|$)\s*/);
+    console.log('in tmp');
+    console.log(title.value);
+    console.log(name.value);
+    console.log(keywords.value);
+    console.log(arr.length);
+    for (var i = 0; i < arr.length; i++) console.log(arr[i]);
+  }
+
   if (!buildContainer) {
     return (
       <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
-      <Header />
+        <Header />
 
-      {/* Drag and Drop PopUp */}
-      <div
-        className={`absolute w-full min-h-screen z-20 items-center justify-center content-center self-start ${
-          visible1 ? 'flex' : 'hidden'
-        }`}
-      >
-        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
-          <button
-            onClick={() => setVisible1(!visible1)}
-            className="text-2xl self-end text-blue-600"
-          >
-            <AiFillCloseCircle />
-          </button>
-          <div className="flex flex-row m-2 p-2">
-            <DragAndDrop
-              list={myFiles.map((item, idx) => ({
-                id: (idx + 1).toString(),
-                content: item
-              }))}
-            />
+        {/* Drag and Drop PopUp */}
+        <div
+          className={`absolute w-full min-h-screen z-20 items-center justify-center content-center self-start ${
+            visible1 ? 'flex' : 'hidden'
+          }`}
+        >
+          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+            <button
+              onClick={() => setVisible1(!visible1)}
+              className="text-2xl self-end text-blue-600"
+            >
+              <AiFillCloseCircle />
+            </button>
+            <div className="flex flex-row m-2 p-2">
+              <DragAndDrop
+                list={myFiles.map((item, idx) => ({
+                  id: (idx + 1).toString(),
+                  content: item
+                }))}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        className={`absolute w-full h-full bg-black z-10 opacity-25 ${
-          visible1 ? 'flex' : 'hidden'
-        }`}
-      />
-      {/* Key Words Pop Up */}
-      <div
-        className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
-          visible2 ? 'flex' : 'hidden'
-        }`}
-      >
-        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
-          <button
-            onClick={() => setVisible2(!visible2)}
-            className="text-2xl self-end text-blue-600"
-          >
-            <AiFillCloseCircle />
-          </button>
-          Hello
-        </div>
-      </div>
-      <div
-        className={`absolute w-full h-full bg-black z-40 opacity-25 ${
-          visible2 ? 'flex' : 'hidden'
-        }`}
-      />
-    
-      <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
-        Code Information
-      </div>
-
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          R Version Used
-        </div>
-        <div className="self-start py-8">
-          <DropDown title="Select Version" data={items} SetRversion={SetRversion}/>
-        </div>
-      </div>
-
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          Files to Upload
-        </div>
-        <div className="self-start py-8">
-          <UploadButton />
-        </div>
-      </div>
-
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          Order of Files
-        </div>
-        <button
-          className="mx-4 my-6 text-black cursor-pointer rounded-md border border-black bg-gray-300 h-12 w-32 "
-          onClick={FileDetailsInfo}
+        <div
+          className={`absolute w-full h-full bg-black z-10 opacity-25 ${
+            visible1 ? 'flex' : 'hidden'
+          }`}
+        />
+        {/* Key Words Pop Up */}
+        <div
+          className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
+            visible2 ? 'flex' : 'hidden'
+          }`}
         >
-          Order Files
-        </button>
-      </div>
+          <div className="w-1/2 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+            <button
+              onClick={() => setVisible2(!visible2)}
+              className="text-2xl self-end text-blue-600"
+            >
+              <AiFillCloseCircle />
+            </button>
+            <div className="flex flex-row m-4 items-center ">
+              <div className="w-32">Author Name: </div>
+              <TextInput
+                placeholder="ex: John Doe, Jane Doe"
+                id="authorName"
+                w="w-64 px-4"
+              />
+            </div>
+            <div className="flex flex-row m-4 items-center">
+              <div className="w-32">Title: </div>
+              <TextInput
+                placeholder="ex: A Study in Repreducability"
+                id="title"
+                w="w-64 px-4"
+              />
+            </div>
+            <div className="flex flex-row m-4 items-center">
+              <div className="w-32">Key Words: </div>
+              <TextInput
+                placeholder="ex: R code, Repreducability"
+                id="keyWords"
+                w="w-64 px-4"
+              />
+            </div>
+            <button onClick={tmp}>print</button>
+          </div>
+        </div>
+        <div
+          className={`absolute w-full h-full bg-black z-40 opacity-25 ${
+            visible2 ? 'flex' : 'hidden'
+          }`}
+        />
 
-      <div className="flex flex-row justify-start self-start">
-        <div className="self-start text-2xl text-black flex text-left font-roboto py-8 px-20">
-          Key Words
+        <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
+          Code Information
         </div>
-        <button
-          className="mx-8 my-6 text-black cursor-pointer rounded-md border border-black bg-gray-300 h-12 w-32 "
-          onClick={() => setVisible2(!visible2)}
-        >
-          Enter Key Words
-        </button>
+
+        <div className="grid grid-rows-5 grid-flow-col gap-8 mx-16 my-2">
+          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+              R Version Used
+            </div>
+            <div>
+              <DropDown
+                title="Select Version"
+                data={items}
+                SetRversion={SetRversion}
+              />
+            </div>
+            <div>
+            {selectedRversion === 0 ? hourglass : checkmark}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+              Files to Upload
+            </div>
+            <div>
+              <UploadButton />
+            </div>
+            {myFiles.length === 0 ? hourglass : checkmark}
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+              Order of Files
+            </div>
+            <div>
+              <button
+                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-8"
+                onClick={FileDetailsInfo}
+              >
+                Order Files
+              </button>
+            </div>
+            <div>
+            {selectedRversion === 0 ? hourglass : checkmark}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center">
+              Information
+            </div>
+            <div>
+            <button
+              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-2"
+              onClick={() => setVisible2(!visible2)}
+            >
+              Enter Information
+            </button>
+            </div>
+            <div>
+            {selectedRversion === 0 ? hourglass : checkmark}
+            </div>
+          </div>
+          <div className ="row-span-5 items-center self-end">
+            <img alt="thePic" src={ThePic} />
+          </div>
+          
         </div>
+
         <button
           className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
           onClick={() => setBuildContainer(true)}

@@ -23,7 +23,7 @@ function DropDown(props) {
       <select
         name="customSearch"
         id="customSearch"
-        className="w-36 h-10 text-center px-4 custom-search-select border border-black rounded-md bg-gray-300 "
+        className="w-36 h-10  px-3 mx-0.5 py-2 text-center custom-search-select border border-black rounded-md bg-gray-300 "
         onChange={handleChange}
         value={selectedData}
       >
