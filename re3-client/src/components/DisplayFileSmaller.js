@@ -12,7 +12,7 @@ const DisplayFileSmaller = ({ snippet }) => {
     <Highlight {...defaultProps} theme={theme} code={snippet} language="r">
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
-          className={`w-99/100 h-90 overflow-scroll rounded ${className} `}
+          className={`text-left p-4 w-full h-90 overflow-scroll rounded ${className} `}
           style={style}
         >
           {tokens.map((line, i) => (
