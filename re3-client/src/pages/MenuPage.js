@@ -48,7 +48,7 @@ const MenuPage = () => {
         </div>
         <div className="transform duration-700 hover:-translate-y-6">
           <Card w="w-4/5 px-4" h="h-72 py-4">
-            <a href="/re3-run">
+            <a href="/ReproducabilityOptions">
               <div className=" justify-center text-center text-2xl font-roboto">
                 Upload code and check if it's reproducable
               </div>

@@ -4,6 +4,7 @@ import { FirebaseContext } from '../firebase';
 const SignOutButton = () => {
   const firebase = useContext(FirebaseContext);
   const signout = async () => {
+    console.log("pressed");
     firebase.signOut();
   };
   return (

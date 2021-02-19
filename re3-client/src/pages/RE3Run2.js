@@ -134,7 +134,8 @@ const RE3Run = () => {
     setTitle(document.getElementById('title').value);
     setName(document.getElementById('authorName').value);
     setKeywords(document.getElementById('keyWords').value);
-    var arr = keywords.split(/\s*(?:,|$)\s*/);
+    console.log(keywords);
+    // var arr = keywords.split(/\s*(?:,|$)\s*/);
     // console.log('in Documenting');
     // console.log(title);
     // console.log(name);
@@ -224,21 +225,21 @@ const RE3Run = () => {
               Files to Upload
             </div>
             <div>
-              <UploadButton title= {myFiles.length  === 0 ? "Select Files" : "Add Files"}/>
+              <UploadButton title= {myFiles.length  === 0 ? "Select Files" : "Add Files"} onChange={FileDetailsInfo}/>
             </div>
             {myFiles.length === 0 ? hourglass : checkmark}
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
             <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
-              Order of Files
+              Files ordered?
             </div>
             <div>
               <button
                 className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-                onClick={FileDetailsInfo}
+                // onClick={FileDetailsInfo}
               >
-                Order Files
+                Yes!
               </button>
             </div>
             <div>
