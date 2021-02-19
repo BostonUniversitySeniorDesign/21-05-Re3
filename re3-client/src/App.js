@@ -11,7 +11,7 @@ import Rating from './pages/Rating';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import HomePage2 from './pages/MenuPage';
-import RE3Run from './pages/RE3Run';
+import RE3Run from './pages/RE3Run2';
 import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';

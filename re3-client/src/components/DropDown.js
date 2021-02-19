@@ -20,7 +20,7 @@ function DropDown({ title, data, setVersion }) {
       <select
         name="customSearch"
         id="customSearch"
-        className="w-36 h-10  px-3 mx-0.5 py-2 text-center custom-search-select border border-black rounded-md bg-gray-300 "
+        className="text-center custom-search-select border border-black rounded-md bg-gray-300 w-full h-full"
         onChange={handleChange}
         value={selected}
       >

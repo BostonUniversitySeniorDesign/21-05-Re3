@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const a = 'Unordered';
 const b = 'Ordered';
@@ -16,9 +17,6 @@ const ColumnsFromBackend = {
 
 const insertItems = (list, Columns) => {
   let newColumns = Columns.Unordered;
-  console.log('insertItem');
-  console.log(list);
-
   newColumns.items = list;
 };
 
@@ -56,7 +54,7 @@ const onDragEnd = (result, columns, setColumns, setParentOrder) => {
         items: destItems
       }
     });
-    console.log(destColumn);
+    // console.log(destColumn);
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
@@ -81,14 +79,46 @@ const onDragEnd = (result, columns, setColumns, setParentOrder) => {
   }
 };
 
+const deleteItem = (id, setColumns, setParentOrder, setSource ,list) => {
+  const Ordered = ColumnsFromBackend.Ordered;
+  const Unordered = ColumnsFromBackend.Unordered;
+  // const result = Unordered.items.filter(x => x.id ===id)
+  const index = Unordered.items.findIndex((x) => x.id === id);
+  // console.log(index);
+  // console.log(Unordered.items[index]);
+  if (index > -1) {
+    Unordered.items.splice(index, 1);
+  } else {
+    const index2 = Ordered.items.findIndex((x) => x.id === id);
+    // console.log(Ordered.items[index2]);
+    if (index2 > -1) {
+      Ordered.items.splice(index2, 1);
+    }
+  }
+  setColumns({
+    Unordered,
+    Ordered
+  });
+  // setParentOrder({
+  //   Unordered,
+  //   Ordered
+  // });
+
+    var newArrayOfFiles = [];
+    list.forEach(function(item) {
+      newArrayOfFiles.push(item.content);
+    });
+    
+  setSource(newArrayOfFiles);
+};
+
 // change below to also take a setState (setParentOrder) from parent that copies over the state of the columns in this component
 // whenever it is updated -Lukas
-function Temp2({ list, setParentOrder }) {
+function Temp2({ list, setParentOrder, setSource }) {
   insertItems(list, ColumnsFromBackend);
   const [columns, setColumns] = useState(ColumnsFromBackend);
-
-  console.log(columns);
-
+  // console.log(setSource);
+  // console.log(setParentOrder);
   return (
     <div className="flex flex-row  bg-blue-100">
       <DragDropContext
@@ -99,10 +129,11 @@ function Temp2({ list, setParentOrder }) {
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
             <div
-              className="flex flex-col bg-blue-500 m-2 items-center text-2xl font-bold min-h-80 w-72 content-center rounded-md"
+              className="flex flex-col bg-blue-500 m-1 items-center text-2xl font-bold min-h-80 w-72 content-center rounded-md"
               key={columnId}
             >
               <h2 className="m-6">{column.name}</h2>
+
               <div className="m-4 min-h-64 w-64">
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
@@ -126,10 +157,10 @@ function Temp2({ list, setParentOrder }) {
                               {(provided, snapshot) => {
                                 return (
                                   <div
-                                    ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className={`p-2 m-2 h-8 truncate text-base rounded-md ${
+                                    ref={provided.innerRef}
+                                    className={`p-1 m-2 h-12 rounded-md relative ${
                                       snapshot.isDragging
                                         ? 'bg-blue-100'
                                         : 'bg-white'
@@ -139,7 +170,23 @@ function Temp2({ list, setParentOrder }) {
                                       ...provided.draggableProps.style
                                     }}
                                   >
-                                    {item.content.name}
+                                    <button
+                                      className="text-black text-xs absolute top-0 right-0 rounded-full bg-blue-200 m-1"
+                                      onClick={() =>
+                                        deleteItem(
+                                          item.id,
+                                          setColumns,
+                                          setParentOrder,
+                                          setSource,
+                                          list
+                                        )
+                                      }
+                                    >
+                                      <AiOutlineClose />
+                                    </button>
+                                    <div className="truncate text-base p-2 ">
+                                      {item.content.name}
+                                    </div>
                                   </div>
                                 );
                               }}

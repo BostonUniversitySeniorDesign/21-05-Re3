@@ -3,7 +3,6 @@ import socketIOClient from 'socket.io-client';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
-import ThePic from '../assets/img/undraw_online_articles_79ff.svg';
 import {
   AiFillCloseCircle,
   AiOutlineHourglass,
@@ -60,8 +59,7 @@ const RE3Run = () => {
   const containerRef = useRef(null);
   let socket = useRef(null);
   const [version, setVersion] = useState(0);
-  const [visible1, setVisible1] = useState(false);
-  const [visible2, setVisible2] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [myFiles, setFiles] = useState([]);
   
   var title = document.getElementById('title');
@@ -69,8 +67,7 @@ const RE3Run = () => {
   var keywords = document.getElementById('keyWords');
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
-  console.log(orderedFiles);
-
+  
   function FileDetailsInfo() {
     //TODO remove repeat duplicate files in the array
     // GET THE FILE INPUT.
@@ -84,10 +81,13 @@ const RE3Run = () => {
 
       var newfiles = myFiles.concat(files); //I thought this would do it .. didn't work
       let uniquefiles = [...new Set(newfiles)];
-      console.log(myFiles);
-      console.log(uniquefiles);
+      
+      
       setFiles(uniquefiles);
-      setVisible1(!visible1);
+    //   console.log("myFiles");
+    //   console.log(myFiles);
+      document.getElementById('myfile').value= "";
+    //   setVisible1(!visible1);
     } else {
       alert('Please select a file.');
     }
@@ -147,44 +147,15 @@ const RE3Run = () => {
       <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
         <Header />
 
-        {/* Drag and Drop PopUp */}
-        <div
-          className={`absolute w-full min-h-screen z-20 items-center justify-center content-center self-start ${
-            visible1 ? 'flex' : 'hidden'
-          }`}
-        >
-          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
-            <button
-              onClick={() => setVisible1(!visible1)}
-              className="text-2xl self-end text-blue-600"
-            >
-              <AiFillCloseCircle />
-            </button>
-            <div className="flex flex-row m-2 p-2">
-              <DragAndDrop
-                list={myFiles.map((item, idx) => ({
-                  id: (idx + 1).toString(),
-                  content: item
-                }))}
-                setParentOrder={setOrderedFiles}
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          className={`absolute w-full h-full bg-black z-10 opacity-25 ${
-            visible1 ? 'flex' : 'hidden'
-          }`}
-        />
         {/* Key Words Pop Up */}
         <div
           className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
-            visible2 ? 'flex' : 'hidden'
+            visible ? 'flex' : 'hidden'
           }`}
         >
           <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
             <button
-              onClick={() => setVisible2(!visible2)}
+              onClick={() => setVisible(!visible)}
               className="text-2xl self-end text-blue-600"
             >
               <AiFillCloseCircle />
@@ -218,17 +189,18 @@ const RE3Run = () => {
         </div>
         <div
           className={`absolute w-full h-full bg-black z-40 opacity-25 ${
-            visible2 ? 'flex' : 'hidden'
+            visible ? 'flex' : 'hidden'
           }`}
         />
+
 
         <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
           Code Information
         </div>
 
-        <div className="grid grid-rows-5 grid-flow-col gap-8 mx-16 my-2">
+        <div className="grid grid-rows-5 grid-flow-col gap-8 mx-8 my-2">
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
               R Version Used
             </div>
             <div>
@@ -244,40 +216,40 @@ const RE3Run = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full">
               Files to Upload
             </div>
             <div>
-              <UploadButton />
+              <UploadButton title= {myFiles.length  === 0 ? "Select Files" : "Add Files"}/>
             </div>
             {myFiles.length === 0 ? hourglass : checkmark}
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
               Order of Files
             </div>
             <div>
               <button
-                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-8"
+                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full"
                 onClick={FileDetailsInfo}
               >
                 Order Files
               </button>
             </div>
             <div>
-            {orderedFiles.length === 0 ? hourglass : checkmark}
+            {((orderedFiles.length === 0))? hourglass : checkmark}
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
               Information
             </div>
             <div>
             <button
-              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-2"
-              onClick={() => setVisible2(!visible2)}
+              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full"
+              onClick={() => setVisible(!visible)}
             >
               Enter Information
             </button>
@@ -286,9 +258,22 @@ const RE3Run = () => {
             {orderedFiles.length === 0 ? hourglass : checkmark}
             </div>
           </div>
-          <div className ="row-span-5 items-center self-end">
-            <img alt="thePic" src={ThePic} />
+
+          <div className ="row-span-5 items-center self-right">
+          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ml-16">
+            <div className="flex flex-row m-2 p-2">
+              <DragAndDrop
+                list={myFiles.map((item, idx) => ({
+                  id: (idx + 1).toString(),
+                  content: item
+                }))}
+                setParentOrder={setOrderedFiles}
+                setSource = {setFiles}
+              />
+            </div>
           </div>
+        </div>
+          
           
         </div>
 
