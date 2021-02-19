@@ -61,10 +61,10 @@ const RE3Run = () => {
   const [version, setVersion] = useState(0);
   const [visible, setVisible] = useState(false);
   const [myFiles, setFiles] = useState([]);
+  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [keywords, setKeywords] = useState("");
   
-  var title = document.getElementById('title');
-  var name = document.getElementById('authorName');
-  var keywords = document.getElementById('keyWords');
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
   
@@ -91,6 +91,7 @@ const RE3Run = () => {
     } else {
       alert('Please select a file.');
     }
+    console.log(name);
   }
 
   useEffect(() => {
@@ -129,17 +130,17 @@ const RE3Run = () => {
       <AiOutlineCheck />
     </div>
   );
-  function tmp() {
-    // var title = document.getElementById('title');
-    // var name = document.getElementById('authorName');
-    // var keywords = document.getElementById('keyWords');
-    var arr = keywords.value.split(/\s*(?:,|$)\s*/);
-    console.log('in tmp');
-    console.log(title.value);
-    console.log(name.value);
-    console.log(keywords.value);
-    console.log(arr.length);
-    for (var i = 0; i < arr.length; i++) console.log(arr[i]);
+  function Documenting() {
+    setTitle(document.getElementById('title').value);
+    setName(document.getElementById('authorName').value);
+    setKeywords(document.getElementById('keyWords').value);
+    var arr = keywords.split(/\s*(?:,|$)\s*/);
+    // console.log('in Documenting');
+    // console.log(title);
+    // console.log(name);
+    // console.log(keywords);
+    // console.log(arr.length);
+    // for (var i = 0; i < arr.length; i++) console.log(arr[i]);
   }
 
   if (!buildContainer) {
@@ -160,31 +161,34 @@ const RE3Run = () => {
             >
               <AiFillCloseCircle />
             </button>
-            <div className="flex flex-row m-4 items-center ">
+            <div className="flex flex-row m-2 items-center ">
               <div className="w-32">Author Name: </div>
               <TextInput
                 placeholder="ex: John Doe, Jane Doe"
                 id="authorName"
                 w="w-64 px-4"
+                value=""
               />
             </div>
-            <div className="flex flex-row m-4 items-center">
+            <div className="flex flex-row m-2 items-center">
               <div className="w-32">Title: </div>
               <TextInput
                 placeholder="ex: A Study in Repreducability"
                 id="title"
                 w="w-64 px-4"
+                value=""
               />
             </div>
-            <div className="flex flex-row m-4 items-center">
+            <div className="flex flex-row m-2 items-center">
               <div className="w-32">Key Words: </div>
               <TextInput
                 placeholder="ex: R code, Repreducability"
                 id="keyWords"
                 w="w-64 px-4"
+                value=""
               />
             </div>
-            <button onClick={tmp}>print</button>
+            <button className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-2 text-white text-1xl" onClick={Documenting}>Done</button>
           </div>
         </div>
         <div
@@ -216,7 +220,7 @@ const RE3Run = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
               Files to Upload
             </div>
             <div>
@@ -231,7 +235,7 @@ const RE3Run = () => {
             </div>
             <div>
               <button
-                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full"
+                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
                 onClick={FileDetailsInfo}
               >
                 Order Files
@@ -248,14 +252,14 @@ const RE3Run = () => {
             </div>
             <div>
             <button
-              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full"
+              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
               onClick={() => setVisible(!visible)}
             >
               Enter Information
             </button>
             </div>
             <div>
-            {orderedFiles.length === 0 ? hourglass : checkmark}
+            {(title === "")&& (name ==="")  ? hourglass : checkmark}
             </div>
           </div>
 
