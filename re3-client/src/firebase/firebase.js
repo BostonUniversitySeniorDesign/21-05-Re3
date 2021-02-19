@@ -23,6 +23,7 @@ export default class Firebase {
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
     this.userOnboarded = false;
     this.maxSnippet = 101; //currently 4 but need to change to 100
+    this.currentProjectDoc = "";
   }
 
   isAuthenticated = async () => {
@@ -213,5 +214,25 @@ export default class Firebase {
     }
     // decrement current snippet
     this.currentSnippet = snippet - 1;
+  };
+
+  // REPRODUCIBILITY
+  // {version: version, title: title, name: name, keywords: keywords}
+  storeProjectData = async (version, title, name, keywords) => {
+    const ref =  this.currentProjectDoc
+    const res = await ref
+      .set({
+        version: version,
+        title: title,
+        author: name,
+        keywords: keywords
+      }, { merge: true })
+      .then(() => {
+        return 1;
+      })
+      .catch((error) => {
+        return -1;
+      });
+    return res;
   };
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
@@ -11,6 +11,7 @@ import {
 } from 'react-icons/ai';
 import DragAndDrop from '../components/DragAndDrop';
 import TextInput from '../components/TextInput';
+import { FirebaseContext } from '../firebase'; // to save the user info for reproducibility
 
 
 const ENDPOINT = 'http://localhost:8080';
@@ -54,6 +55,9 @@ var items = [
 ];
 
 const RE3Run = () => {
+
+  const firebase = useContext(FirebaseContext);
+
   const [buildContainer, setBuildContainer] = useState(false);
   const [connected, setConnected] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -63,14 +67,15 @@ const RE3Run = () => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [myFiles, setFiles] = useState([]);
-  
+  const [currentProjectInfo, setCurrentProjectInfo] = useState({});
+
   var title = document.getElementById('title');
   var name = document.getElementById('authorName');
   var keywords = document.getElementById('keyWords');
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
   console.log(orderedFiles);
-
+  
   function FileDetailsInfo() {
     //TODO remove repeat duplicate files in the array
     // GET THE FILE INPUT.
@@ -140,6 +145,11 @@ const RE3Run = () => {
     console.log(keywords.value);
     console.log(arr.length);
     for (var i = 0; i < arr.length; i++) console.log(arr[i]);
+  }
+
+  function saveInfo(){
+    setBuildContainer(true)
+    firebase.storeProjectData(version,title.value,name.value,keywords.value.split(" "));
   }
 
   if (!buildContainer) {
@@ -294,7 +304,7 @@ const RE3Run = () => {
 
         <button
           className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
-          onClick={() => setBuildContainer(true)}
+          onClick={() => saveInfo()}
         >
           {' '}
           Run Code{' '}
