@@ -16,7 +16,7 @@ def border_msg(msg):
 def build_and_run():
     print('running')
     print(f'R_VER={version}')
-    p3 = Popen(['docker', 'build', '--build-arg' , f'R_VER={version}' , '-t', 're3-image', '.'], \
+    p3 = Popen(['docker', 'build', '--build-arg', f'R_VER={version}', '-t', 're3-image', '.'], \
         shell=False, stdout=PIPE, stderr=PIPE) 
     res = ""
     try:
@@ -46,6 +46,7 @@ def build_and_run():
             # else returns success
             emit('stdout', {'log': border_msg("SUCCESSFULLY BUILT DOCKER IMAGE")})
     except Exception as e:
+        print(e)
         ret = "error: " + e
         return ret
 

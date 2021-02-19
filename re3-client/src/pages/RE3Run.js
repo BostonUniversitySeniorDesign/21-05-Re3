@@ -12,7 +12,6 @@ import {
 import DragAndDrop from '../components/DragAndDrop';
 import TextInput from '../components/TextInput';
 
-
 const ENDPOINT = 'http://localhost:8080';
 
 var items = [
@@ -63,7 +62,7 @@ const RE3Run = () => {
   const [visible1, setVisible1] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [myFiles, setFiles] = useState([]);
-  
+
   var title = document.getElementById('title');
   var name = document.getElementById('authorName');
   var keywords = document.getElementById('keyWords');
@@ -109,14 +108,18 @@ const RE3Run = () => {
   }, []);
 
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
-    socket.current.on('ack', (data, cb) => {
-      cb();
-      setConnected(true);
-    });
-    socket.current.on('stdout', (data) => {
-      setLogs((oldLogs) => [...oldLogs, data.log]);
-    });
+    if (socket.current == null && !connected) {
+      socket.current = socketIOClient(ENDPOINT, {
+        query: { Version: version }
+      });
+      socket.current.on('ack', (data, cb) => {
+        cb();
+        setConnected(true);
+      });
+      socket.current.on('stdout', (data) => {
+        setLogs((oldLogs) => [...oldLogs, data.log]);
+      });
+    }
   };
 
   let hourglass = (
@@ -232,15 +235,13 @@ const RE3Run = () => {
               R Version Used
             </div>
             <div>
-            <DropDown
-              title="Select Version"
-              data={items}
-              setVersion={setVersion}
-            />
-          </div>
-            <div>
-            {version === 0 ? hourglass : checkmark}
+              <DropDown
+                title="Select Version"
+                data={items}
+                setVersion={setVersion}
+              />
             </div>
+            <div>{version === 0 ? hourglass : checkmark}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
@@ -265,9 +266,7 @@ const RE3Run = () => {
                 Order Files
               </button>
             </div>
-            <div>
-            {orderedFiles.length === 0 ? hourglass : checkmark}
-            </div>
+            <div>{orderedFiles.length === 0 ? hourglass : checkmark}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
@@ -275,21 +274,18 @@ const RE3Run = () => {
               Information
             </div>
             <div>
-            <button
-              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-2"
-              onClick={() => setVisible2(!visible2)}
-            >
-              Enter Information
-            </button>
+              <button
+                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 h-10 w-36 px-2"
+                onClick={() => setVisible2(!visible2)}
+              >
+                Enter Information
+              </button>
             </div>
-            <div>
-            {orderedFiles.length === 0 ? hourglass : checkmark}
-            </div>
+            <div>{orderedFiles.length === 0 ? hourglass : checkmark}</div>
           </div>
-          <div className ="row-span-5 items-center self-end">
+          <div className="row-span-5 items-center self-end">
             <img alt="thePic" src={ThePic} />
           </div>
-          
         </div>
 
         <button
