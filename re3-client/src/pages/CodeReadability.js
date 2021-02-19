@@ -4,7 +4,7 @@ import Header from '../components/HeaderBestPractices'
 import DisplayFileSmaller from '../components/DisplayFileSmaller.js'
 
 const CodeReadability = () => {
-    const [name, setName] = useState('');
+    //const [name, setName] = useState('');
     //const [selectedFile, setSelectedFile] = useState(null);
     const [selectedFile] = useState(null);
     const [fileContents,setFileContents] = useState('');
@@ -51,11 +51,6 @@ const CodeReadability = () => {
             </div>
             <form>
               <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
                 type="file"
                 value={selectedFile}
                 onChange={(e) => update(e)}
@@ -64,12 +59,12 @@ const CodeReadability = () => {
           </div>
           <div className = "flex flex-col justify-start py-2">
               <div>
-                <button onClick={() => callAPI()}  className="bg-blue-700 hover:bg-blue-500 text-white rounded px-20 py-2 h-10 w-30">
+                <button onClick={() => callAPI()}  className={`text-white rounded-md px-20 py-2 h-10 w-30 ${fileContents === '' ? 'bg-gray-500' : 'bg-blue-700 hover:bg-blue-500'}`} disabled = {fileContents === ''}>
                   Get Code Rating
                 </button>    
               </div>
               <div className="px-10">
-                <text className="border-black-700 font-bold"> {fileRating} </text>
+                <text className={`font-roboto text-xl font-bold ${parseFloat(fileRating) >= 3.5 ? (parseFloat(fileRating) >= 6.5 ? 'text-green-600' : 'text-yellow-500'): (parseFloat(fileRating) === 0.0 ? 'text-black' : 'text-red-600')}`}> {parseFloat(fileRating).toFixed(2)} </text>
               </div>
             </div>
         </div>
