@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import Header from '../components/HeaderBestPractices'
 //import useRouter from '../utils/Router';
 import DisplayFileSmaller from '../components/DisplayFileSmaller.js'
+import ColorBar from '../components/ColorBar';
 
 const CodeReadability = () => {
     //const [name, setName] = useState('');
@@ -65,8 +66,9 @@ const CodeReadability = () => {
                 </button>    
               </div>
               <div className="px-10">
-                <text className={`font-roboto text-xl font-bold ${parseFloat(fileRating) >= 3.5 ? (parseFloat(fileRating) >= 6.5 ? 'text-green-600' : 'text-yellow-500'): (parseFloat(fileRating) === 0.0 ? 'text-black' : 'text-red-600')}`}> {parseFloat(fileRating).toFixed(2)} </text>
+                <text className={`font-roboto text-xl font-bold ${parseFloat(fileRating) >= 3.0 ? (parseFloat(fileRating) >= 6.0 ? 'text-green-600' : 'text-yellow-500'): (parseFloat(fileRating) === 0.0 ? 'text-black' : 'text-red-600')}`}> {parseFloat(fileRating).toFixed(2)} </text>
               </div>
+              <ColorBar completed={(parseFloat(fileRating).toFixed(2))*10} />
             </div>
         </div>
         
