@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
@@ -10,7 +10,7 @@ import {
 } from 'react-icons/ai';
 import DragAndDrop from '../components/DragAndDrop';
 import TextInput from '../components/TextInput';
-
+import { FirebaseContext, AuthContext } from '../firebase';
 
 const ENDPOINT = 'http://localhost:8080';
 
@@ -53,6 +53,10 @@ var items = [
 ];
 
 const RE3Run = () => {
+
+  const firebase = useContext(FirebaseContext);
+  const user = useContext(AuthContext);
+
   const [buildContainer, setBuildContainer] = useState(false);
   const [connected, setConnected] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -64,6 +68,7 @@ const RE3Run = () => {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [keywords, setKeywords] = useState("");
+  const [url, setUrl] = useState([])
   
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -92,6 +97,42 @@ const RE3Run = () => {
       alert('Please select a file.');
     }
     console.log(name);
+  }
+
+  function saveInfo(){
+    console.log(orderedFiles.Ordered.items.length)
+    var url_array = new Array(orderedFiles.Ordered.items.length);
+    for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
+      var file = orderedFiles.Ordered.items[i].content
+      console.log(file)
+      const uploadTask = firebase.storage.ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`).put(file)
+      //initiates the firebase side uploading 
+      uploadTask.on('state_changed', 
+      (snapShot) => {
+        //takes a snap shot of the process as it is happening
+        console.log(snapShot)
+      }, (err) => {
+        //catches the errors
+        console.log(err)
+      }, () => {
+        // gets the functions from storage refences the image storage in firebase by the children
+        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+        firebase.storage.ref('reproducibility_projects').child(user.uid).child(user.uid).child(file.name).getDownloadURL()
+        .then(fireBaseUrl => {
+          setUrl(url.concat(fireBaseUrl))
+          url_array[i] = fireBaseUrl;
+        })
+      })
+    }
+    console.log(url)
+    setUrl(url_array);
+    setBuildContainer(true)
+    console.log(url)
+      firebase.currentProjectDoc = firebase.db.collection('containers').doc(user.uid).collection(user.uid).doc();
+        firebase.currentProjectDoc.set({
+          URL: url
+        }, { merge: true });
+    firebase.storeProjectData(version,title,name,keywords.split(" "));
   }
 
   useEffect(() => {
@@ -237,7 +278,7 @@ const RE3Run = () => {
             <div>
               <button
                 className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-                // onClick={FileDetailsInfo}
+                 //onClick={}
               >
                 Yes!
               </button>
@@ -284,7 +325,7 @@ const RE3Run = () => {
 
         <button
           className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
-          onClick={() => setBuildContainer(true)}
+          onClick={() => saveInfo()}
         >
           {' '}
           Run Code{' '}
