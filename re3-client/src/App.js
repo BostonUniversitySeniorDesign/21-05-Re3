@@ -15,7 +15,7 @@ import RE3Run from './pages/RE3Run2';
 import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';
-import Transition from './pages/Transition';
+import Transition from './pages/UserPage';
 import ReproducabilityOptions from './pages/ReproducabilityOptionsPage';
 
 

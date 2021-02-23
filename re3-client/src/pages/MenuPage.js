@@ -21,35 +21,44 @@ const MenuPage = () => {
         <div className="text-3xl text-black text-center flex font-roboto font-hairline mb-10">
           Reproducibility, Reusability, Readability
         </div>
-        <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
+        {/* <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
         Enjoy some of what we have to offer, you can check the Readability of your code and get a few pointers on how to improve it.
-        OR you can check the Reproducability of any paper you want 
-        </div>
-      <div className="grid grid-flow-col grid-rows-1 items-end gap-5 m-10">
-        <div className="transform duration-700 hover:-translate-y-6">
-          <Card w="w-4/5 px-4" h="h-72 py-4">
+        OR you can check the Reproducability of any paper you want. learn more
+        </div> */}
+      <div className=" m-10 flex space-x-4">
+        <div className="transform duration-700 hover:-translate-y-6 inline">
+          <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/thanks">
-              <div className=" justify-center text-center text-2xl font-roboto">
+            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+                Code Readability
+              </div>
+              <div className=" justify-center text-center text-md font-roboto font-hairline italic">
                 Upload your code and check it's readablity score
               </div>
               <img alt="thePic" src={MLPic} />
             </a>
           </Card>
         </div>
-        <div className="transform duration-700 hover:-translate-y-6">
-          <Card w="w-4/5 px-4" h="h-72 py-4">
+        <div className="transform duration-700 hover:-translate-y-6 inline">
+          <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/dashboard">
-              <div className=" justify-center text-center text-2xl font-roboto">
+            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+                Snippet Rating
+              </div>
+              <div className=" justify-center text-center text-md font-roboto font-hairline italic">
                 Rate Snippets and help us improve our ML model
               </div>
               <img alt="thePic" src={RatingPic} />
             </a>
           </Card>
         </div>
-        <div className="transform duration-700 hover:-translate-y-6">
-          <Card w="w-4/5 px-4" h="h-72 py-4">
+        <div className="transform duration-700 hover:-translate-y-6 inline">
+          <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/ReproducabilityOptions">
-              <div className=" justify-center text-center text-2xl font-roboto">
+            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+                Reproducability Test
+              </div>
+              <div className=" justify-center text-center text-md font-roboto font-hairline italic">
                 Upload code and check if it's reproducable
               </div>
               <img alt="thePic" src={ReproducabilityPic} />

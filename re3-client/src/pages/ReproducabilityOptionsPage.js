@@ -3,21 +3,21 @@ import Header from '../components/SimpleHeader';
 import Card from '../components/Card';
 import RatingPic from '../assets/img/undraw_Web_search_re_efla.svg';
 import MLPic from '../assets/img/undraw_Upload_re_pasx.svg';
-import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
-import re3Logo from '../assets/img/LOGO3.png';
+// import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
+// import re3Logo from '../assets/img/LOGO3.png';
 
 const ReproducabilityOptionsPage = () => {
   return (
     <div className="flex flex-col items-center bg-gray-200 min-h-screen">
       <Header />
-      <img
+      {/* <img
           alt="re3Logo"
           src={re3Logo}
           className="w-1/5 justify-center items-center transform duration-700 hover:scale-110 mt-20"
         />
         <div className="text-3xl text-black text-center flex font-roboto font-hairline mb-10">
           Reproducibility, Reusability, Readability
-        </div>
+        </div> */}
         <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
         Where you can Upload files or a DOI to test for reproducability  
         </div>

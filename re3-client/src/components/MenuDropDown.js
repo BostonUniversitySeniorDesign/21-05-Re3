@@ -26,7 +26,7 @@ const MenuDropDown = () => {
         </button>
       </div>
       <div
-        className={`transition ease-out duration-100 origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 ${className}`}
+        className={`transition ease-out duration-100 origin-top-right absolute left-0 mt-2 w-56 h-4/5 rounded-md shadow-lg bg-white ring-2 ring-black ring-opacity-5 divide-y divide-gray-300 ${className}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
@@ -34,7 +34,7 @@ const MenuDropDown = () => {
         <div className="py-1">
           <a
             href="/homepage"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
             role="menuitem"
             onClick={() => pushpage("/homepage")}
           >
@@ -44,7 +44,7 @@ const MenuDropDown = () => {
         <div className="py-1">
           <a
             href="/dashboard"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
             role="menuitem"
             onClick={() => pushpage("/dashboard")}
           >
@@ -52,7 +52,7 @@ const MenuDropDown = () => {
           </a>
           <a
             href="/re3-run"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
             role="menuitem"
             onClick={() => pushpage("/re3-run")}
           >
@@ -62,7 +62,7 @@ const MenuDropDown = () => {
         <div className="py-1">
           <a
             href="/thanks"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
             role="menuitem"
             onClick={() => pushpage("/thanks")}
           >

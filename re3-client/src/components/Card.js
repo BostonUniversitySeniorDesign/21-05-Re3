@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Card = ({w, h,children}) => {
+const Card = ({w, h,color,children}) => {
 
     return(
-        <div className={`bg-white rounded-md shadow ${w != null ? w : 'w-auto px-16'} ${h != null ? 'h' : 'h-auto py-8'}`}>
+        <div className={`rounded-md  ${w != null ? w : 'w-auto px-16'} ${h != null ? 'h' : 'h-auto py-8'} ${color !=null ? color : "bg-white"} ` }>
             {children}
         </div>
     );
