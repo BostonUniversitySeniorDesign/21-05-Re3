@@ -50,14 +50,7 @@ const MenuDropDown = () => {
           >
             Rating
           </a>
-          <a
-            href="/re3-run"
-            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
-            role="menuitem"
-            onClick={() => pushpage("/re3-run")}
-          >
-            Reproducability
-          </a>
+          
         </div>
         <div className="py-1">
           <a
@@ -67,6 +60,14 @@ const MenuDropDown = () => {
             onClick={() => pushpage("/code-readability-services")}
           >
             Readability
+          </a>
+          <a
+            href="/re3-run"
+            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
+            role="menuitem"
+            onClick={() => pushpage("/re3-run")}
+          >
+            Reproducability
           </a>
         </div>
       </div>

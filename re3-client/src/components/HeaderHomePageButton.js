@@ -1,6 +1,6 @@
 import React from 'react';
 import useRouter from '../utils/Router';
-import Header from '../components/HeaderBestPractices'
+// import Header from '../components/HeaderBestPractices'
 
 const HomePageButton = () => {
   const router = useRouter();
@@ -9,7 +9,7 @@ const HomePageButton = () => {
   };
   return (
     <div>
-      <Header/>
+      {/* <Header/> */}
       <button
         href="/"
         onClick={() => page()}

@@ -36,6 +36,9 @@ const MenuPage = () => {
                 Upload your code and check it's readablity score
               </div>
               <img alt="thePic" src={MLPic} />
+              <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
+                Learn more 
+              </div>
             </a>
           </Card>
         </div>
@@ -49,12 +52,15 @@ const MenuPage = () => {
                 Rate Snippets and help us improve our ML model
               </div>
               <img alt="thePic" src={RatingPic} />
+              <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
+                Learn more 
+              </div>
             </a>
           </Card>
         </div>
         <div className="transform duration-700 hover:-translate-y-6 inline">
           <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
-            <a href="/ReproducabilityOptions">
+            <a href="/re3-run">
             <div className=" justify-center text-center text-4xl font-roboto font-bold ">
                 Reproducability Test
               </div>
@@ -62,6 +68,9 @@ const MenuPage = () => {
                 Upload code and check if it's reproducable
               </div>
               <img alt="thePic" src={ReproducabilityPic} />
+              <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
+                Learn more 
+              </div>
             </a>
           </Card>
         </div>
