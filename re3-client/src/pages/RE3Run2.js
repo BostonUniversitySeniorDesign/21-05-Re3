@@ -53,7 +53,6 @@ var items = [
 ];
 
 const RE3Run = () => {
-
   const firebase = useContext(FirebaseContext);
   const user = useContext(AuthContext);
 
@@ -65,14 +64,45 @@ const RE3Run = () => {
   const [version, setVersion] = useState(0);
   const [visible, setVisible] = useState(false);
   const [myFiles, setFiles] = useState([]);
-  const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  const [keywords, setKeywords] = useState("");
-  const [url, setUrl] = useState([])
-  
+  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [url, setUrl] = useState([]);
+  const [currentURL, setCurrentURL] = useState('');
+
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
-  
+
+  useEffect(() => {
+    if (currentURL !== '') {
+      setUrl([...url, currentURL]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentURL]);
+
+  useEffect(() => {
+    if (orderedFiles.Ordered !== undefined) {
+      if (url.length === orderedFiles.Ordered.items.length) {
+        console.log('done, check it out', url);
+        setBuildContainer(true);
+        console.log(url);
+        firebase.currentProjectDoc = firebase.db
+          .collection('containers')
+          .doc(user.uid)
+          .collection(user.uid)
+          .doc();
+        firebase.currentProjectDoc.set(
+          {
+            URL: url
+          },
+          { merge: true }
+        );
+        firebase.storeProjectData(version, title, name, keywords.split(' '));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
+
   function FileDetailsInfo() {
     //TODO remove repeat duplicate files in the array
     // GET THE FILE INPUT.
@@ -86,53 +116,43 @@ const RE3Run = () => {
 
       var newfiles = myFiles.concat(files); //I thought this would do it .. didn't work
       let uniquefiles = [...new Set(newfiles)];
-      
-      
+
       setFiles(uniquefiles);
-    //   console.log("myFiles");
-    //   console.log(myFiles);
-      document.getElementById('myfile').value= "";
-    //   setVisible1(!visible1);
+      //   console.log("myFiles");
+      //   console.log(myFiles);
+      document.getElementById('myfile').value = '';
+      //   setVisible1(!visible1);
     } else {
       alert('Please select a file.');
     }
     console.log(name);
   }
 
-  function saveInfo(){
-    console.log(orderedFiles.Ordered.items.length)
-    var url_array = new Array(orderedFiles.Ordered.items.length);
+  const handleTaskComplete = (filename) => {
+    firebase.storage
+      .ref('reproducibility_projects')
+      .child(user.uid)
+      .child(user.uid)
+      .child(filename)
+      .getDownloadURL()
+      .then((fireBaseUrl) => {
+        setCurrentURL(fireBaseUrl);
+      });
+  };
+
+  function saveInfo() {
+    console.log(orderedFiles.Ordered.items.length);
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
-      var file = orderedFiles.Ordered.items[i].content
-      console.log(file)
-      const uploadTask = firebase.storage.ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`).put(file)
-      //initiates the firebase side uploading 
-      uploadTask.on('state_changed', 
-      (snapShot) => {
-        //takes a snap shot of the process as it is happening
-        console.log(snapShot)
-      }, (err) => {
-        //catches the errors
-        console.log(err)
-      }, () => {
-        // gets the functions from storage refences the image storage in firebase by the children
-        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-        firebase.storage.ref('reproducibility_projects').child(user.uid).child(user.uid).child(file.name).getDownloadURL()
-        .then(fireBaseUrl => {
-          setUrl(url.concat(fireBaseUrl))
-          url_array[i] = fireBaseUrl;
-        })
-      })
+      var file = orderedFiles.Ordered.items[i].content;
+      console.log(file);
+      const uploadTask = firebase.storage
+        .ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`)
+        .put(file);
+      //initiates the firebase side uploading
+      uploadTask.on('state_changed', {
+        complete: handleTaskComplete(file.name)
+      });
     }
-    console.log(url)
-    setUrl(url_array);
-    setBuildContainer(true)
-    console.log(url)
-      firebase.currentProjectDoc = firebase.db.collection('containers').doc(user.uid).collection(user.uid).doc();
-        firebase.currentProjectDoc.set({
-          URL: url
-        }, { merge: true });
-    firebase.storeProjectData(version,title,name,keywords.split(" "));
   }
 
   useEffect(() => {
@@ -230,7 +250,12 @@ const RE3Run = () => {
                 value=""
               />
             </div>
-            <button className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-2 text-white text-1xl" onClick={Documenting}>Done</button>
+            <button
+              className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-2 text-white text-1xl"
+              onClick={Documenting}
+            >
+              Done
+            </button>
           </div>
         </div>
         <div
@@ -238,7 +263,6 @@ const RE3Run = () => {
             visible ? 'flex' : 'hidden'
           }`}
         />
-
 
         <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
           Code Information
@@ -250,15 +274,13 @@ const RE3Run = () => {
               R Version Used
             </div>
             <div>
-            <DropDown
-              title="Select Version"
-              data={items}
-              setVersion={setVersion}
-            />
-          </div>
-            <div>
-            {version === 0 ? hourglass : checkmark}
+              <DropDown
+                title="Select Version"
+                data={items}
+                setVersion={setVersion}
+              />
             </div>
+            <div>{version === 0 ? hourglass : checkmark}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
@@ -266,7 +288,10 @@ const RE3Run = () => {
               Files to Upload
             </div>
             <div>
-              <UploadButton title= {myFiles.length  === 0 ? "Select Files" : "Add Files"} onChange={FileDetailsInfo}/>
+              <UploadButton
+                title={myFiles.length === 0 ? 'Select Files' : 'Add Files'}
+                onChange={FileDetailsInfo}
+              />
             </div>
             {myFiles.length === 0 ? hourglass : checkmark}
           </div>
@@ -278,14 +303,12 @@ const RE3Run = () => {
             <div>
               <button
                 className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-                 //onClick={}
+                //onClick={}
               >
                 Yes!
               </button>
             </div>
-            <div>
-            {((orderedFiles.length === 0))? hourglass : checkmark}
-            </div>
+            <div>{orderedFiles.length === 0 ? hourglass : checkmark}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
@@ -293,42 +316,37 @@ const RE3Run = () => {
               Information
             </div>
             <div>
-            <button
-              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-              onClick={() => setVisible(!visible)}
-            >
-              Enter Information
-            </button>
+              <button
+                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
+                onClick={() => setVisible(!visible)}
+              >
+                Enter Information
+              </button>
             </div>
-            <div>
-            {(title === "")&& (name ==="")  ? hourglass : checkmark}
-            </div>
+            <div>{title === '' && name === '' ? hourglass : checkmark}</div>
           </div>
 
-          <div className ="row-span-5 items-center self-right">
-          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ml-16">
-            <div className="flex flex-row m-2 p-2">
-              <DragAndDrop
-                list={myFiles.map((item, idx) => ({
-                  id: (idx + 1).toString(),
-                  content: item
-                }))}
-                setParentOrder={setOrderedFiles}
-                setSource = {setFiles}
-              />
+          <div className="row-span-5 items-center self-right">
+            <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ml-16">
+              <div className="flex flex-row m-2 p-2">
+                <DragAndDrop
+                  list={myFiles.map((item, idx) => ({
+                    id: (idx + 1).toString(),
+                    content: item
+                  }))}
+                  setParentOrder={setOrderedFiles}
+                  setSource={setFiles}
+                />
+              </div>
             </div>
           </div>
-        </div>
-          
-          
         </div>
 
         <button
           className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
           onClick={() => saveInfo()}
         >
-          {' '}
-          Run Code{' '}
+          Run Code
         </button>
       </div>
     );
