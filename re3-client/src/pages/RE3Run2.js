@@ -69,15 +69,9 @@ const RE3Run = () => {
   const [keywords, setKeywords] = useState('');
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
-  const prevURLRef = useRef();
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
-
-  useEffect(() => {
-    prevURLRef.current = url;
-  });
-  const prevURL = prevURLRef.current;
 
   useEffect(() => {
     if (currentURL !== '') {
