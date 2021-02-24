@@ -26,7 +26,7 @@ const MenuDropDown = () => {
         </button>
       </div>
       <div
-        className={`transition ease-out duration-100 origin-top-right absolute left-0 mt-2 w-56 h-4/5 rounded-md shadow-lg bg-white ring-2 ring-black ring-opacity-5 divide-y divide-gray-300 ${className}`}
+        className={`z-10 transition ease-out duration-100 origin-top-right absolute left-0 mt-2 w-56 h-4/5 rounded-md shadow-lg bg-white ring-2 ring-black ring-opacity-5 divide-y divide-gray-300 ${className}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
@@ -61,12 +61,12 @@ const MenuDropDown = () => {
         </div>
         <div className="py-1">
           <a
-            href="/thanks"
+            href="/code-readability-services"
             className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
             role="menuitem"
-            onClick={() => pushpage("/thanks")}
+            onClick={() => pushpage("/code-readability-services")}
           >
-            Readability (whatever we call the MLM)
+            Readability
           </a>
         </div>
       </div>

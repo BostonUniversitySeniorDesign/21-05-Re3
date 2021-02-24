@@ -28,7 +28,7 @@ const MenuPage = () => {
       <div className=" m-10 flex space-x-4">
         <div className="transform duration-700 hover:-translate-y-6 inline">
           <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
-            <a href="/thanks">
+            <a href="/code-readability-services">
             <div className=" justify-center text-center text-4xl font-roboto font-bold ">
                 Code Readability
               </div>
