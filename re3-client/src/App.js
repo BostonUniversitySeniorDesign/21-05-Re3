@@ -15,7 +15,7 @@ import RE3Run from './pages/RE3Run2';
 import NotFound from './pages/NotFound';
 import Transition2 from './pages/Transition2';
 import { AuthContext } from './firebase';
-// import Transition from './pages/UserPage';
+import UserPage from './pages/UserPage';
 import ReproducabilityOptions from './pages/ReproducabilityOptionsPage';
 
 
@@ -45,6 +45,7 @@ const App = () => {
         <PrivateRoute exact path="/thanksagain" component={Transition2} />
         <Route exact path="/ReproducabilityOptions" component={ReproducabilityOptions}/>
         <PrivateRoute exact path='/thanks' component={Transition}/>
+        <Route exact path='/userpage' component={UserPage}/>
         <Route exact path='/bestpractices' component={BestPractices}/>
         <Route exact path='/code-readability-services' component={CodeReadability}/>
         <Route exact path="/404" component={NotFound} />

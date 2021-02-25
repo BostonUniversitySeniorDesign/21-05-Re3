@@ -1,6 +1,7 @@
 import React from 'react';
 import SignOutButton from './SignOutButton';
 import MenuDropDown from '../components/MenuDropDown';
+import MyAccountButton from '../components/MyAccountButton';
 
 
 const RatingHeader = () => {
@@ -9,8 +10,12 @@ const RatingHeader = () => {
       <div className ="absolute left-0">
         <MenuDropDown/>
       </div>
-      
+      <div className="mr-8">
+      <MyAccountButton />
+      </div>
+      <div className="mx-1">
       <SignOutButton />
+      </div>
    
     </div>
   );

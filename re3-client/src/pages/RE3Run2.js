@@ -296,7 +296,7 @@ const RE3Run = () => {
             {myFiles.length === 0 ? hourglass : checkmark}
           </div>
 
-          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+          {/* <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
             <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
               Files ordered?
             </div>
@@ -309,7 +309,7 @@ const RE3Run = () => {
               </button>
             </div>
             <div>{orderedFiles.length === 0 ? hourglass : checkmark}</div>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
             <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
