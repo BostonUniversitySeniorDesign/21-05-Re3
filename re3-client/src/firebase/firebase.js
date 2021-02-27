@@ -25,7 +25,6 @@ export default class Firebase {
     this.userOnboarded = false;
     this.maxSnippet = 101; //currently 4 but need to change to 100
     this.currentProjectDoc = '';
-    this.fetchProjects = '';
   }
 
   isAuthenticated = async () => {
@@ -243,53 +242,13 @@ export default class Firebase {
   };
 
   fetchProjects = async () => {
-    const projects = this.db.collection('containers').onSnapshot((snapshot) => {
-      return snapshot.docs.map((doc) => doc.data());
-    });
+    const projects = this.db
+      .collection('containers')
+      .get()
+      .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => doc.data());
+      });
 
     return projects;
   };
-
-  // function fetchProjects() {
-
-  //   const projects = this.db
-  //       .collection('containers')
-  //       .onSnapshot((snapshot) => {return (snapshot.docs.map((doc) => doc.data()))});
-
-  //       return projects;
-  // var pRef = this.db.collection('containers');
-  // const res= await pRef.doc().catch((error)=>{return ['']});
-  // return res;
-
-  // const [data, setData] = useState({
-  //   error: null,
-  //   loading: true,
-  //   projects: []
-  // });
-
-  // useEffect(() => {
-  //   // <--- 1
-  //   const unsubscribe = this.db.collection('containers').onSnapshot(
-  //     (snapshot) => {
-  //       setData({
-  //         error: null,
-  //         loading: false,
-  //         projects: snapshot.docs.map((doc) => ({
-  //           title: doc.data().title
-  //         }))
-  //       }); // <--- 3
-  //     },
-  //     (error) => {
-  //       setData({
-  //         error,
-  //         loading: false,
-  //         projects: []
-  //       }); // <---4
-  //     }
-  //   );
-
-  //   return unsubscribe; // <--- 5
-  // }, []);
-  // return data;
-  //};
 }

@@ -1,28 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../firebase';
 import { FirebaseContext } from '../firebase';
-import useRouter from '../utils/Router';
 import Header from '../components/SimpleHeader';
 
 const UserPage = () => {
   // const user = useContext(AuthContext);
   const firebase = useContext(FirebaseContext);
-  const router = useRouter();
   const [data, setData] = useState([]);
-  function pushpage(page) {
-    router.push(`${page}`);
-  }
   // function pastProjects() {
   useEffect(() => {
-    var fun = firebase.fetchProjects();
-    setData(fun);
-
-    // firebase
-    //   .firestore()
-    //   .collection('containers')
-    //   .onSnapshot((snapshot) => {
-    //     setData(snapshot.docs.map((doc) => doc.data()));
-    // });
+    const fetchProjects = async () => {
+      const projects = await firebase.fetchProjects();
+      setData(projects);
+    };
+    fetchProjects();
   }, [setData, firebase]);
   // console.log(data);
   // return data;
