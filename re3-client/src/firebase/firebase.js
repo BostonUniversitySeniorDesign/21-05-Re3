@@ -218,7 +218,7 @@ export default class Firebase {
 
     // REPRODUCIBILITY
   // {version: version, title: title, name: name, keywords: keywords}
-  storeProjectData = async (version, title, name, keywords) => {
+  storeProjectData = async (version, title, name, keywords, user) => {
     console.log(version)
     console.log(title)
     const ref =  this.currentProjectDoc
@@ -227,7 +227,8 @@ export default class Firebase {
         version: version,
         title: title,
         author: name,
-        keywords: keywords
+        keywords: keywords,
+        userID : user
       }, { merge: true })
       .then(() => {
         return 1;

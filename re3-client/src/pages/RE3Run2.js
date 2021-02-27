@@ -88,8 +88,6 @@ const RE3Run = () => {
         console.log(url);
         firebase.currentProjectDoc = firebase.db
           .collection('containers')
-          .doc(user.uid)
-          .collection(user.uid)
           .doc();
         firebase.currentProjectDoc.set(
           {
@@ -97,7 +95,7 @@ const RE3Run = () => {
           },
           { merge: true }
         );
-        firebase.storeProjectData(version, title, name, keywords.split(' '));
+        firebase.storeProjectData(version, title, name, keywords.split(' '), user.uid);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
