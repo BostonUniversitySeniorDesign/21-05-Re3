@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+// import {useEffect,useState} from 'react'
 
 export default class Firebase {
   constructor() {
@@ -23,7 +24,8 @@ export default class Firebase {
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
     this.userOnboarded = false;
     this.maxSnippet = 101; //currently 4 but need to change to 100
-    this.currentProjectDoc = "";
+    this.currentProjectDoc = '';
+    this.fetchProjects = '';
   }
 
   isAuthenticated = async () => {
@@ -60,7 +62,7 @@ export default class Firebase {
         return -1;
       });
     this.currentSnippet = currentSnippetx[0];
-    if(this.currentSnippet === 101){
+    if (this.currentSnippet === 101) {
       this.currentSnippet = 100;
     }
     this.ratings = currentSnippetx[1];
@@ -167,11 +169,9 @@ export default class Firebase {
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
-    
 
     var snippet = this.currentSnippet;
 
-    
     // Get the snippet from storage to display and send it the display file function
     if (snippet in this.snippets) {
       return this.snippets[snippet];
@@ -216,20 +216,23 @@ export default class Firebase {
     this.currentSnippet = snippet - 1;
   };
 
-    // REPRODUCIBILITY
+  // REPRODUCIBILITY
   // {version: version, title: title, name: name, keywords: keywords}
   storeProjectData = async (version, title, name, keywords, user) => {
-    console.log(version)
-    console.log(title)
-    const ref =  this.currentProjectDoc
+    console.log(version);
+    console.log(title);
+    const ref = this.currentProjectDoc;
     const res = await ref
-      .set({
-        version: version,
-        title: title,
-        author: name,
-        keywords: keywords,
-        userID : user
-      }, { merge: true })
+      .set(
+        {
+          version: version,
+          title: title,
+          author: name,
+          keywords: keywords,
+          userID: user
+        },
+        { merge: true }
+      )
       .then(() => {
         return 1;
       })
@@ -239,4 +242,54 @@ export default class Firebase {
     return res;
   };
 
+  fetchProjects = async () => {
+    const projects = this.db.collection('containers').onSnapshot((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data());
+    });
+
+    return projects;
+  };
+
+  // function fetchProjects() {
+
+  //   const projects = this.db
+  //       .collection('containers')
+  //       .onSnapshot((snapshot) => {return (snapshot.docs.map((doc) => doc.data()))});
+
+  //       return projects;
+  // var pRef = this.db.collection('containers');
+  // const res= await pRef.doc().catch((error)=>{return ['']});
+  // return res;
+
+  // const [data, setData] = useState({
+  //   error: null,
+  //   loading: true,
+  //   projects: []
+  // });
+
+  // useEffect(() => {
+  //   // <--- 1
+  //   const unsubscribe = this.db.collection('containers').onSnapshot(
+  //     (snapshot) => {
+  //       setData({
+  //         error: null,
+  //         loading: false,
+  //         projects: snapshot.docs.map((doc) => ({
+  //           title: doc.data().title
+  //         }))
+  //       }); // <--- 3
+  //     },
+  //     (error) => {
+  //       setData({
+  //         error,
+  //         loading: false,
+  //         projects: []
+  //       }); // <---4
+  //     }
+  //   );
+
+  //   return unsubscribe; // <--- 5
+  // }, []);
+  // return data;
+  //};
 }
