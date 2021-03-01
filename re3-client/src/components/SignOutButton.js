@@ -9,7 +9,8 @@ const SignOutButton = () => {
   return (
     <button
       onClick={() => signout()}
-      className="text-2xl font-robot text-white hover:text-black cursor-pointer rounded-md focus:outline-none" >
+      className="text-2xl font-robot text-white hover:text-black cursor-pointer rounded-md focus:outline-none"
+    >
       Sign out
     </button>
   );

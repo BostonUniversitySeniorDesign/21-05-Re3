@@ -242,8 +242,10 @@ export default class Firebase {
   };
 
   fetchProjects = async () => {
+    const user = this.auth().currentUser;
     const projects = this.db
       .collection('containers')
+      .where('userID', '==', `${user.uid}`)
       .get()
       .then((querySnapshot) => {
         return querySnapshot.docs.map((doc) => doc.data());

@@ -20,9 +20,9 @@ const MenuDropDown = () => {
           id="options-menu"
           aria-haspopup="true"
           aria-expanded="true"
-          onClick={()=> setDrop(!drop)}
+          onClick={() => setDrop(!drop)}
         >
-          <AiOutlineMenu/>
+          <AiOutlineMenu />
         </button>
       </div>
       <div
@@ -32,43 +32,46 @@ const MenuDropDown = () => {
         aria-labelledby="options-menu"
       >
         <div className="py-1">
-          <a
+          <button
             href="/homepage"
-            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
+            className="block px-4 py-2 w-56 text-left text-md text-gray-700 hover:bg-gray-200 hover:text-black focus:outline-none"
             role="menuitem"
-            onClick={() => pushpage("/homepage")}
+            onClick={() => pushpage('/homepage')}
+            disabled={!drop}
           >
             Home
-          </a>
+          </button>
         </div>
         <div className="py-1">
-          <a
+          <button
             href="/dashboard"
-            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
+            className="block px-4 py-2 w-56 text-left text-md text-gray-700 hover:bg-gray-200 hover:text-black focus:outline-none"
             role="menuitem"
-            onClick={() => pushpage("/dashboard")}
+            onClick={() => pushpage('/dashboard')}
+            disabled={!drop}
           >
             Rating
-          </a>
-          
+          </button>
         </div>
         <div className="py-1">
-          <a
+          <button
             href="/code-readability-services"
-            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
+            className="block px-4 py-2 w-56 text-left text-md text-gray-700 hover:bg-gray-200 hover:text-black focus:outline-none"
             role="menuitem"
-            onClick={() => pushpage("/code-readability-services")}
+            onClick={() => pushpage('/code-readability-services')}
+            disabled={!drop}
           >
             Readability
-          </a>
-          <a
+          </button>
+          <button
             href="/re3-run"
-            className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-200 hover:text-black"
+            className="block px-4 py-2 w-56 text-left text-md text-gray-700 hover:bg-gray-200 hover:text-black focus:outline-none"
             role="menuitem"
-            onClick={() => pushpage("/re3-run")}
+            onClick={() => pushpage('/re3-run')}
+            disabled={!drop}
           >
             Reproducability
-          </a>
+          </button>
         </div>
       </div>
     </div>
