@@ -142,7 +142,7 @@ const UserPage = () => {
       />
       <p className="text-5xl font-roboto text-center text-black m-8 self-start">{`${user.displayName}`}</p>
       <div className="grid grid-cols-2">
-        <div className="min-h-96 w-4/5 border-blue-900 rounded-md m-10 p-3 text-4xl border-4 bg-gradient-to-br from-indigo-500 via-blue-500 to-indigo-500">
+        <div className="min-h-96 w-4/5 rounded-md m-10 p-3 text-4xl bg-gradient-to-br from-blue-300 via-blue-400 to-blue-300 shadow-lg">
           Past Projects:
           {options}
         </div>
