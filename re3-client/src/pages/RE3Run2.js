@@ -53,9 +53,9 @@ var items = [
 ];
 
 const RE3Run = () => {
+  
   const firebase = useContext(FirebaseContext);
   const user = useContext(AuthContext);
-
   const [buildContainer, setBuildContainer] = useState(false);
   const [connected, setConnected] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -86,18 +86,20 @@ const RE3Run = () => {
         console.log('done, check it out', url);
         setBuildContainer(true);
         console.log(url);
-        firebase.currentProjectDoc = firebase.db
-          .collection('containers')
-          .doc(user.uid)
-          .collection(user.uid)
-          .doc();
+        firebase.currentProjectDoc = firebase.db.collection('containers').doc();
         firebase.currentProjectDoc.set(
           {
             URL: url
           },
           { merge: true }
         );
-        firebase.storeProjectData(version, title, name, keywords.split(' '));
+        firebase.storeProjectData(
+          version,
+          title,
+          name,
+          keywords.split(/\s*(?:,|$)\s*/),
+          user.uid
+        );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,10 +143,10 @@ const RE3Run = () => {
   };
 
   function saveInfo() {
-    console.log(orderedFiles.Ordered.items.length);
+    // console.log(orderedFiles.Ordered.items.length);
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
       var file = orderedFiles.Ordered.items[i].content;
-      console.log(file);
+      // console.log(file);
       const uploadTask = firebase.storage
         .ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`)
         .put(file);
@@ -195,14 +197,7 @@ const RE3Run = () => {
     setTitle(document.getElementById('title').value);
     setName(document.getElementById('authorName').value);
     setKeywords(document.getElementById('keyWords').value);
-    console.log(keywords);
-    // var arr = keywords.split(/\s*(?:,|$)\s*/);
-    // console.log('in Documenting');
-    // console.log(title);
-    // console.log(name);
-    // console.log(keywords);
-    // console.log(arr.length);
-    // for (var i = 0; i < arr.length; i++) console.log(arr[i]);
+    setVisible(!visible);
   }
 
   if (!buildContainer) {
@@ -229,7 +224,7 @@ const RE3Run = () => {
                 placeholder="ex: John Doe, Jane Doe"
                 id="authorName"
                 w="w-64 px-4"
-                value=""
+                
               />
             </div>
             <div className="flex flex-row m-2 items-center">
@@ -238,7 +233,7 @@ const RE3Run = () => {
                 placeholder="ex: A Study in Repreducability"
                 id="title"
                 w="w-64 px-4"
-                value=""
+                
               />
             </div>
             <div className="flex flex-row m-2 items-center">
@@ -247,7 +242,7 @@ const RE3Run = () => {
                 placeholder="ex: R code, Repreducability"
                 id="keyWords"
                 w="w-64 px-4"
-                value=""
+                
               />
             </div>
             <button

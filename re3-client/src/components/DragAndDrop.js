@@ -120,7 +120,7 @@ function Temp2({ list, setParentOrder, setSource }) {
   // console.log(setSource);
   // console.log(setParentOrder);
   return (
-    <div className="flex flex-row  bg-blue-100">
+    <div className="flex flex-row rounded-md bg-blue-100">
       <DragDropContext
         onDragEnd={(result) =>
           onDragEnd(result, columns, setColumns, setParentOrder)
@@ -129,7 +129,7 @@ function Temp2({ list, setParentOrder, setSource }) {
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
             <div
-              className="flex flex-col bg-blue-500 m-1 items-center text-2xl font-bold min-h-80 w-72 content-center rounded-md"
+              className="flex flex-col bg-blue-500 m-1 items-center text-2xl font-bold min-h-80 w-72 content-center rounded-md shadow-lg"
               key={columnId}
             >
               <h2 className="m-6">{column.name}</h2>
