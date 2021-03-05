@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '--build-arg',
+        'R_VER=${_R_VERSION}',
+        '--build-arg',
+        'PROJECT_REF=containers/${_PROJECT_REF}',
+        '-t',
+        'us-east1-docker.pkg.dev/re3-docker/re3-docker-repo/re3-image:${_PROJECT_REF}',
+        '.'
+      ]
+images:
+  - 'us-east1-docker.pkg.dev/re3-docker/re3-docker-repo/re3-image:${_PROJECT_REF}'

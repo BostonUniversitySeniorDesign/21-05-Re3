@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from flask_cors import CORS
 from subprocess import PIPE, Popen
@@ -14,10 +15,11 @@ def border_msg(msg):
     dash = "-"*count 
     return "+{dash}+\n| {msg} |\n+{dash}+".format(dash=dash,msg=msg)
 
-def build_and_run(version, user_id, project_doc):
+def build_and_run(version, project_ref):
     print('running')
-    print(f'R_VER={version} user_id={user_id} project_ref={project_doc}')
-    p3 = Popen(['docker', 'build', '--build-arg', f'R_VER={version}', '--build-arg', f'USER_ID={user_id}', '--build-arg', f'PROJECT_REF={project_doc}', '-t', 're3-image', '.'], \
+    print(f'R_VER={version} project_ref={project_ref}')
+    ref_base = os.path.basename(project_ref)
+    p3 = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', f'--substitutions=_R_VERSION="{version}",_PROJECT_REF="{ref_base}"', '.'],
         shell=False, stdout=PIPE, stderr=PIPE) 
     res = ""
     try:
@@ -51,7 +53,7 @@ def build_and_run(version, user_id, project_doc):
         ret = "error: " + e
         return ret
 
-    p3 = Popen(['docker', 'run', '-ti', '--rm', 're3-image'], \
+    p3 = Popen(['gcloud', 'run', 'deploy', 're3', '--image', f'us-east1-docker.pkg.dev/re3-docker/re3-docker-repo/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1'],
         shell=False, stdout=PIPE, stderr=PIPE)
     res = ""
     try:
@@ -86,10 +88,10 @@ def build_and_run(version, user_id, project_doc):
         return ret
     return 'success'
 
-def ack(version, user_id, project_doc):
+def ack(version, project_ref):
     print('Message was received')
-    print('version and uid from client:', version, user_id, project_doc)
-    build_and_run(version, user_id, project_doc)
+    print('version and projectref from client:', version, project_ref)
+    build_and_run(version, project_ref)
 
 @app.route('/', methods=['GET'])
 def say_hello():
@@ -97,9 +99,10 @@ def say_hello():
 
 @socketio.on('connect')
 def connect():
-    version = request.args.get('Version')
-    print("version in connection:")
-    print(version)
+    version = request.args.get('version')
+    project_ref = request.args.get('projectRef')
+    print("version in connection:", version)
+    print("project ref:", project_ref)
     emit('ack', {'data': 'Connected'}, callback=ack)
 
 

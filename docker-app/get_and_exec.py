@@ -1,8 +1,15 @@
 import sys
+import os
+import ssl
 import pyrebase
 import google.oauth2.credentials
 from google.cloud import firestore
 from file_util import get_filenames, fetch_files
+from execute_files import execute_files
+
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 config = {
   "apiKey": "AIzaSyDm7t3kFLtOriXhZyOOJReon1qnuubUbvE",
@@ -15,9 +22,11 @@ config = {
   "measurementId": "G-4PKZCP0PP0"
 }
 
+
 firebase = pyrebase.initialize_app(config)
 auth_client = firebase.auth()
 storage_client = firebase.storage()
+
 
 project_dir = "/usr/workdir/project"
 
@@ -27,18 +36,21 @@ def main():
     token = user['idToken']
     credentials = google.oauth2.credentials.Credentials(token)
 
-    user_id = sys.argv[1]
-    project_ref = sys.argv[2]
-    print("Pulling project from user ID:", user_id)
+    project_ref = sys.argv[1]
     print("Project reference:", project_ref)
 
     db_client = firestore.Client(project=config["projectId"],
                                  credentials=credentials)
 
-    files = get_filenames(db_client, user_id)
-    fetch_files(storage_client, user_id, files, project_dir)
+    files = get_filenames(db_client, project_ref)
+    files_to_exec = fetch_files(files, project_dir)
 
     auth_client.delete_user_account(token)
+
+    for f in files_to_exec:
+        res = execute_files(f)
+        filename = os.path.basename(f)
+        print(f'FILENAME: {filename.strip()}\nRESULT: {res}')
 
 
 if __name__ == "__main__":

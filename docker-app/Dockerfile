@@ -1,10 +1,8 @@
 FROM continuumio/miniconda
 
 ARG R_VER=3.6
-ARG USER_ID
 ARG PROJECT_REF
 
-ENV USER_ID=${USER_ID}
 ENV PROJECT_REF=${PROJECT_REF}
 
 RUN echo $R_VER
@@ -25,9 +23,11 @@ RUN conda init bash
 # create env and install R 
 RUN conda create -y --name venv -c conda-forge \
                     r=${R_VER}\
-                    r-essentials
-RUN conda install -y --name venv python=3.6 \
-                                  pip
+                    r-essentials\
+                    python=3.6\
+                    pip
+# RUN conda install -y --name venv python=3.6 \
+#                                   pip
 
 # activate the env
 RUN echo "conda activate venv" >> ~/.bashrc
