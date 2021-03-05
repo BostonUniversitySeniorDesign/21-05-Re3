@@ -53,7 +53,6 @@ var items = [
 ];
 
 const RE3Run = () => {
-  
   const firebase = useContext(FirebaseContext);
   const user = useContext(AuthContext);
   const [buildContainer, setBuildContainer] = useState(false);
@@ -173,12 +172,19 @@ const RE3Run = () => {
   }, []);
 
   const connect = () => {
-    socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
+    console.log(firebase.currentProjectDoc.path);
+    socket.current = socketIOClient(ENDPOINT, {
+      query: {
+        version: version,
+        projectRef: firebase.currentProjectDoc.path
+      }
+    });
     socket.current.on('ack', (data, cb) => {
-      cb();
+      cb(version, firebase.currentProjectDoc.path);
       setConnected(true);
     });
     socket.current.on('stdout', (data) => {
+      console.log(data);
       setLogs((oldLogs) => [...oldLogs, data.log]);
     });
   };
@@ -224,7 +230,6 @@ const RE3Run = () => {
                 placeholder="ex: John Doe, Jane Doe"
                 id="authorName"
                 w="w-64 px-4"
-                
               />
             </div>
             <div className="flex flex-row m-2 items-center">
@@ -233,7 +238,6 @@ const RE3Run = () => {
                 placeholder="ex: A Study in Repreducability"
                 id="title"
                 w="w-64 px-4"
-                
               />
             </div>
             <div className="flex flex-row m-2 items-center">
@@ -242,7 +246,6 @@ const RE3Run = () => {
                 placeholder="ex: R code, Repreducability"
                 id="keyWords"
                 w="w-64 px-4"
-                
               />
             </div>
             <button
