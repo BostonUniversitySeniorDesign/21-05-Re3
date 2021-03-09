@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const TextInput = ({ w, h, placeholder, id, value, onChange, border }) => {
+const TextInput = ({ w, h, placeholder, id,onChange, border }) => {
   const [ ,setText] = useState('');
 
   function handleChange(event) {
@@ -12,8 +12,6 @@ const TextInput = ({ w, h, placeholder, id, value, onChange, border }) => {
     <input
       placeholder={`${placeholder !== null ? placeholder : 'Enter'}`}
       id={id}
-      defaultValue={`${value !== undefined ? value: "help" }`}
-    //   value={text}
       onChange={handleChange}
       className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 
       border ${border != null ? border : ''} 

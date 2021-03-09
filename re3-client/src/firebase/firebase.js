@@ -256,10 +256,14 @@ export default class Firebase {
     title,
     name,
     keywords,
+    codeLicense,
+    dataLicense
     
   ) => {
-    console.log(docID);
-    console.log(title);
+    // if(codeLicense===undefined)
+    //   console.log("there is no code license");
+    //   else
+    //   console.log(codeLicense);
     const ref = this.db.collection('containers').doc(docID)
     const res = await ref
       .update(
@@ -268,6 +272,8 @@ export default class Firebase {
           title: title,
           author: name,
           keywords: keywords,
+          codeLicense:codeLicense,
+          dataLicense:dataLicense
         },
         { merge: true }
       )
