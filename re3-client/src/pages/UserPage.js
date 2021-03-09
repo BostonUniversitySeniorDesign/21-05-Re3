@@ -4,62 +4,94 @@ import Header from '../components/SimpleHeader';
 import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb2.svg';
 // import RE3Run from '../pages/RE3Run3';
 import useRouter from '../utils/Router';
-import {
-  AiFillCloseCircle,
-} from 'react-icons/ai';
-import TextInput from '../components/TextInput';
+import { AiFillCloseCircle } from 'react-icons/ai';
+// import TextInput from '../components/TextInput';
 
 const UserPage = () => {
   const user = useContext(AuthContext);
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState([]);
-  const [version, setVersion] = useState(0);
+  const [version, setVersion] = useState('');
   const [visible, setVisible] = useState(false);
-  // const [myFiles, setFiles] = useState([]);
+  const [dataLicense, setDataLicense] = useState('');
+  const [codeLicense, setCodeLicense] = useState('');
+  // const [update, setUpdate] = useState(false);
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
+  const[currentID,setCurrentID]=useState('');
   const [keywords, setKeywords] = useState([]);
   const router = useRouter();
 
-  
   function pushpage(page) {
-    console.log("pressed");
+    console.log('pressed');
     router.push(`${page}`);
   }
-  
+
   useEffect(() => {
     const fetchProjects = async () => {
       const projects = await firebase.fetchProjects();
+      console.log(projects);
       setData(projects);
+      
     };
     fetchProjects();
   }, [setData, firebase]);
 
-  function updatePopUp(value) {
+  useEffect(() => {
+    if (currentID !== '') {
+      console.log('updating');
+      console.log(currentID);
+      //   console.log('done, check it out', url);
+      //   setBuildContainer(true);
+      //   console.log(url);
+      // firebase.currentProjectDoc = firebase.db.collection('containers').doc();
+      // console.log(firebase.currentProjectDoc);
+      // firebase.currentProjectDoc.set(
+      //   {
+      //     URL: url
+      //   },
+      //   { merge: true }
+      // );
+      firebase.updateProjectData(currentID, version, title, name, keywords);
+    }
+    // }
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setCurrentID, firebase]);
+
+  const updatePopUp = async (value) => {
+    
     setVersion(value.version);
     setTitle(value.title);
     setName(value.author);
     setKeywords(value.keywords);
-    setVisible(!visible);
-  }
+    setDataLicense(value.dataLicense);
+    setCodeLicense(value.codeLicense);
+    setCurrentID(value.docID);
+    document.getElementById('authorName').value = value.author;
+    document.getElementById('title').value = value.title;
+    document.getElementById('keyWords').value = value.keywords;
+    document.getElementById('version').value = value.version;
+    document.getElementById('dataLicense').value = value.dataLicense;
+    document.getElementById('codeLicense').value = value.codeLicense;
 
-  function updateValues(){
+    setVisible(!visible);
+  };
+
+  function updateButton() {
+    setCurrentID(currentID);
     setTitle(document.getElementById('title').value);
     setName(document.getElementById('authorName').value);
     setKeywords(document.getElementById('keyWords').value);
     setVersion(document.getElementById('version').value);
-    // console.log(document.getElementById('authorName').value);
+    setCodeLicense(document.getElementById('codeLicense').value);
+    setDataLicense(document.getElementById('dataLicense').value);
+    console.log(document.getElementById('authorName').value);
+    // setUpdate(!update);
     setVisible(!visible);
   }
-  function resetValues() {
-    document.getElementById('authorName').value=name;
-    document.getElementById('title').value=title;
-    document.getElementById('keyWords').value=keywords;
-    document.getElementById('version').value=version;
-    setVersion(version);
-    setTitle(title);
-    setName(name);
-    setKeywords(keywords);
+  function xButton() {
+    console.log(codeLicense);
     setVisible(!visible);
   }
 
@@ -67,10 +99,9 @@ const UserPage = () => {
     <button
       className="text-2xl focus:outline-none transform duration-700 hover:translate-x-8 hover:text-gray-300 w-full rounded-md text-left"
       value={data}
-      id={data.title}
-      key={data.title}
+      id={data.docID}
+      key={data.docID}
       onClick={() => updatePopUp(data)}
-      href="/re3-run"
     >
       {data.title}
     </button>
@@ -86,50 +117,89 @@ const UserPage = () => {
       >
         <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
           <button
-            onClick={() => resetValues()}
+            onClick={() => xButton()}
             className="text-2xl self-end text-blue-600"
           >
             <AiFillCloseCircle />
           </button>
-          <div className="flex flex-row m-2 items-center ">
-            <div className="w-32">Author Name: </div>
-            <TextInput
-              placeholder="ex: John Doe, Jane Doe"
-              id="authorName"
-              w="w-64 px-4"
-              value={name}
-            />
-          </div>
-          <div className="flex flex-row m-2 items-center">
-            <div className="w-32">Title: </div>
-            <TextInput
-              placeholder="ex: A Study in Repreducability"
-              id="title"
-              w="w-64 px-4"
-              value={title}
-            />
-          </div>
-          <div className="flex flex-row m-2 items-center">
-            <div className="w-32">Key Words: </div>
-            <TextInput
-              placeholder="ex: R code, Repreducability"
-              id="keyWords"
-              w="w-64 px-4"
-              value={keywords}
-            />
-          </div>
-          <div className="flex flex-row m-2 items-center">
-            <div className="w-32">R Version: </div>
-            <TextInput
-              placeholder="ex: 4.0.0"
-              id="version"
-              w="w-64 px-4"
-              value={version}
-            />
+          <div className="grid grid-rows-7 grid-cols-3 gap-x-8 gap-y-4 items-center text-center mx-10">
+            <div className=" text-2xl grid col-start-1"> Catagories</div>
+            <div className=" text-2xl grid col-start-2">
+              {' '}
+              Current information
+            </div>
+            <div className="text-2xl grid col-start-3"> Edited information</div>
+
+            <div className="grid col-start-1 row-start-2 ">Author Name: </div>
+            <div className="grid col-start-2 row-start-2"> {name} </div>
+            <div className="grid col-start-3 row-start-2">
+              <input
+                placeholder="ex: John Doe, Jane Doe"
+                id="authorName"
+                defaultValue={name}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
+
+            <div className="grid col-start-1 row-start-3">Title: </div>
+            <div className="grid col-start-2  row-start-3"> {title} </div>
+            <div className="grid col-start-3 row-start-3">
+              <input
+                placeholder="ex: A Study in Repreducability"
+                id="title"
+                defaultValue={title}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
+            <div className="grid col-start-1 row-start-4">Key Words: </div>
+            <div className="grid col-start-2 row-start-4"> {keywords} </div>
+            <div className="grid col-start-3 row-start-4">
+              <input
+                placeholder="ex: R code, Repreducability"
+                id="keyWords"
+                defaultValue={keywords}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
+
+            <div className="grid col-start-1 row-start-5">R Version: </div>
+            <div className="grid col-start-2 row-start-5"> {version} </div>
+            <div className="grid col-start-3 row-start-5">
+              <input
+                placeholder="ex: 4.0.0"
+                id="version"
+                defaultValue={version}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
+            <div className="grid col-start-1 row-start-6">Data License: </div>
+            <div className="grid col-start-2 row-start-6">
+              {dataLicense !== undefined ? dataLicense : 'N/A'}
+            </div>
+            <div className="grid col-start-3 row-start-6">
+              <input
+                placeholder="ex: PDDL"
+                id="dataLicense"
+                defaultValue={dataLicense}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
+            <div className="grid col-start-1 row-start-7">Code License: </div>
+            <div className="grid col-start-2 row-start-7">
+              {codeLicense !== undefined ? codeLicense : 'N/A'}
+            </div>
+            <div className="grid col-start-3 row-start-7">
+              <input
+                placeholder="ex: Apache License 2.0"
+                id="codeLicense"
+                defaultValue={codeLicense}
+                className="bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2"
+              ></input>
+            </div>
           </div>
           <button
             className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-2 text-white text-1xl"
-            onClick={() => updateValues()}
+            onClick={() => updateButton()}
           >
             Update
           </button>
@@ -149,16 +219,12 @@ const UserPage = () => {
         <div className="m-10 w-4/5 grid grid-rows-2">
           <div>
             <div className="m-2">
-              
-                <img
-                  alt="thePic"
-                  src={ReproducabilityPic}
-                  className="w-2/5 float-right"
-                />
-                <p className="text-3xl">
-                  Start a new Reproducability Project:
-                </p>
-              
+              <img
+                alt="thePic"
+                src={ReproducabilityPic}
+                className="w-2/5 float-right"
+              />
+              <p className="text-3xl">Start a new Reproducable Project:</p>
             </div>
             <div>
               <button
