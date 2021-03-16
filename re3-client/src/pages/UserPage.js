@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { FirebaseContext, AuthContext } from '../firebase';
 import Header from '../components/SimpleHeader';
-import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb2.svg';
-// import RE3Run from '../pages/RE3Run3';
-import useRouter from '../utils/Router';
+import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
+import MLPic from '../assets/img/undraw_proud_coder_7ain.svg';
 import { AiFillCloseCircle } from 'react-icons/ai';
-// import TextInput from '../components/TextInput';
+import Card from '../components/Card'
+
 
 const UserPage = () => {
+
+  
   const user = useContext(AuthContext);
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState([]);
@@ -17,17 +19,11 @@ const UserPage = () => {
   const [codeLicense, setCodeLicense] = useState('');
   const [update, setUpdate] = useState(false);
   const [edit, setEdit] = useState(false);
-  // const [dockerRun, setdockerRun]=useState(false);
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [currentID, setCurrentID] = useState('');
   const [keywords, setKeywords] = useState([]);
-  const router = useRouter();
 
-  function pushpage(page) {
-    console.log('pressed');
-    router.push(`${page}`);
-  }
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -42,17 +38,6 @@ const UserPage = () => {
     if (currentID !== '') {
       console.log('updating');
       console.log(currentID);
-      //   console.log('done, check it out', url);
-      //   setBuildContainer(true);
-      //   console.log(url);
-      // firebase.currentProjectDoc = firebase.db.collection('containers').doc();
-      // console.log(firebase.currentProjectDoc);
-      // firebase.currentProjectDoc.set(
-      //   {
-      //     URL: url
-      //   },
-      //   { merge: true }
-      // );
       firebase.updateProjectData(
         currentID,
         version,
@@ -63,8 +48,6 @@ const UserPage = () => {
         dataLicense
       );
     }
-    // }
-    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setCurrentID, firebase, update]);
 
@@ -240,7 +223,7 @@ const UserPage = () => {
               ></input>
             </div>
           </div>
-          <div className="flex flex-row">
+          <div className="flex flex-row mt-4">
             <button
               className={`w-32 h-full ${
                 edit ? 'bg-gray-300 text-black' : 'bg-blue-400 text-white'
@@ -273,26 +256,29 @@ const UserPage = () => {
           Past Projects:
           {options}
         </div>
-        <div className="m-10 w-4/5 grid grid-rows-2">
-          <div>
-            <div className="m-2">
-              <img
-                alt="thePic"
-                src={ReproducabilityPic}
-                className="w-2/5 float-right"
-              />
-              <p className="text-3xl">Start a new Reproducable Project:</p>
-            </div>
-            <div>
-              <button
-                className=" w-full p-2 bg-blue-400 hover:bg-indigo-500 rounded-md text-white self-center"
-                onClick={() => pushpage('re3-run')}
-                href="/re3-run"
-              >
-                Let's Go
-              </button>
-            </div>
-          </div>
+        <div className="m-10 w-4/5 grid grid-rows-2 gap-y-8">
+          <Card w="w-4/5 px-4" h="h-64 py-4" color="bg-transparent">
+            <a href="/code-readability-services">
+              <div className=" justify-center text-center text-2xl font-roboto font-bold hover:text-blue-800 hover:underline">
+                Check Readability of code files
+              </div>
+
+              <img alt="thePic" src={MLPic} className="w-2/3 float-right" />
+            </a>
+          </Card>
+
+          <Card w="w-4/5 px-4" h="h-64 py-4" color="bg-transparent">
+            <a href="/re3-run">
+              <div className=" justify-center text-center text-2xl font-roboto font-bold hover:text-blue-800 hover:underline">
+                Start new Reproducible project
+                <img
+                  alt="thePic"
+                  src={ReproducabilityPic}
+                  className="w-2/3 float-right"
+                />
+              </div>
+            </a>
+          </Card>
         </div>
       </div>
     </div>
