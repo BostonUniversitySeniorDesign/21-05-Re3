@@ -10,6 +10,7 @@ const CodeReadability = () => {
     const [selectedFile] = useState(null);
     const [fileContents,setFileContents] = useState('');
     const [fileRating, setFileRating] = useState('0');
+    const [suggestion,setSuggestion] = useState('')
 
     useEffect(() =>{
       console.log(fileContents.length);
@@ -31,13 +32,17 @@ const CodeReadability = () => {
     }
 
     const callAPI = () => {
-      //const response = fetch('http://localhost:5000/',{
-      const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
+      const response = fetch('http://localhost:5000/',{
+      // const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
         method: 'POST',
         body: fileContents
       })
       .then(response => response.json()
-      .then(data => setFileRating(data["readabilityScore"])))
+      .then(function setThingys(data){
+      console.log("hello");
+      setFileRating(data["readabilityScore"]);
+      setSuggestion(data["suggestion"])}
+      ))
       .catch(error => {
         console.error('Error: ', error);
       });
@@ -66,17 +71,23 @@ const CodeReadability = () => {
               </label>
             {/* </form> */}
           </div>
-          <div className = "flex flex-col justify-start py-8">
-              <div>
+          <div className = "flex justify-start py-8 grid grid-rows-5">
+            <div className = "row-start-1">
+              <div className="flex-none">
                 <button onClick={() => callAPI()}  className={`text-white rounded-md px-20 py-2 h-10 w-30 ${fileContents === '' ? 'bg-gray-500' : 'bg-blue-700 hover:bg-blue-500 focus:outline-none'}`} disabled = {fileContents === ''}>
                   Get Code Rating
                 </button>    
               </div>
-              <div className="text-center my-4">
+              <div className="flex-none text-center my-4">
                 <text className={`font-roboto text-xl font-bold ${parseFloat(fileRating) >= 3.0 ? (parseFloat(fileRating) >= 6.0 ? 'text-green-600' : 'text-yellow-500'): (parseFloat(fileRating) === 0.0 ? 'text-black' : 'text-red-600')}`}> {parseFloat(fileRating).toFixed(2)} </text>
               </div>
-              <ColorBar completed={(parseFloat(fileRating).toFixed(2))*10} />
+              <ColorBar className="flex-none" completed={(parseFloat(fileRating).toFixed(2))*10} />
             </div>
+            <div className="flex-none border-blue-400 border-4 rounded-lg row-start-4 text-red-600 text-xs">
+              <text className="flex-none"> {suggestion} </text> 
+            </div>
+          </div>
+          
         </div>
         
       </div>
