@@ -1,5 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
+    id: ${_PROJECT_REF}
     args:
       [
         'build',

@@ -68,6 +68,7 @@ const RE3Run = () => {
   const [keywords, setKeywords] = useState('');
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
+  const bottomRef = useRef(null);
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -169,10 +170,11 @@ const RE3Run = () => {
         target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
       });
     }
-  }, []);
+  }, [logs]);
 
   const connect = () => {
     console.log(firebase.currentProjectDoc.path);
+    console.log('connecting from client');
     socket.current = socketIOClient(ENDPOINT, {
       query: {
         version: version,
@@ -180,11 +182,10 @@ const RE3Run = () => {
       }
     });
     socket.current.on('ack', (data, cb) => {
-      cb(version, firebase.currentProjectDoc.path);
+      cb(data.sessionID, version, firebase.currentProjectDoc.path);
       setConnected(true);
     });
     socket.current.on('stdout', (data) => {
-      console.log(data);
       setLogs((oldLogs) => [...oldLogs, data.log]);
     });
   };
@@ -366,6 +367,7 @@ const RE3Run = () => {
               {log}
             </p>
           ))}
+          <div ref={bottomRef} />
         </div>
         <button
           onClick={() => connect()}
@@ -377,6 +379,12 @@ const RE3Run = () => {
           }`}
         >
           Run Code
+        </button>
+        <button
+          onClick={() => socket.current.emit('test')}
+          className={`px-4 py-2 font-roboto text-3xl rounded-md text-white ${'bg-blue-500 cursor-pointer'}`}
+        >
+          Test
         </button>
       </div>
     );
