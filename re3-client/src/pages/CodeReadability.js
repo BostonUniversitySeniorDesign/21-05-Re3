@@ -11,6 +11,7 @@ const CodeReadability = () => {
     const [fileContents,setFileContents] = useState('');
     const [fileRating, setFileRating] = useState('0');
     const [suggestion,setSuggestion] = useState('')
+    const [arrSuggestion, setArrSuggestion] = useState([]);
 
     useEffect(() =>{
       console.log(fileContents.length);
@@ -31,27 +32,27 @@ const CodeReadability = () => {
       }
     }
 
-    const callAPI = () => {
-      const response = fetch('http://localhost:5000/',{
+    const callAPI = async () => {
+      var response = await fetch('http://localhost:5000/',{
       // const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
         method: 'POST',
         body: fileContents
       })
       .then(response => response.json()
       .then(function setThingys(data){
-      console.log("hello");
-      
       setFileRating(data["readabilityScore"]);
       setSuggestion(data["suggestion"]);
-      console.log(data);
-    console.log(suggestion);
-  }
-      
-      ))
+      }))
       .catch(error => {
         console.error('Error: ', error);
       });
-        return response
+
+      var arr = suggestion.split(',');
+      var arr2 = arr.map((sug) =>
+        <li>{sug}</li>
+      );
+      setArrSuggestion(arr2);
+      return response
     }
     
     
@@ -114,9 +115,16 @@ const CodeReadability = () => {
               className="flex-none"
               completed={parseFloat(fileRating).toFixed(2) * 10}
             />
-
+            <ul>
+                <li>
+                  {"Hello"}
+                </li>
+                <li>
+                  {"ola"}
+                </li>
+            </ul>
             <div className="flex flex-none resize-y px-2 py-2 w-64 h-72 my-10 border-blue-700 border-4 rounded-lg text-red-600 text-md self-center bg-white">
-              {suggestion}
+                {suggestion}
             </div>
           </div>
         </div>
@@ -125,3 +133,4 @@ const CodeReadability = () => {
 }
 
 export default CodeReadability;
+
