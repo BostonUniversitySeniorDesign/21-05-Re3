@@ -11,7 +11,7 @@ const CodeReadability = () => {
     const [fileContents,setFileContents] = useState('');
     const [fileRating, setFileRating] = useState('0');
     const [suggestion,setSuggestion] = useState('')
-    const [arrSuggestion, setArrSuggestion] = useState([]);
+    const [arrSuggestion, setArrSuggestion] = useState([""]);
 
     useEffect(() =>{
       console.log(fileContents.length);
@@ -42,16 +42,12 @@ const CodeReadability = () => {
       .then(function setThingys(data){
       setFileRating(data["readabilityScore"]);
       setSuggestion(data["suggestion"]);
+      setArrSuggestion(arrSuggestion => data["suggestion"].split(',').map((sug)=><li>{sug}</li>))
       }))
       .catch(error => {
         console.error('Error: ', error);
       });
-
-      var arr = suggestion.split(',');
-      var arr2 = arr.map((sug) =>
-        <li>{sug}</li>
-      );
-      setArrSuggestion(arr2);
+      console.log(arrSuggestion);
       return response
     }
     
@@ -115,16 +111,14 @@ const CodeReadability = () => {
               className="flex-none"
               completed={parseFloat(fileRating).toFixed(2) * 10}
             />
-            <ul>
-                <li>
-                  {"Hello"}
-                </li>
-                <li>
-                  {"ola"}
-                </li>
-            </ul>
-            <div className="flex flex-none resize-y px-2 py-2 w-64 h-72 my-10 border-blue-700 border-4 rounded-lg text-red-600 text-md self-center bg-white">
-                {suggestion}
+            <div className="flex flex-none resize-y px-2 py-2 w-64 h-72 my-10 border-blue-700 border-4 rounded-lg text-red-600 text-s self-center bg-white">
+              {/*TODO: Layan can you plase make this consider invisble unless there is some content in the suggestion string */}
+              <text  visible={suggestion !== ''}> Consider: </text>
+              {/* Also the only issue is that the bullet points are appearing outside of the suggestion box 
+              so I tried to increase the width but I think it is at a maximum width already */}
+              <ul className="list-disc">
+                {arrSuggestion}
+              </ul>
             </div>
           </div>
         </div>
