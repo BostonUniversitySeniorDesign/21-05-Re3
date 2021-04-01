@@ -171,7 +171,7 @@ const RE3Run = () => {
     })
       .then((response) =>
         response.json().then((data) => {
-          console.log(data);
+          //console.log(data);
           //setScores(data);
           firebase.storeProjectScores(data);
         })
@@ -186,14 +186,14 @@ const RE3Run = () => {
     var dict = {};
 
     for (const item of orderedFiles.Ordered.items) {
-      console.log(item.content);
+      //console.log(item.content);
 
       await new Promise((resolve, reject) => {
         var file = item.content;
         let fileReader = new FileReader();
 
         fileReader.onload = function (e) {
-          console.log(file.name);
+          //console.log(file.name);
           dict[file.name] = e.target.result;
           resolve(fileReader.result);
         };
@@ -202,10 +202,8 @@ const RE3Run = () => {
       });
     }
 
-    //console.log(dict);
+    console.log(dict);
     await callAPI(dict);
-
-    console.log(scores);
   }
 
   useEffect(() => {

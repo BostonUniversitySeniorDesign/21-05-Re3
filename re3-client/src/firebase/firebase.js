@@ -302,10 +302,10 @@ export default class Firebase {
   };
 
   storeProjectScores = async (scores) => {
-    //const user = this.auth().currentUser;
+    const user = this.auth().currentUser;
     //const ref = this.currentProjectDoc;
-    //const ref = this.db.collection('scores').doc(user.uid);
-    const ref = this.currentProjectDoc;
+    const ref = this.db.collection('scores').doc(user.uid);
+    //const ref = this.currentProjectDoc;
     const res = await ref
       .set(
         {
