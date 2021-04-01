@@ -224,7 +224,8 @@ export default class Firebase {
     keywords,
     user,
     dataLicense,
-    codeLicense
+    codeLicense,
+    scores
   ) => {
     console.log(version);
     console.log(title);
@@ -238,11 +239,13 @@ export default class Firebase {
           keywords: keywords,
           userID: user,
           dataLicense: dataLicense,
-          codeLicense: codeLicense
+          codeLicense: codeLicense,
+          readability_scores: scores
         },
         { merge: true }
       )
       .then(() => {
+        console.log('success, stored - ', scores);
         return 1;
       })
       .catch((error) => {
@@ -299,27 +302,5 @@ export default class Firebase {
       });
 
     return projects;
-  };
-
-  storeProjectScores = async (scores) => {
-    const user = this.auth().currentUser;
-    //const ref = this.currentProjectDoc;
-    const ref = this.db.collection('scores').doc(user.uid);
-    //const ref = this.currentProjectDoc;
-    const res = await ref
-      .set(
-        {
-          readability_scores: scores
-        },
-        { merge: true }
-      )
-      .then(() => {
-        console.log('success, stored - ', scores);
-        return 1;
-      })
-      .catch((error) => {
-        return -1;
-      });
-    return res;
   };
 }

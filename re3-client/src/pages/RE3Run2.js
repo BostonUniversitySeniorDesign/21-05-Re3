@@ -70,8 +70,7 @@ const RE3Run = () => {
   const [keywords, setKeywords] = useState('');
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
-  //const [scores, setScores] = useState({});
-  //const [allFiles, setAllFiles] = useState([]);
+  const [scores, setScores] = useState({});
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -103,7 +102,8 @@ const RE3Run = () => {
           keywords.split(/\s*(?:,|$)\s*/),
           user.uid,
           dataLicense,
-          codeLicense
+          codeLicense,
+          scores
         );
       }
     }
@@ -147,8 +147,9 @@ const RE3Run = () => {
       });
   };
 
-  function saveInfo() {
+  async function saveInfo() {
     // console.log(orderedFiles.Ordered.items.length);
+    await saveScores();
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
       var file = orderedFiles.Ordered.items[i].content;
       // console.log(file);
@@ -160,7 +161,6 @@ const RE3Run = () => {
         complete: handleTaskComplete(file.name)
       });
     }
-    saveScores();
   }
 
   async function callAPI(fileContents) {
@@ -171,9 +171,8 @@ const RE3Run = () => {
     })
       .then((response) =>
         response.json().then((data) => {
-          //console.log(data);
-          //setScores(data);
-          firebase.storeProjectScores(data);
+          console.log(data);
+          setScores(data);
         })
       )
       .catch((error) => {
