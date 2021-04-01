@@ -258,13 +258,12 @@ export default class Firebase {
     keywords,
     codeLicense,
     dataLicense
-    
   ) => {
     // if(codeLicense===undefined)
     //   console.log("there is no code license");
     //   else
     //   console.log(codeLicense);
-    const ref = this.db.collection('containers').doc(docID)
+    const ref = this.db.collection('containers').doc(docID);
     const res = await ref
       .update(
         {
@@ -272,8 +271,8 @@ export default class Firebase {
           title: title,
           author: name,
           keywords: keywords,
-          codeLicense:codeLicense,
-          dataLicense:dataLicense
+          codeLicense: codeLicense,
+          dataLicense: dataLicense
         },
         { merge: true }
       )
@@ -300,5 +299,27 @@ export default class Firebase {
       });
 
     return projects;
+  };
+
+  storeProjectScores = async (scores) => {
+    //const user = this.auth().currentUser;
+    //const ref = this.currentProjectDoc;
+    //const ref = this.db.collection('scores').doc(user.uid);
+    const ref = this.currentProjectDoc;
+    const res = await ref
+      .set(
+        {
+          readability_scores: scores
+        },
+        { merge: true }
+      )
+      .then(() => {
+        console.log('success, stored - ', scores);
+        return 1;
+      })
+      .catch((error) => {
+        return -1;
+      });
+    return res;
   };
 }

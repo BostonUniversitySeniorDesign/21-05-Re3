@@ -53,7 +53,6 @@ var items = [
 ];
 
 const RE3Run = () => {
-  
   const firebase = useContext(FirebaseContext);
   const user = useContext(AuthContext);
   const [buildContainer, setBuildContainer] = useState(false);
@@ -71,6 +70,8 @@ const RE3Run = () => {
   const [keywords, setKeywords] = useState('');
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
+  //const [scores, setScores] = useState({});
+  //const [allFiles, setAllFiles] = useState([]);
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -102,7 +103,7 @@ const RE3Run = () => {
           keywords.split(/\s*(?:,|$)\s*/),
           user.uid,
           dataLicense,
-          codeLicense 
+          codeLicense
         );
       }
     }
@@ -159,6 +160,52 @@ const RE3Run = () => {
         complete: handleTaskComplete(file.name)
       });
     }
+    saveScores();
+  }
+
+  async function callAPI(fileContents) {
+    const response = await fetch('http://localhost:5000/get_scores', {
+      //const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
+      method: 'POST',
+      body: JSON.stringify(fileContents)
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          console.log(data);
+          //setScores(data);
+          firebase.storeProjectScores(data);
+        })
+      )
+      .catch((error) => {
+        console.error('Error: ', error);
+      });
+    return response;
+  }
+
+  async function saveScores() {
+    var dict = {};
+
+    for (const item of orderedFiles.Ordered.items) {
+      console.log(item.content);
+
+      await new Promise((resolve, reject) => {
+        var file = item.content;
+        let fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+          console.log(file.name);
+          dict[file.name] = e.target.result;
+          resolve(fileReader.result);
+        };
+
+        fileReader.readAsText(file);
+      });
+    }
+
+    //console.log(dict);
+    await callAPI(dict);
+
+    console.log(scores);
   }
 
   useEffect(() => {

@@ -31,8 +31,8 @@ const CodeReadability = () => {
     }
 
     const callAPI = () => {
-      //const response = fetch('http://localhost:5000/',{
-      const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
+      const response = fetch('http://localhost:5000/',{
+      //const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
         method: 'POST',
         body: fileContents
       })
