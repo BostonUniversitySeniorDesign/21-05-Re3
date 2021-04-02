@@ -217,7 +217,16 @@ export default class Firebase {
 
   // REPRODUCIBILITY
   // {version: version, title: title, name: name, keywords: keywords}
-  storeProjectData = async (version, title, name, keywords, user) => {
+  storeProjectData = async (
+    version,
+    title,
+    name,
+    keywords,
+    user,
+    dataLicense,
+    codeLicense,
+    scores
+  ) => {
     console.log(version);
     console.log(title);
     const ref = this.currentProjectDoc;
@@ -228,7 +237,45 @@ export default class Firebase {
           title: title,
           author: name,
           keywords: keywords,
-          userID: user
+          userID: user,
+          dataLicense: dataLicense,
+          codeLicense: codeLicense,
+          readability_scores: scores
+        },
+        { merge: true }
+      )
+      .then(() => {
+        console.log('success, stored - ', scores);
+        return 1;
+      })
+      .catch((error) => {
+        return -1;
+      });
+    return res;
+  };
+  updateProjectData = async (
+    docID,
+    version,
+    title,
+    name,
+    keywords,
+    codeLicense,
+    dataLicense
+  ) => {
+    // if(codeLicense===undefined)
+    //   console.log("there is no code license");
+    //   else
+    //   console.log(codeLicense);
+    const ref = this.db.collection('containers').doc(docID);
+    const res = await ref
+      .update(
+        {
+          version: version,
+          title: title,
+          author: name,
+          keywords: keywords,
+          codeLicense: codeLicense,
+          dataLicense: dataLicense
         },
         { merge: true }
       )
@@ -248,7 +295,10 @@ export default class Firebase {
       .where('userID', '==', `${user.uid}`)
       .get()
       .then((querySnapshot) => {
-        return querySnapshot.docs.map((doc) => doc.data());
+        return querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          docID: doc.id
+        }));
       });
 
     return projects;

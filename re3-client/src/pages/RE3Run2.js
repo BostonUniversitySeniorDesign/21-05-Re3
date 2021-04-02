@@ -64,11 +64,13 @@ const RE3Run = () => {
   const [visible, setVisible] = useState(false);
   const [myFiles, setFiles] = useState([]);
   const [title, setTitle] = useState('');
+  const [dataLicense, setDataLicense] = useState('');
+  const [codeLicense, setCodeLicense] = useState('');
   const [name, setName] = useState('');
   const [keywords, setKeywords] = useState('');
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
-  const bottomRef = useRef(null);
+  const [scores, setScores] = useState({});
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -98,7 +100,10 @@ const RE3Run = () => {
           title,
           name,
           keywords.split(/\s*(?:,|$)\s*/),
-          user.uid
+          user.uid,
+          dataLicense,
+          codeLicense,
+          scores
         );
       }
     }
@@ -130,31 +135,78 @@ const RE3Run = () => {
     console.log(name);
   }
 
-  const handleTaskComplete = (filename) => {
-    firebase.storage
-      .ref('reproducibility_projects')
-      .child(user.uid)
-      .child(user.uid)
-      .child(filename)
-      .getDownloadURL()
-      .then((fireBaseUrl) => {
-        setCurrentURL(fireBaseUrl);
-      });
-  };
-
-  function saveInfo() {
+  async function saveInfo() {
     // console.log(orderedFiles.Ordered.items.length);
+    await saveScores();
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
       var file = orderedFiles.Ordered.items[i].content;
       // console.log(file);
+      console.log('starting task');
+      const filename = file.name;
       const uploadTask = firebase.storage
         .ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`)
         .put(file);
       //initiates the firebase side uploading
       uploadTask.on('state_changed', {
-        complete: handleTaskComplete(file.name)
+        complete: () => {
+          firebase.storage
+            .ref('reproducibility_projects')
+            .child(user.uid)
+            .child(user.uid)
+            .child(filename)
+            .getDownloadURL()
+            .then((fireBaseUrl) => {
+              console.log('yeah man looks good');
+              setCurrentURL(fireBaseUrl);
+            })
+            .catch((e) => {
+              console.log('not good man', e);
+            });
+        }
       });
     }
+  }
+
+  async function callAPI(fileContents) {
+    const response = await fetch('http://localhost:5000/get_scores', {
+      //const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
+      method: 'POST',
+      body: JSON.stringify(fileContents)
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          console.log(data);
+          setScores(data);
+        })
+      )
+      .catch((error) => {
+        console.error('Error: ', error);
+      });
+    return response;
+  }
+
+  async function saveScores() {
+    var dict = {};
+
+    for (const item of orderedFiles.Ordered.items) {
+      //console.log(item.content);
+
+      await new Promise((resolve, reject) => {
+        var file = item.content;
+        let fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+          //console.log(file.name);
+          dict[file.name] = e.target.result;
+          resolve(fileReader.result);
+        };
+
+        fileReader.readAsText(file);
+      });
+    }
+
+    console.log(dict);
+    await callAPI(dict);
   }
 
   useEffect(() => {
@@ -201,8 +253,8 @@ const RE3Run = () => {
     </div>
   );
   function Documenting() {
-    setTitle(document.getElementById('title').value);
-    setName(document.getElementById('authorName').value);
+    setCodeLicense(document.getElementById('codeLicense').value);
+    setDataLicense(document.getElementById('dataLicense').value);
     setKeywords(document.getElementById('keyWords').value);
     setVisible(!visible);
   }
@@ -218,39 +270,48 @@ const RE3Run = () => {
             visible ? 'flex' : 'hidden'
           }`}
         >
-          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+          <div className="w-2/3 h-full flex flex-col items-center justify-center bg-gray-200 rounded-md ">
             <button
               onClick={() => setVisible(!visible)}
-              className="text-2xl self-end text-blue-600"
+              className="text-3xl self-end text-blue-600 m-4"
             >
               <AiFillCloseCircle />
             </button>
-            <div className="flex flex-row m-2 items-center ">
-              <div className="w-32">Author Name: </div>
+            <div className="text-3xl text-center">
+              Licenses and associated keywords
+            </div>
+            <div className="flex flex-row items-center m-4 ">
+              <div className="w-48 text-2xl font-light">Code License: </div>
               <TextInput
-                placeholder="ex: John Doe, Jane Doe"
-                id="authorName"
+                placeholder="ex: Apache License 2.0"
+                id="codeLicense"
                 w="w-64 px-4"
+                border="shadow"
+                onChange={setCodeLicense}
               />
             </div>
-            <div className="flex flex-row m-2 items-center">
-              <div className="w-32">Title: </div>
+            <div className="flex flex-row items-center m-4">
+              <div className="w-48 text-2xl font-light">Data License: </div>
               <TextInput
-                placeholder="ex: A Study in Repreducability"
-                id="title"
+                placeholder="ex: PDDL"
+                id="dataLicense"
                 w="w-64 px-4"
+                border="shadow"
+                onChange={setDataLicense}
               />
             </div>
-            <div className="flex flex-row m-2 items-center">
-              <div className="w-32">Key Words: </div>
+            <div className="flex flex-row items-center m-4">
+              <div className="w-48 text-2xl font-light">Key Words: </div>
               <TextInput
                 placeholder="ex: R code, Repreducability"
                 id="keyWords"
                 w="w-64 px-4"
+                border="shadow"
+                onChange={setKeywords}
               />
             </div>
             <button
-              className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-2 text-white text-1xl"
+              className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-8 text-white text-1xl"
               onClick={Documenting}
             >
               Done
@@ -264,11 +325,39 @@ const RE3Run = () => {
         />
 
         <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
-          Code Information
+          Code and Dataset Information
         </div>
 
-        <div className="grid grid-rows-5 grid-flow-col gap-8 mx-8 my-2">
-          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+        <div className="grid grid-rows-5 grid-flow-col gap-6 mx-7 my-2 px-16">
+          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
+              Author Name
+            </div>
+            <TextInput
+              placeholder="ex: John Doe, Jane Doe"
+              id="authorName"
+              w="w-44 px-2"
+              onChange={setName}
+              border="border-black"
+            />
+
+            {name === '' ? hourglass : checkmark}
+          </div>
+          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
+              Title
+            </div>
+            <TextInput
+              placeholder="ex: A Study in Repreducability"
+              id="title"
+              w="w-44 px-2"
+              border="border-black"
+              onChange={setTitle}
+            />
+
+            {title === '' ? hourglass : checkmark}
+          </div>
+          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
             <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
               R Version Used
             </div>
@@ -282,11 +371,11 @@ const RE3Run = () => {
             <div>{version === 0 ? hourglass : checkmark}</div>
           </div>
 
-          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
+          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
               Files to Upload
             </div>
-            <div>
+            <div className="items-center">
               <UploadButton
                 title={myFiles.length === 0 ? 'Select Files' : 'Add Files'}
                 onChange={FileDetailsInfo}
@@ -295,22 +384,7 @@ const RE3Run = () => {
             {myFiles.length === 0 ? hourglass : checkmark}
           </div>
 
-          {/* <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
-              Files ordered?
-            </div>
-            <div>
-              <button
-                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-                //onClick={}
-              >
-                Yes!
-              </button>
-            </div>
-            <div>{orderedFiles.length === 0 ? hourglass : checkmark}</div>
-          </div> */}
-
-          <div className="grid grid-cols-3 gap-8 justify-start self-start items-center">
+          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
             <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
               Information
             </div>
@@ -322,11 +396,13 @@ const RE3Run = () => {
                 Enter Information
               </button>
             </div>
-            <div>{title === '' && name === '' ? hourglass : checkmark}</div>
+            <div>
+              {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
+            </div>
           </div>
 
-          <div className="row-span-5 items-center self-right">
-            <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ml-16">
+          <div className="row-span-4 items-center self-right">
+            <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
               <div className="flex flex-row m-2 p-2">
                 <DragAndDrop
                   list={myFiles.map((item, idx) => ({
@@ -367,7 +443,7 @@ const RE3Run = () => {
               {log}
             </p>
           ))}
-          <div ref={bottomRef} />
+          {/* <div ref={bottomRef} /> */}
         </div>
         <button
           onClick={() => connect()}
