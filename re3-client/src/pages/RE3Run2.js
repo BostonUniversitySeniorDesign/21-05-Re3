@@ -135,30 +135,34 @@ const RE3Run = () => {
     console.log(name);
   }
 
-  const handleTaskComplete = (filename) => {
-    firebase.storage
-      .ref('reproducibility_projects')
-      .child(user.uid)
-      .child(user.uid)
-      .child(filename)
-      .getDownloadURL()
-      .then((fireBaseUrl) => {
-        setCurrentURL(fireBaseUrl);
-      });
-  };
-
   async function saveInfo() {
     // console.log(orderedFiles.Ordered.items.length);
     await saveScores();
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
       var file = orderedFiles.Ordered.items[i].content;
       // console.log(file);
+      console.log('starting task');
+      const filename = file.name;
       const uploadTask = firebase.storage
         .ref(`/reproducibility_projects/${user.uid}/${user.uid}/${file.name}`)
         .put(file);
       //initiates the firebase side uploading
       uploadTask.on('state_changed', {
-        complete: handleTaskComplete(file.name)
+        complete: () => {
+          firebase.storage
+            .ref('reproducibility_projects')
+            .child(user.uid)
+            .child(user.uid)
+            .child(filename)
+            .getDownloadURL()
+            .then((fireBaseUrl) => {
+              console.log('yeah man looks good');
+              setCurrentURL(fireBaseUrl);
+            })
+            .catch((e) => {
+              console.log('not good man', e);
+            });
+        }
       });
     }
   }
