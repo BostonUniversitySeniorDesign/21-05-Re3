@@ -225,7 +225,8 @@ export default class Firebase {
     user,
     dataLicense,
     codeLicense,
-    scores
+    scores,
+    status
   ) => {
     console.log(version);
     console.log(title);
@@ -240,7 +241,8 @@ export default class Firebase {
           userID: user,
           dataLicense: dataLicense,
           codeLicense: codeLicense,
-          readability_scores: scores
+          readability_scores: scores,
+          status: status
         },
         { merge: true }
       )

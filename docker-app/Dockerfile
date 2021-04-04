@@ -1,11 +1,5 @@
 FROM continuumio/miniconda
 
-ARG R_VER=3.6
-ARG PROJECT_REF
-
-ENV PROJECT_REF=${PROJECT_REF}
-
-RUN echo $R_VER
 RUN apt-get update
 RUN apt-get install -y software-properties-common
 
@@ -20,14 +14,10 @@ RUN echo 'alias vim="vim.tiny"' >> ~/.bashrc
 
 RUN conda init bash
 
-# create env and install R 
 RUN conda create -y --name venv -c conda-forge \
-                    r=${R_VER}\
                     r-essentials\
                     python=3.6\
                     pip
-# RUN conda install -y --name venv python=3.6 \
-#                                   pip
 
 # activate the env
 RUN echo "conda activate venv" >> ~/.bashrc
@@ -37,8 +27,17 @@ RUN pip install --no-cache-dir google-cloud-firestore \
                                 pyrebase4 \
                                 google-auth
 
+# new
 COPY run_workflow.sh execute_files.py file_util.py get_and_exec.py ./
-
 RUN ["chmod", "+x", "run_workflow.sh"]
+
+ARG R_VER=3.6
+ARG PROJECT_REF
+
+ENV PROJECT_REF=${PROJECT_REF}
+
+RUN echo $R_VER
+
+RUN conda install -y --name venv r=${R_VER}
 
 ENTRYPOINT sh run_workflow.sh 

@@ -9,3 +9,5 @@ requirements.txt
 *.pyd
 __pycache__
 .pytest_cache
+fb_service.json
+*.json

@@ -103,8 +103,10 @@ const RE3Run = () => {
           user.uid,
           dataLicense,
           codeLicense,
-          scores
+          scores,
+          'pending'
         );
+        startRun();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -210,12 +212,6 @@ const RE3Run = () => {
   }
 
   useEffect(() => {
-    return () => {
-      socket.current.disconnect();
-    };
-  }, [socket]);
-
-  useEffect(() => {
     if (containerRef.current !== null) {
       containerRef.current.addEventListener('DOMNodeInserted', (event) => {
         const { currentTarget: target } = event;
@@ -224,22 +220,19 @@ const RE3Run = () => {
     }
   }, [logs]);
 
-  const connect = () => {
-    console.log(firebase.currentProjectDoc.path);
-    console.log('connecting from client');
-    socket.current = socketIOClient(ENDPOINT, {
-      query: {
+  const startRun = async () => {
+    const response = await fetch('http://192.168.0.2:8080/run', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         version: version,
         projectRef: firebase.currentProjectDoc.path
-      }
+      })
     });
-    socket.current.on('ack', (data, cb) => {
-      cb(data.sessionID, version, firebase.currentProjectDoc.path);
-      setConnected(true);
-    });
-    socket.current.on('stdout', (data) => {
-      setLogs((oldLogs) => [...oldLogs, data.log]);
-    });
+    setConnected(true);
+    console.log(response);
   };
 
   let hourglass = (
@@ -446,7 +439,7 @@ const RE3Run = () => {
           {/* <div ref={bottomRef} /> */}
         </div>
         <button
-          onClick={() => connect()}
+          onClick={startRun}
           disabled={connected}
           className={`px-4 py-2 font-roboto text-3xl rounded-md text-white ${
             connected
