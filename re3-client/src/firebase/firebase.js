@@ -224,7 +224,8 @@ export default class Firebase {
     keywords,
     user,
     dataLicense,
-    codeLicense
+    codeLicense,
+    scores
   ) => {
     console.log(version);
     console.log(title);
@@ -238,11 +239,13 @@ export default class Firebase {
           keywords: keywords,
           userID: user,
           dataLicense: dataLicense,
-          codeLicense: codeLicense
+          codeLicense: codeLicense,
+          readability_scores: scores
         },
         { merge: true }
       )
       .then(() => {
+        console.log('success, stored - ', scores);
         return 1;
       })
       .catch((error) => {
@@ -258,13 +261,12 @@ export default class Firebase {
     keywords,
     codeLicense,
     dataLicense
-    
   ) => {
     // if(codeLicense===undefined)
     //   console.log("there is no code license");
     //   else
     //   console.log(codeLicense);
-    const ref = this.db.collection('containers').doc(docID)
+    const ref = this.db.collection('containers').doc(docID);
     const res = await ref
       .update(
         {
@@ -272,8 +274,8 @@ export default class Firebase {
           title: title,
           author: name,
           keywords: keywords,
-          codeLicense:codeLicense,
-          dataLicense:dataLicense
+          codeLicense: codeLicense,
+          dataLicense: dataLicense
         },
         { merge: true }
       )

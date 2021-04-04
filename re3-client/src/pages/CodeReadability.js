@@ -43,7 +43,6 @@ const CodeReadability = () => {
           console.log(suggestion.length);
           setSuggestion(data['suggestion']);
           console.log(suggestion.length);
-
           console.log(suggestion);
           setArrSuggestion((arrSuggestion) =>
             data['suggestion'].split(',').map((sug) => <li>{sug}</li>)
