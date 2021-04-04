@@ -118,7 +118,9 @@ const CodeReadability = () => {
             <div className={`${suggestion.length === 0 ? 'hidden' : 'flex'}`}>
               <p className="text-3xl text-center font-semibold">Consider:</p>
             </div>
-            <div className=" leading-7">
+            <div
+              className={`${suggestion.length === 0 ? 'hidden' : 'leading-7'}`}
+            >
               <ul className="list-disc list-inside">{arrSuggestion}</ul>
             </div>
           </div>
