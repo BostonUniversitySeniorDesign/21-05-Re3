@@ -225,8 +225,7 @@ export default class Firebase {
     user,
     dataLicense,
     codeLicense,
-    scores,
-    status
+    scores
   ) => {
     console.log(version);
     console.log(title);
@@ -242,7 +241,8 @@ export default class Firebase {
           dataLicense: dataLicense,
           codeLicense: codeLicense,
           readability_scores: scores,
-          status: status
+          status: 'pending',
+          created: app.firestore.Timestamp.now()
         },
         { merge: true }
       )
@@ -295,6 +295,7 @@ export default class Firebase {
     const projects = this.db
       .collection('containers')
       .where('userID', '==', `${user.uid}`)
+      .orderBy('created', 'desc')
       .get()
       .then((querySnapshot) => {
         return querySnapshot.docs.map((doc) => ({

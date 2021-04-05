@@ -20,7 +20,8 @@ config = {
   "storageBucket": "re3-fb.appspot.com",
   "messagingSenderId": "121193880841",
   "appId": "1:121193880841:web:4efade68aa5339e1f487d8",
-  "measurementId": "G-4PKZCP0PP0"
+  "measurementId": "G-4PKZCP0PP0",
+
 }
 
 
@@ -91,8 +92,10 @@ def build_and_report(version, project_ref):
             for log in logs:
                 f.write(log + '\n')
         storage.child(storage_path).put(filename)
+        token = cred.get_access_token()[0]
+        logs_url = storage.child(storage_path).get_url(token)
         build_status = 'error'
-        doc_ref.update({'status': 'build error'})
+        doc_ref.update({'status': 'build error', 'buildLogs': logs_url})
         os.remove(filename)
         return build_status
     else:
@@ -101,7 +104,9 @@ def build_and_report(version, project_ref):
             for log in logs:
                 f.write(log + '\n')
         storage.child(storage_path).put(filename)
-        doc_ref.update({'status': 'build success'})
+        token = cred.get_access_token()[0]
+        logs_url = storage.child(storage_path).get_url(token)
+        doc_ref.update({'status': 'build success', 'buildLogs': logs_url})
         build_status = 'success'
 
     os.remove(filename)
@@ -120,8 +125,11 @@ def build_and_report(version, project_ref):
 
     storage_path = f'run_logs/{filename}'
     storage.child(storage_path).put(filename)
+    token = cred.get_access_token()[0]
+    logs_url = storage.child(storage_path).get_url(token)
 
-    doc_ref.update({'status': 'finished'})
+
+    doc_ref.update({'status': 'finished', 'runLogs': logs_url})
 
     os.remove(filename)
 

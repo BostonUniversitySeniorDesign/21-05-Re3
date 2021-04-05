@@ -4,12 +4,9 @@ import Header from '../components/SimpleHeader';
 import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
 import MLPic from '../assets/img/undraw_proud_coder_7ain.svg';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import Card from '../components/Card'
-
+import Card from '../components/Card';
 
 const UserPage = () => {
-
-  
   const user = useContext(AuthContext);
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState([]);
@@ -23,7 +20,6 @@ const UserPage = () => {
   const [name, setName] = useState('');
   const [currentID, setCurrentID] = useState('');
   const [keywords, setKeywords] = useState([]);
-
 
   useEffect(() => {
     const fetchProjects = async () => {

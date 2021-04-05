@@ -1,0 +1,13 @@
+b"Creating temporary tarball archive of 4341 file(s) totalling 57.5 MiB before compression.
+Uploading tarball of [.] to [gs://re3-virtualization_cloudbuild/source/1617645704.384266-02c9cbabf9b447b58bcdf51e37d31f61.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/re3-virtualization/locations/global/builds/9a6a036b-f015-493c-a8ef-a65470078949].
+Logs are available at [https://console.cloud.google.com/cloud-build/builds/9a6a036b-f015-493c-a8ef-a65470078949?project=249579958495].
+Cancelling...
+ERROR: gcloud crashed (AttributeError): 'Resource' object has no attribute 'projectId'
+
+If you would like to report this issue, please run the following command:
+  gcloud feedback
+
+To check gcloud for common problems, please run the following command:
+  gcloud info --run-diagnostics
+"
