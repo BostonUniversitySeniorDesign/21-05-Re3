@@ -4,12 +4,9 @@ import Header from '../components/SimpleHeader';
 import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
 import MLPic from '../assets/img/undraw_proud_coder_7ain.svg';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import Card from '../components/Card'
-
+import Card from '../components/Card';
 
 const UserPage = () => {
-
-  
   const user = useContext(AuthContext);
   const firebase = useContext(FirebaseContext);
   const [data, setData] = useState([]);
@@ -23,7 +20,7 @@ const UserPage = () => {
   const [name, setName] = useState('');
   const [currentID, setCurrentID] = useState('');
   const [keywords, setKeywords] = useState([]);
-
+  const [scores, setScores] = useState([[]]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -59,6 +56,11 @@ const UserPage = () => {
     setDataLicense(value.dataLicense);
     setCodeLicense(value.codeLicense);
     setCurrentID(value.docID);
+    var result = Object.keys(value.readability_scores).map((key) => [
+      String(key),
+      value.readability_scores[key]
+    ]);
+    setScores(result);
     document.getElementById('authorName').value = value.author;
     document.getElementById('title').value = value.title;
     document.getElementById('keyWords').value = value.keywords;
@@ -88,6 +90,14 @@ const UserPage = () => {
     setVisible(!visible);
   }
 
+  let scoreList = scores.map((subarray) => (
+    <div className="flex flex-row mt-6 text-center justify-center">
+      {' '}
+      <div className="mr-10 font-semibold">{subarray[0]}:</div>
+      <div>{parseFloat(subarray[1]).toFixed(2)}</div>
+    </div>
+  ));
+
   let options = data.map((data) => (
     <button
       className="text-2xl focus:outline-none transform duration-700 hover:translate-x-8 hover:text-gray-300 w-full rounded-md text-left"
@@ -108,140 +118,148 @@ const UserPage = () => {
           visible ? 'flex' : 'hidden'
         }`}
       >
-        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center">
+        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ">
           <button
             onClick={() => xButton()}
             className="text-2xl self-end text-blue-600"
           >
             <AiFillCloseCircle />
           </button>
-          <div className="grid grid-rows-7 grid-cols-3 gap-x-8 gap-y-4 items-center text-left mx-10 ">
-            <div className="text-2xl font-bold grid col-start-1 row-start-1">
-              Catagories
-            </div>
-            <div className="text-2xl font-bold grid col-start-2 row-start-1">
-              Current information
-            </div>
-            <div className="text-2xl font-bold grid col-start-3 row-start-1">
-              Edited information
-            </div>
+          <div className="divide-y-2 divide-grey-600 divide-solid">
+            <div>
+              <div className="grid grid-rows-7 grid-cols-3 gap-x-8 gap-y-4 items-center text-left mx-10 ">
+                <div className="text-2xl font-bold grid col-start-1 row-start-1">
+                  Catagories
+                </div>
+                <div className="text-2xl font-bold grid col-start-2 row-start-1">
+                  Current information
+                </div>
+                <div className="text-2xl font-bold grid col-start-3 row-start-1">
+                  Edited information
+                </div>
 
-            <div className="grid col-start-1 row-start-2 text-gray-600 ">
-              Author Name:{' '}
-            </div>
-            <div className="grid col-start-2 row-start-2"> {name} </div>
-            <div className="grid col-start-3 row-start-2">
-              <input
-                disabled={!edit}
-                placeholder="ex: John Doe, Jane Doe"
-                id="authorName"
-                defaultValue={name}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
-            </div>
+                <div className="grid col-start-1 row-start-2 text-gray-600 ">
+                  Author Name:{' '}
+                </div>
+                <div className="grid col-start-2 row-start-2"> {name} </div>
+                <div className="grid col-start-3 row-start-2">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: John Doe, Jane Doe"
+                    id="authorName"
+                    defaultValue={name}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
 
-            <div className="grid col-start-1 row-start-3 text-gray-600 ">
-              Title:{' '}
-            </div>
-            <div className="grid col-start-2  row-start-3"> {title} </div>
-            <div className="grid col-start-3 row-start-3">
-              <input
-                disabled={!edit}
-                placeholder="ex: A Study in Repreducability"
-                id="title"
-                defaultValue={title}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
-            </div>
-            <div className="grid col-start-1 row-start-4 text-gray-600 ">
-              Key Words:{' '}
-            </div>
-            <div className="grid col-start-2 row-start-4"> {keywords} </div>
-            <div className="grid col-start-3 row-start-4">
-              <input
-                disabled={!edit}
-                placeholder="ex: R code, Repreducability"
-                id="keyWords"
-                defaultValue={keywords}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
-            </div>
+                <div className="grid col-start-1 row-start-3 text-gray-600 ">
+                  Title:{' '}
+                </div>
+                <div className="grid col-start-2  row-start-3"> {title} </div>
+                <div className="grid col-start-3 row-start-3">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: A Study in Repreducability"
+                    id="title"
+                    defaultValue={title}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
+                <div className="grid col-start-1 row-start-4 text-gray-600 ">
+                  Key Words:{' '}
+                </div>
+                <div className="grid col-start-2 row-start-4"> {keywords} </div>
+                <div className="grid col-start-3 row-start-4">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: R code, Repreducability"
+                    id="keyWords"
+                    defaultValue={keywords}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
 
-            <div className="grid col-start-1 row-start-5 text-gray-600 ">
-              R Version:{' '}
+                <div className="grid col-start-1 row-start-5 text-gray-600 ">
+                  R Version:{' '}
+                </div>
+                <div className="grid col-start-2 row-start-5"> {version} </div>
+                <div className="grid col-start-3 row-start-5">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: 4.0.0"
+                    id="version"
+                    defaultValue={version}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
+                <div className="grid col-start-1 row-start-6 text-gray-600 ">
+                  Data License:{' '}
+                </div>
+                <div className="grid col-start-2 row-start-6">
+                  {dataLicense !== '' ? dataLicense : 'N/A'}
+                </div>
+                <div className="grid col-start-3 row-start-6">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: PDDL"
+                    id="dataLicense"
+                    defaultValue={dataLicense}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
+                <div className="grid col-start-1 row-start-7 text-gray-600 ">
+                  Code License:{' '}
+                </div>
+                <div className="grid col-start-2 row-start-7">
+                  {codeLicense !== '' ? codeLicense : 'N/A'}
+                </div>
+                <div className="grid col-start-3 row-start-7">
+                  <input
+                    disabled={!edit}
+                    placeholder="ex: Apache License 2.0"
+                    id="codeLicense"
+                    defaultValue={codeLicense}
+                    className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
+                      edit ? 'opacity-100' : 'opacity-25'
+                    }`}
+                  ></input>
+                </div>
+              </div>
+              <div className="flex flex-row mt-4 justify-center">
+                <button
+                  className={`w-32 h-full ${
+                    edit ? 'bg-gray-300 text-black' : 'bg-blue-400 text-white'
+                  } rounded-md py-2 m-2  text-1xl`}
+                  onClick={() => setEdit(!edit)}
+                  disabled={edit}
+                >
+                  Edit
+                </button>
+                <button
+                  className={`w-32 h-full ${
+                    edit ? 'bg-blue-400 text-white' : 'bg-gray-300 text-black'
+                  } rounded-md py-2 m-2  text-1xl`}
+                  onClick={() => updateButton()}
+                  disabled={!edit}
+                >
+                  Update
+                </button>
+              </div>
             </div>
-            <div className="grid col-start-2 row-start-5"> {version} </div>
-            <div className="grid col-start-3 row-start-5">
-              <input
-                disabled={!edit}
-                placeholder="ex: 4.0.0"
-                id="version"
-                defaultValue={version}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
+            <div className="text-center">
+              <div className="text-2xl font-bold"> Project File(s)</div>
+              {scoreList}
             </div>
-            <div className="grid col-start-1 row-start-6 text-gray-600 ">
-              Data License:{' '}
-            </div>
-            <div className="grid col-start-2 row-start-6">
-              {dataLicense !== '' ? dataLicense : 'N/A'}
-            </div>
-            <div className="grid col-start-3 row-start-6">
-              <input
-                disabled={!edit}
-                placeholder="ex: PDDL"
-                id="dataLicense"
-                defaultValue={dataLicense}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
-            </div>
-            <div className="grid col-start-1 row-start-7 text-gray-600 ">
-              Code License:{' '}
-            </div>
-            <div className="grid col-start-2 row-start-7">
-              {codeLicense !== '' ? codeLicense : 'N/A'}
-            </div>
-            <div className="grid col-start-3 row-start-7">
-              <input
-                disabled={!edit}
-                placeholder="ex: Apache License 2.0"
-                id="codeLicense"
-                defaultValue={codeLicense}
-                className={`bg-white rounded-md text-md overflow-x-scroll placeholder-gray-500 border shadow w-auto px-4 h-auto py-2 ${
-                  edit ? 'opacity-100' : 'opacity-25'
-                }`}
-              ></input>
-            </div>
-          </div>
-          <div className="flex flex-row mt-4">
-            <button
-              className={`w-32 h-full ${
-                edit ? 'bg-gray-300 text-black' : 'bg-blue-400 text-white'
-              } rounded-md py-2 m-2  text-1xl`}
-              onClick={() => setEdit(!edit)}
-              disabled={edit}
-            >
-              Edit
-            </button>
-            <button
-              className={`w-32 h-full ${
-                edit ? 'bg-blue-400 text-white' : 'bg-gray-300 text-black'
-              } rounded-md py-2 m-2  text-1xl`}
-              onClick={() => updateButton()}
-              disabled={!edit}
-            >
-              Update
-            </button>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ def base():
     dic_features = get_features.get_readability_metrics(all_code = data, vars = all_vars)
 
 
-    print(dic_features)
+    #print(dic_features)
     features = np.array(list(dic_features.values()))
     # reshaping it so it is 2D
     features = features.reshape(1,-1)
@@ -88,14 +88,14 @@ def base():
     if(assignments_score < threshold):
         suggestion += 'diminishing the number of assignments in your lines'
 
-    print("This is the line_len_score: " + str(line_len_score))
-    print("This is the parentheses_score: " + str(parentheses_score))
-    print("This is the periods score: " + str(periods_score))
-    print("This is the assignments score: " + str(assignments_score))
+    #print("This is the line_len_score: " + str(line_len_score))
+    #print("This is the parentheses_score: " + str(parentheses_score))
+    #print("This is the periods score: " + str(periods_score))
+    #print("This is the assignments score: " + str(assignments_score))
 
     score = model.predict(features)
 
-    print("This is the model prediction: " + str(score))
+    #print("This is the model prediction: " + str(score))
 
     dic = {"readabilityScore" : float(score[0]), "suggestion" : suggestion}
     response = make_response(dic)
@@ -106,8 +106,6 @@ def base():
 def get_all():
     data = request.data
     data = data.decode('utf-8')
-    all_vars = get_features.get_vars(data)
-    dic_features = get_features.get_readability_metrics(all_code = data, vars = all_vars)
 
     files = json.loads(data)
 
@@ -115,7 +113,8 @@ def get_all():
 
     scores = {}
     for f in files:
-        dic_features = get_features.get_readability_metrics(files[f])
+        all_vars = get_features.get_vars(files[f])
+        dic_features = get_features.get_readability_metrics(all_code = files[f], vars = all_vars)
         features = np.array(list(dic_features.values()))
 
         # reshaping it so it is 2D
@@ -124,7 +123,7 @@ def get_all():
         score = model.predict(features)
         scores[f] = float(score[0])
 
-    print(scores)
+    #print(scores)
     response = make_response(scores)
     return response
     

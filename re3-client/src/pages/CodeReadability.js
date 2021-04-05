@@ -32,8 +32,8 @@ const CodeReadability = () => {
   };
 
   const callAPI = async () => {
-    var response = await fetch('http://localhost:5000/', {
-      // const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
+    //var response = await fetch('http://localhost:5000/', {
+    var response = fetch('https://re3deploy.ue.r.appspot.com/', {
       method: 'POST',
       body: fileContents
     })
