@@ -1,0 +1,17 @@
+* Need to add a couple of things to the platform:
+	* 1st: ability to add snippets to be rated and the ability to rate current snippets
+	* 2nd: suggestion black box 
+		- Need to do:
+			-> look at the correlaiton of readability ratign and feature
+				+ these are the features that correlate strongly with code readability:
+					o avg_line_len
+					o avg_periods
+					o avg_parentheses
+					o avg_assignments
+		
+			-> determine what is strong enough to be considered good for your study
+			-> fit linear regression models on the single features 
+			-> make prediction of user ratings based on that 
+			-> suggest improvement if rating is below a threshold
+
+
