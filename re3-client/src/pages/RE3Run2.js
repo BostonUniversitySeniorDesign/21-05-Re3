@@ -168,11 +168,14 @@ const RE3Run = () => {
   }
 
   async function callAPI(fileContents) {
-    const response = await fetch('http://localhost:5000/get_scores', {
-      //const response = fetch('https://test-deploy-readability.ue.r.appspot.com',{
-      method: 'POST',
-      body: JSON.stringify(fileContents)
-    })
+    //const response = await fetch('http://localhost:5000/get_scores', {
+    const response = await fetch(
+      'https://re3deploy.ue.r.appspot.com/get_scores',
+      {
+        method: 'POST',
+        body: JSON.stringify(fileContents)
+      }
+    )
       .then((response) =>
         response.json().then((data) => {
           console.log(data);
