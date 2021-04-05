@@ -108,8 +108,7 @@ def build_and_report(version, project_ref):
         logs_url = storage.child(storage_path).get_url(token)
         doc_ref.update({'status': 'build success', 'buildLogs': logs_url})
         build_status = 'success'
-
-    os.remove(filename)
+        os.remove(filename)
 
     print('starting run')
     run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated'],
