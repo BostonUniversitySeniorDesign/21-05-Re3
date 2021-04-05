@@ -1,0 +1,65 @@
+4
+5
+7
+8
+12
+16 -> suspicious
+19
+22 -> suspicious
+24
+26
+30
+33
+36
+39
+48
+50
+51
+54
+55
+58
+63
+70
+71
+72
+73
+75
+81
+82
+86
+87
+95
+--- Not
+
+28 -> but it is weird since it appears in two DOI's
+52 -> but suspicious
+69 is a copy of 48
+
+fortify.map <- function(model, data, ...) {
+  df <- new_data_frame(list(
+    long = model$x,
+    lat = model$y,
+    group = cumsum(is.na(model$x) & is.na(model$y)) + 1,
+    order = seq_along(model$x)
+  ), n = length(model$x))
+
+  names <- do.call("rbind", lapply(strsplit(model$names, "[:,]"), "[", 1:2))
+  df$region <- names[df$group, 1]
+  df$subregion <- names[df$group, 2]
+  df[stats::complete.cases(df$lat, df$long), ]
+}
+
+
+fortify.map <- function(model, data, ...) {
+  df <- new_data_frame(list(
+    long = model$x,
+    lat = model$y,
+    group = cumsum(is.na(model$x) & is.na(model$y)) + 1,
+    order = seq_along(model$x)
+  ), n = length(model$x))
+
+  names <- do.call("rbind", lapply(strsplit(model$names, "[:,]"), "[", 1:2))
+  df$region <- names[df$group, 1]
+  df$subregion <- names[df$group, 2]
+  df[stats::complete.cases(df$lat, df$long), ]
+}
