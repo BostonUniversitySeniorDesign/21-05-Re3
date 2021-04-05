@@ -1,5 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
+    id: BASE IMAGE CACHE
     entrypoint: 'bash'
     args:
       [
@@ -7,7 +8,7 @@ steps:
         'docker pull us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:base || exit 0'
       ]
   - name: 'gcr.io/cloud-builders/docker'
-    id: ${_PROJECT_REF}
+    id: PROJECT BUILD
     args:
       [
         'build',

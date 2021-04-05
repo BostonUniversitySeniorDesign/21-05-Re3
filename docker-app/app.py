@@ -74,29 +74,37 @@ def build_and_report(version, project_ref):
 
     doc_ref = db.document(project_ref)
 
-    print('starting build man')
+    print('starting build')
     doc_ref.update({'status': 'building'})
-    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=30m', f'--substitutions=_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
+    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=30m', '--ignore-file=.dockerignore', f'--substitutions=_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
                           shell=False, stdout=PIPE, stderr=PIPE)
-    print('ran the command')
     stdout, stderr = build_process.communicate(timeout=1800)
     build_status = ''
 
+    filename = f'build_{ref_base}.txt'
+    storage_path = f'build_logs/{filename}'
+
     if build_process.returncode != 0:
         print(str(stderr))
+        with open(filename, 'w') as f:
+            logs = str(stderr).replace('\\n', '\n').replace('\\r', '\n').split('\n')
+            for log in logs:
+                f.write(log + '\n')
+        storage.child(storage_path).put(filename)
         build_status = 'error'
         doc_ref.update({'status': 'build error'})
+        os.remove(filename)
         return build_status
     else:
-        filename = f'build_{ref_base}.txt'
         with open(filename, 'w') as f:
-            f.write(str(stdout))
-
-        storage_path = f'build_logs/{filename}'
+            logs = str(stdout).replace('\\n', '\n').replace('\\r', '\n').split('\n')
+            for log in logs:
+                f.write(log + '\n')
         storage.child(storage_path).put(filename)
-
         doc_ref.update({'status': 'build success'})
         build_status = 'success'
+
+    os.remove(filename)
 
     print('starting run')
     run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated'],
@@ -104,13 +112,18 @@ def build_and_report(version, project_ref):
     stdout, stderr = run_process.communicate(timeout=1800)
 
     filename = f'run_{ref_base}.txt'
-    log_process = Popen(['gcloud', 'logging', 'read', f"'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}'", '--project', 're3-virtualization', '--format', "'value(textPayload)'", '|', 'awk', "'{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'", '>', filename])
+    log_process = Popen(['gcloud', 'logging', 'read', f'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}', '--project', 're3-virtualization', '--format', 'value(textPayload)'], shell=False, stdout=PIPE, stderr=PIPE)
+    with open(filename, 'w') as f:
+        save_process = Popen(['awk', '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'], shell=False, stdin=log_process.stdout, stdout=f)
+
     stdout, stderr = log_process.communicate(timeout=1800)
 
     storage_path = f'run_logs/{filename}'
     storage.child(storage_path).put(filename)
 
     doc_ref.update({'status': 'finished'})
+
+    os.remove(filename)
 
     print('done')
     return 'done'
