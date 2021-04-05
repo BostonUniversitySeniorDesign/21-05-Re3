@@ -61,6 +61,8 @@ const UserPage = () => {
       value.readability_scores[key]
     ]);
     setScores(result);
+    let x= value.runLogs.split(RegExp('(%2F)..*(%2F)'))[1].split(".")[0];
+    console.log(x);
     document.getElementById('authorName').value = value.author;
     document.getElementById('title').value = value.title;
     document.getElementById('keyWords').value = value.keywords;
@@ -91,23 +93,28 @@ const UserPage = () => {
   }
 
   let scoreList = scores.map((subarray) => (
-    <div className="flex flex-row mt-6 text-center justify-center">
+    <div className="flex flex-row my-6 mx-2 text-center justify-center">
       {' '}
-      <div className="mr-10 font-semibold">{subarray[0]}:</div>
+      <div className="font-semibold mr-2">{subarray[0]}:</div>
       <div>{parseFloat(subarray[1]).toFixed(2)}</div>
     </div>
   ));
 
   let options = data.map((data) => (
-    <button
-      className="text-2xl focus:outline-none transform duration-700 hover:translate-x-8 hover:text-gray-300 w-full rounded-md text-left"
-      value={data}
-      id={data.docID}
-      key={data.docID}
-      onClick={() => updatePopUp(data)}
-    >
-      {data.title}
-    </button>
+    <div className="grid grid-cols-2 items-center">
+      <div>
+        <button
+          className="text-2xl focus:outline-none transform duration-700 hover:translate-x-8 hover:text-gray-300 rounded-md text-left"
+          value={data}
+          id={data.docID}
+          key={data.docID}
+          onClick={() => updatePopUp(data)}
+        >
+          {data.title}
+        </button>
+      </div>
+      <div className={`text-2xl ${data.status==="pending"? "text-yellow-600": (data.status==="building"? "text-indigo-700":(data.status==="building error"? "text-red-700":"text-green-600"))}`}>{data.status}</div>
+    </div>
   ));
 
   return (
@@ -126,6 +133,10 @@ const UserPage = () => {
             <AiFillCloseCircle />
           </button>
           <div className="divide-y-2 divide-grey-600 divide-solid">
+            <div className="text-center">
+              <div className="text-2xl font-bold"> Project File(s) Scores</div>
+              {scoreList}
+            </div>
             <div>
               <div className="grid grid-rows-7 grid-cols-3 gap-x-8 gap-y-4 items-center text-left mx-10 ">
                 <div className="text-2xl font-bold grid col-start-1 row-start-1">
@@ -256,10 +267,6 @@ const UserPage = () => {
                 </button>
               </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold"> Project File(s)</div>
-              {scoreList}
-            </div>
           </div>
         </div>
       </div>
@@ -270,7 +277,7 @@ const UserPage = () => {
       />
       <p className="text-5xl font-roboto text-center text-black m-8 self-start">{`${user.displayName}`}</p>
       <div className="grid grid-cols-2">
-        <div className="min-h-96 w-4/5 rounded-md m-10 p-3 text-4xl bg-gradient-to-br from-blue-300 via-blue-400 to-blue-300 shadow-lg">
+        <div className="min-h-96 w-4/5 rounded-md m-10 p-3 text-4xl bg-gradient-to-br from-blue-200 via-blue-300 to-blue-200 shadow-lg">
           Past Projects:
           {options}
         </div>
