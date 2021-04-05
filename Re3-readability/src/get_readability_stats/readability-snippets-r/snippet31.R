@@ -1,0 +1,14 @@
+# First 13 predicted values are for independents (ind=1). Second 13 are for copartisans
+independent.dataset <- data.frame(balance=rep(c(-.5,-.4,-.3,-.2,-.1,0,.1,.2,.3,.4,.5,.6,.7),2),
+                                  state_pid=rep(mean(only.pid.correct$state_pid), 26),
+                                  upforelection=rep(mean(only.pid.correct$upforelection),26),
+                                  opp_party=c(rep(0,13),rep(0,13)),
+                                  ind=c(rep(1,13),rep(0,13)),
+                                  decades=rep(mean(only.pid.correct$decades),26),
+                                  factorpid=as.factor(rep(2,26)),
+                                  female=rep(mean(only.pid.correct$female),26),
+                                  black=rep(mean(only.pid.correct$black),26),
+                                  latino=rep(mean(only.pid.correct$latino),26),
+                                  other=rep(mean(only.pid.correct$other),26),
+                                  college=rep(mean(only.pid.correct$college),26),
+                                  age=rep(mean(only.pid.correct$age),26))
