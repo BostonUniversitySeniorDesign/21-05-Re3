@@ -1,5 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
+import React, { useState, useContext, useEffect } from 'react';
 import Header from '../components/SimpleHeader';
 import DropDown from '../components/DropDown';
 import UploadButton from '../components/UploadButton';
@@ -11,55 +10,12 @@ import {
 import DragAndDrop from '../components/DragAndDrop';
 import TextInput from '../components/TextInput';
 import { FirebaseContext, AuthContext } from '../firebase';
-
-const ENDPOINT = 'http://localhost:8080';
-
-var items = [
-  { name: '4.0.3' },
-  { name: '4.0.2' },
-  { name: '4.0.1' },
-  { name: '4.0.0' },
-  { name: '3.6.3' },
-  { name: '3.6.2' },
-  { name: '3.6.1' },
-  { name: '3.6.0' },
-  { name: '3.5.3' },
-  { name: '3.5.2' },
-  { name: '3.5.1' },
-  { name: '3.5.0' },
-  { name: '3.4.4' },
-  { name: '3.4.3' },
-  { name: '3.4.2' },
-  { name: '3.4.1' },
-  { name: '3.4.0' },
-  { name: '3.3.3' },
-  { name: '3.3.2' },
-  { name: '3.3.1' },
-  { name: '3.3.0' },
-  { name: '3.2.5' },
-  { name: '3.2.4' },
-  { name: '3.2.3' },
-  { name: '3.2.2' },
-  { name: '3.2.1' },
-  { name: '3.2.0' },
-  { name: '3.1.3' },
-  { name: '3.1.2' },
-  { name: '3.1.1' },
-  { name: '3.1.0' },
-  { name: '3.0.3' },
-  { name: '3.0.2' },
-  { name: '3.0.1' },
-  { name: '3.0.0' }
-];
+import useRouter from '../utils/Router';
+import items from '../data/r-versions';
 
 const RE3Run = () => {
   const firebase = useContext(FirebaseContext);
   const user = useContext(AuthContext);
-  const [buildContainer, setBuildContainer] = useState(false);
-  const [connected, setConnected] = useState(false);
-  const [logs, setLogs] = useState([]);
-  const containerRef = useRef(null);
-  let socket = useRef(null);
   const [version, setVersion] = useState(0);
   const [visible, setVisible] = useState(false);
   const [myFiles, setFiles] = useState([]);
@@ -71,9 +27,12 @@ const RE3Run = () => {
   const [url, setUrl] = useState([]);
   const [currentURL, setCurrentURL] = useState('');
   const [scores, setScores] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (currentURL !== '') {
@@ -85,9 +44,6 @@ const RE3Run = () => {
   useEffect(() => {
     if (orderedFiles.Ordered !== undefined) {
       if (url.length === orderedFiles.Ordered.items.length) {
-        console.log('done, check it out', url);
-        setBuildContainer(true);
-        console.log(url);
         firebase.currentProjectDoc = firebase.db.collection('containers').doc();
         firebase.currentProjectDoc.set(
           {
@@ -105,6 +61,7 @@ const RE3Run = () => {
           codeLicense,
           scores
         );
+        startRun();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,6 +94,7 @@ const RE3Run = () => {
 
   async function saveInfo() {
     // console.log(orderedFiles.Ordered.items.length);
+    setSubmitted(true);
     await saveScores();
     for (var i = 0; i <= orderedFiles.Ordered.items.length - 1; i++) {
       var file = orderedFiles.Ordered.items[i].content;
@@ -161,6 +119,7 @@ const RE3Run = () => {
             })
             .catch((e) => {
               console.log('not good man', e);
+              setSubmitted(false);
             });
         }
       });
@@ -212,30 +171,29 @@ const RE3Run = () => {
     await callAPI(dict);
   }
 
-  useEffect(() => {
-    return () => {
-      socket.current.disconnect();
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (containerRef.current !== null) {
-      containerRef.current.addEventListener('DOMNodeInserted', (event) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-      });
+  const startRun = async () => {
+    const response = await fetch('http://192.168.0.2:8080/run', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        version: version,
+        projectRef: firebase.currentProjectDoc.path
+      })
+    }).catch((e) => {
+      console.log('fetch error...', e);
+      setSubmitted(false);
+      return -1;
+    });
+    console.log(response);
+    if (response.status === 200) {
+      console.log('success');
+      router.push('/userpage');
+    } else {
+      console.log('error...', response);
+      setSubmitted(false);
     }
-  }, []);
-
-  const connect = () => {
-    socket.current = socketIOClient(ENDPOINT, { query: { Version: version } });
-    socket.current.on('ack', (data, cb) => {
-      cb();
-      setConnected(true);
-    });
-    socket.current.on('stdout', (data) => {
-      setLogs((oldLogs) => [...oldLogs, data.log]);
-    });
   };
 
   let hourglass = (
@@ -255,205 +213,174 @@ const RE3Run = () => {
     setVisible(!visible);
   }
 
-  if (!buildContainer) {
-    return (
-      <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
-        <Header />
+  return (
+    <div className="w-full relative min-h-screen bg-gray-200 flex flex-col items-center justify-start">
+      <Header />
 
-        {/* Key Words Pop Up */}
-        <div
-          className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
-            visible ? 'flex' : 'hidden'
-          }`}
-        >
-          <div className="w-2/3 h-full flex flex-col items-center justify-center bg-gray-200 rounded-md ">
+      {/* Key Words Pop Up */}
+      <div
+        className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
+          visible ? 'flex' : 'hidden'
+        }`}
+      >
+        <div className="w-2/3 h-full flex flex-col items-center justify-center bg-gray-200 rounded-md ">
+          <button
+            onClick={() => setVisible(!visible)}
+            className="text-3xl self-end text-blue-600 m-4"
+          >
+            <AiFillCloseCircle />
+          </button>
+          <div className="text-3xl text-center">
+            Licenses and associated keywords
+          </div>
+          <div className="flex flex-row items-center m-4 ">
+            <div className="w-48 text-2xl font-light">Code License: </div>
+            <TextInput
+              placeholder="ex: Apache License 2.0"
+              id="codeLicense"
+              w="w-64 px-4"
+              border="shadow"
+              onChange={setCodeLicense}
+            />
+          </div>
+          <div className="flex flex-row items-center m-4">
+            <div className="w-48 text-2xl font-light">Data License: </div>
+            <TextInput
+              placeholder="ex: PDDL"
+              id="dataLicense"
+              w="w-64 px-4"
+              border="shadow"
+              onChange={setDataLicense}
+            />
+          </div>
+          <div className="flex flex-row items-center m-4">
+            <div className="w-48 text-2xl font-light">Key Words: </div>
+            <TextInput
+              placeholder="ex: R code, Repreducability"
+              id="keyWords"
+              w="w-64 px-4"
+              border="shadow"
+              onChange={setKeywords}
+            />
+          </div>
+          <button
+            className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-8 text-white text-1xl"
+            onClick={Documenting}
+          >
+            Done
+          </button>
+        </div>
+      </div>
+      <div
+        className={`absolute w-full h-full bg-black z-40 opacity-25 ${
+          visible ? 'flex' : 'hidden'
+        }`}
+      />
+
+      <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
+        Code and Dataset Information
+      </div>
+
+      <div className="grid grid-rows-5 grid-flow-col gap-6 mx-7 my-2 px-16">
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
+            Author Name
+          </div>
+          <TextInput
+            placeholder="ex: John Doe, Jane Doe"
+            id="authorName"
+            w="w-44 px-2"
+            onChange={setName}
+            border="border-black"
+          />
+
+          {name === '' ? hourglass : checkmark}
+        </div>
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
+            Title
+          </div>
+          <TextInput
+            placeholder="ex: A Study in Repreducability"
+            id="title"
+            w="w-44 px-2"
+            border="border-black"
+            onChange={setTitle}
+          />
+
+          {title === '' ? hourglass : checkmark}
+        </div>
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
+            R Version Used
+          </div>
+          <div>
+            <DropDown
+              title="Select Version"
+              data={items}
+              setVersion={setVersion}
+            />
+          </div>
+          <div>{version === 0 ? hourglass : checkmark}</div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
+            Files to Upload
+          </div>
+          <div className="items-center">
+            <UploadButton
+              title={myFiles.length === 0 ? 'Select Files' : 'Add Files'}
+              onChange={FileDetailsInfo}
+            />
+          </div>
+          {myFiles.length === 0 ? hourglass : checkmark}
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
+            Information
+          </div>
+          <div>
             <button
+              className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
               onClick={() => setVisible(!visible)}
-              className="text-3xl self-end text-blue-600 m-4"
             >
-              <AiFillCloseCircle />
-            </button>
-            <div className="text-3xl text-center">
-              Licenses and associated keywords
-            </div>
-            <div className="flex flex-row items-center m-4 ">
-              <div className="w-48 text-2xl font-light">Code License: </div>
-              <TextInput
-                placeholder="ex: Apache License 2.0"
-                id="codeLicense"
-                w="w-64 px-4"
-                border="shadow"
-                onChange={setCodeLicense}
-              />
-            </div>
-            <div className="flex flex-row items-center m-4">
-              <div className="w-48 text-2xl font-light">Data License: </div>
-              <TextInput
-                placeholder="ex: PDDL"
-                id="dataLicense"
-                w="w-64 px-4"
-                border="shadow"
-                onChange={setDataLicense}
-              />
-            </div>
-            <div className="flex flex-row items-center m-4">
-              <div className="w-48 text-2xl font-light">Key Words: </div>
-              <TextInput
-                placeholder="ex: R code, Repreducability"
-                id="keyWords"
-                w="w-64 px-4"
-                border="shadow"
-                onChange={setKeywords}
-              />
-            </div>
-            <button
-              className="w-1/5 h-full bg-blue-400 rounded-md py-2 m-8 text-white text-1xl"
-              onClick={Documenting}
-            >
-              Done
+              Enter Information
             </button>
           </div>
-        </div>
-        <div
-          className={`absolute w-full h-full bg-black z-40 opacity-25 ${
-            visible ? 'flex' : 'hidden'
-          }`}
-        />
-
-        <div className="self-start text-4xl text-black flex text-left font-bold font-roboto py-8 px-10">
-          Code and Dataset Information
+          <div>
+            {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
+          </div>
         </div>
 
-        <div className="grid grid-rows-5 grid-flow-col gap-6 mx-7 my-2 px-16">
-          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
-              Author Name
-            </div>
-            <TextInput
-              placeholder="ex: John Doe, Jane Doe"
-              id="authorName"
-              w="w-44 px-2"
-              onChange={setName}
-              border="border-black"
-            />
-
-            {name === '' ? hourglass : checkmark}
-          </div>
-          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
-              Title
-            </div>
-            <TextInput
-              placeholder="ex: A Study in Repreducability"
-              id="title"
-              w="w-44 px-2"
-              border="border-black"
-              onChange={setTitle}
-            />
-
-            {title === '' ? hourglass : checkmark}
-          </div>
-          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto  w-full">
-              R Version Used
-            </div>
-            <div>
-              <DropDown
-                title="Select Version"
-                data={items}
-                setVersion={setVersion}
+        <div className="row-span-4 items-center self-right">
+          <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
+            <div className="flex flex-row m-2 p-2">
+              <DragAndDrop
+                list={myFiles.map((item, idx) => ({
+                  id: (idx + 1).toString(),
+                  content: item
+                }))}
+                setParentOrder={setOrderedFiles}
+                setSource={setFiles}
               />
             </div>
-            <div>{version === 0 ? hourglass : checkmark}</div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto">
-              Files to Upload
-            </div>
-            <div className="items-center">
-              <UploadButton
-                title={myFiles.length === 0 ? 'Select Files' : 'Add Files'}
-                onChange={FileDetailsInfo}
-              />
-            </div>
-            {myFiles.length === 0 ? hourglass : checkmark}
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
-            <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
-              Information
-            </div>
-            <div>
-              <button
-                className="text-black cursor-pointer rounded-md border border-black bg-gray-300 w-full p-2"
-                onClick={() => setVisible(!visible)}
-              >
-                Enter Information
-              </button>
-            </div>
-            <div>
-              {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
-            </div>
-          </div>
-
-          <div className="row-span-4 items-center self-right">
-            <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
-              <div className="flex flex-row m-2 p-2">
-                <DragAndDrop
-                  list={myFiles.map((item, idx) => ({
-                    id: (idx + 1).toString(),
-                    content: item
-                  }))}
-                  setParentOrder={setOrderedFiles}
-                  setSource={setFiles}
-                />
-              </div>
-            </div>
           </div>
         </div>
+      </div>
 
-        <button
-          className="px-4 py-2 font-roboto text-3xl bg-black rounded-md text-white"
-          onClick={() => saveInfo()}
-        >
-          Run Code
-        </button>
-      </div>
-    );
-  } else {
-    return (
-      <div className="w-full bg-gray-200 min-h-screen flex flex-col items-center justify-center py-16">
-        <p className="font-roboto text-6xl text-black mb-2">RE3 Run</p>
-        <div
-          className="h-80 w-3/4 bg-black rounded mb-4 flex flex-col items-start justify-start overflow-y-scroll"
-          ref={containerRef}
-        >
-          {logs.map((log, index) => (
-            <p
-              key={index}
-              className={`w-full text-lg font-mono text-white whitespace-pre-wrap pl-4 py-1 ${
-                index % 2 === 0 ? 'bg-gray-900' : 'bg-black'
-              }`}
-            >
-              {log}
-            </p>
-          ))}
-        </div>
-        <button
-          onClick={() => connect()}
-          disabled={connected}
-          className={`px-4 py-2 font-roboto text-3xl rounded-md text-white ${
-            connected
-              ? 'bg-gray-600 cursor-default'
-              : 'bg-blue-500 cursor-pointer'
-          }`}
-        >
-          Run Code
-        </button>
-      </div>
-    );
-  }
+      <button
+        className={`px-4 py-2 font-roboto text-3xl rounded-md text-white ${
+          submitted ? 'bg-gray-400' : 'bg-black'
+        }`}
+        onClick={saveInfo}
+        disable={submitted}
+      >
+        Run Code
+      </button>
+    </div>
+  );
 };
 
 export default RE3Run;
