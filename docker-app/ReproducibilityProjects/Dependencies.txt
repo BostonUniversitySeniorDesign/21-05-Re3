@@ -1,0 +1,29 @@
+
+# There is a way to install multiple packages
+# pkgs <- c("moments", "ggplot2", "dplyr", "tidyr", "tidyverse")
+# install.packages(pkgs, repos = "http://cran.us.r-project.org")
+
+# Project 1:
+# docker run -dit re3-image .
+# docker cp /Users/jyotsna/Desktop/docker/sample.R eloquent_lederberg:/usr/workdir/sample.R
+# docker ps 
+# docker exec -t -i eloquent_lederberg /bin/bash
+# docker cp /Users/jyotsna/Desktop/docker/CottrellLSQreplication.R quizzical_mendel:/usr/workdir/CottrellLSQreplication.R
+# docker cp /Users/jyotsna/Desktop/docker/CottrellLSQreplication.Rdata quizzical_mendel:/usr/workdir/CottrellLSQreplication.Rdata
+
+# Project 2:
+# Dependencies:
+# R version: 3.5.1
+# RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+# RUN R -e "install.packages('gridExtra',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+# RUN R -e "install.packages('plyr',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+# docker run -dit re3-image .
+# docker cp /Users/jyotsna/Desktop/docker/project2/. adoring_lumiere:/usr/workdir/ --> copies all the files in the folder "project 2" into the container
+# docker exec -t -i adoring_lumiere /bin/bash
+
+# Project 3:
+# Dependencies:
+# R version : 3.4.1
+# docker run -dit re3-image .
+# docker ps 
+# RUN R -e "install.packages('dplyr',dependencies=TRUE, repos='http://cran.rstudio.com/')"
