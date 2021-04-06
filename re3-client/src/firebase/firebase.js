@@ -311,10 +311,19 @@ export default class Firebase {
 
     // ref to the foulder we want access to from storage
   
-      let contents = await fetch(url).then((res) => {
-        return res.text();
+    var httpsReference = this.storage.refFromURL(url);
+    var urlc = await httpsReference
+      .getDownloadURL()
+      .then(function (urlc) {
+        return urlc;
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
       });
-      return contents;
+    let contents = await fetch(urlc).then((res) => {
+      return res.text();
+    });
+    return contents;
     
   };
 }

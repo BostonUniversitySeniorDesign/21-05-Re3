@@ -5,7 +5,7 @@ import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
 import MLPic from '../assets/img/undraw_proud_coder_7ain.svg';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import Card from '../components/Card';
-import useRouter from '../utils/Router';
+import TestDisplayFile from '../components/TestDisplayFile';
 
 const UserPage = () => {
   const user = useContext(AuthContext);
@@ -13,6 +13,7 @@ const UserPage = () => {
   const [data, setData] = useState([]);
   const [version, setVersion] = useState('');
   const [visible, setVisible] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const [dataLicense, setDataLicense] = useState('');
   const [codeLicense, setCodeLicense] = useState('');
   const [update, setUpdate] = useState(false);
@@ -22,13 +23,11 @@ const UserPage = () => {
   const [currentID, setCurrentID] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [scores, setScores] = useState([[]]);
-  const [runLogs, setRunLogs]=useState('');
-  const [buildLogs, setBuildLogs]= useState('');
+  const [runLogs, setRunLogs] = useState('');
+  const [buildLogs, setBuildLogs] = useState('');
+  const [fileContents, setFileContents] = useState('');
 
-  const router = useRouter();
-    const push = async (page) => {
-        router.push(`${page}`);
-    }
+  
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -55,6 +54,13 @@ const UserPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setCurrentID, firebase, update]);
+
+  const dispSnippet = (url) => {
+    firebase.DisplayFile(url).then((res) => {
+      setFileContents(res);
+      setVisible2(true);
+    });
+  };
 
   const updatePopUp = async (value) => {
     setVersion(value.version);
@@ -99,6 +105,7 @@ const UserPage = () => {
     console.log(codeLicense);
     setEdit(false);
     setVisible(!visible);
+    setVisible2(false);
   }
 
   let scoreList = scores.map((subarray) => (
@@ -122,7 +129,19 @@ const UserPage = () => {
           {data.title}
         </button>
       </div>
-      <div className={`text-2xl ${data.status==="pending"? "text-yellow-600": (data.status==="building"? "text-indigo-700":(data.status==="building error"? "text-red-700":"text-green-600"))}`}>{data.status}</div>
+      <div
+        className={`text-2xl ${
+          data.status === 'pending'
+            ? 'text-yellow-600'
+            : data.status === 'building'
+            ? 'text-indigo-700'
+            : data.status === 'building error'
+            ? 'text-red-700'
+            : 'text-green-600'
+        }`}
+      >
+        {data.status}
+      </div>
     </div>
   ));
 
@@ -130,7 +149,7 @@ const UserPage = () => {
     <div className="w-full min-h-screen flex flex-col">
       <Header />
       <div
-        className={`absolute w-full min-h-screen z-50 items-center justify-center content-center self-start ${
+        className={`absolute w-full min-h-screen z-20 items-center justify-center content-center self-start ${
           visible ? 'flex' : 'hidden'
         }`}
       >
@@ -277,25 +296,46 @@ const UserPage = () => {
               </div>
             </div>
             <div>
+              <div className="text-2xl font-bold"> Project Logs</div>
               <button
                 className={`w-32 h-full bg-blue-400 text-white rounded-md py-2 m-2  text-1xl`}
-                onClick={()=>push(runLogs)}
+                onClick={() => dispSnippet(runLogs)}
               >
-                run Logs
+                Run Logs
               </button>
               <button
                 className={`w-32 h-full bg-blue-400 text-white rounded-md py-2 m-2  text-1xl`}
-                onClick={() => firebase.Displayfile(buildLogs)}
+                onClick={() => dispSnippet(buildLogs)}
               >
-                build Logs
+                Build Logs
               </button>
             </div>
           </div>
         </div>
       </div>
       <div
-        className={`absolute w-full h-full bg-black z-40 opacity-25 ${
+        className={`absolute w-full h-full bg-black z-10 opacity-25 ${
           visible ? 'flex' : 'hidden'
+        }`}
+      />
+      <div
+        className={`absolute w-full min-h-screen z-40 items-center justify-center content-center self-start ${
+          visible2 ? 'flex' : 'hidden'
+        }`}
+      >
+        <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md py-4 px-8 text-center ">
+          <button
+            onClick={() => setVisible2(!visible2)}
+            className="text-2xl self-end text-blue-600"
+          >
+            <AiFillCloseCircle />
+          </button>
+          <TestDisplayFile snippet={fileContents} />
+        </div>
+      </div>
+      <div
+        className={`absolute w-full h-full bg-black z-30 opacity-25 ${
+          visible2 ? 'flex' : 'hidden'
         }`}
       />
       <p className="text-5xl font-roboto text-center text-black m-8 self-start">{`${user.displayName}`}</p>
