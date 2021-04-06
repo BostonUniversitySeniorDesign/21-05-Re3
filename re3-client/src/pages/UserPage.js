@@ -5,6 +5,7 @@ import ReproducabilityPic from '../assets/img/undraw_Code_review_re_woeb.svg';
 import MLPic from '../assets/img/undraw_proud_coder_7ain.svg';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import Card from '../components/Card';
+import useRouter from '../utils/Router';
 
 const UserPage = () => {
   const user = useContext(AuthContext);
@@ -21,6 +22,13 @@ const UserPage = () => {
   const [currentID, setCurrentID] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [scores, setScores] = useState([[]]);
+  const [runLogs, setRunLogs]=useState('');
+  const [buildLogs, setBuildLogs]= useState('');
+
+  const router = useRouter();
+    const push = async (page) => {
+        router.push(`${page}`);
+    }
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -61,8 +69,9 @@ const UserPage = () => {
       value.readability_scores[key]
     ]);
     setScores(result);
-    let x= value.runLogs.split(RegExp('(%2F)..*(%2F)'))[1].split(".")[0];
-    console.log(x);
+    setRunLogs(value.runLogs);
+    setBuildLogs(value.buildLogs);
+
     document.getElementById('authorName').value = value.author;
     document.getElementById('title').value = value.title;
     document.getElementById('keyWords').value = value.keywords;
@@ -137,7 +146,7 @@ const UserPage = () => {
               <div className="text-2xl font-bold"> Project File(s) Scores</div>
               {scoreList}
             </div>
-            <div>
+            <div className="my-10">
               <div className="grid grid-rows-7 grid-cols-3 gap-x-8 gap-y-4 items-center text-left mx-10 ">
                 <div className="text-2xl font-bold grid col-start-1 row-start-1">
                   Catagories
@@ -266,6 +275,20 @@ const UserPage = () => {
                   Update
                 </button>
               </div>
+            </div>
+            <div>
+              <button
+                className={`w-32 h-full bg-blue-400 text-white rounded-md py-2 m-2  text-1xl`}
+                onClick={()=>push(runLogs)}
+              >
+                run Logs
+              </button>
+              <button
+                className={`w-32 h-full bg-blue-400 text-white rounded-md py-2 m-2  text-1xl`}
+                onClick={() => firebase.Displayfile(buildLogs)}
+              >
+                build Logs
+              </button>
             </div>
           </div>
         </div>

@@ -306,28 +306,15 @@ export default class Firebase {
 
     return projects;
   };
-  // DisplayFile = async (docID,filesName) => {
-  //   // Get the current userID
+  DisplayFile = async (url) => {
+    // Get the current userID
 
-  //   var user = this.auth().currentUser;
-
-  //   // Get the snippet from storage to display and send it the display file function
-  //     var gsRef = this.storage.refFromURL(
-  //       this.folderName + filesName + String(snippet) + '.txt'
-  //     );
-  //     var url = await gsRef
-  //       .getDownloadURL()
-  //       .then(function (url) {
-  //         return url;
-  //       })
-  //       .catch(function (error) {
-  //         console.error('Error adding document: ', error);
-  //       });
-  //     let contents = await fetch(url).then((res) => {
-  //       return res.text();
-  //     });
-  //     this.snippets[snippet] = contents;
-  //     return contents;
+    // ref to the foulder we want access to from storage
+  
+      let contents = await fetch(url).then((res) => {
+        return res.text();
+      });
+      return contents;
     
-  // };
+  };
 }
