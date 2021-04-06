@@ -218,6 +218,7 @@ export default class Firebase {
   // REPRODUCIBILITY
   // {version: version, title: title, name: name, keywords: keywords}
   storeProjectData = async (
+    dependencies,
     version,
     title,
     name,
@@ -233,6 +234,7 @@ export default class Firebase {
     const res = await ref
       .set(
         {
+          dependencies: dependencies,
           version: version,
           title: title,
           author: name,

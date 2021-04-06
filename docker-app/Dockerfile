@@ -31,13 +31,20 @@ RUN pip install --no-cache-dir google-cloud-firestore \
 COPY run_workflow.sh execute_files.py file_util.py get_and_exec.py ./
 RUN ["chmod", "+x", "run_workflow.sh"]
 
+ARG DEP="ggplot gridExtra"
 ARG R_VER=3.6
 ARG PROJECT_REF
 
 ENV PROJECT_REF=${PROJECT_REF}
 
 RUN echo $R_VER
-
-RUN conda install -y --name venv r=${R_VER}
-
-ENTRYPOINT sh run_workflow.sh 
+RUN for i in $DEP; do echo "\"$i\""; done
+#RUN R -e "install.packages(littler,dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN for i in $DEP; do R -e "install.packages($i,dependencies=TRUE, repos='http://cran.rstudio.com/')"; done
+#RUN conda install -y --name venv r=${R_VER}
+# ggplot2 gridExtra dplyr
+# Originally in the file: 
+#RUN conda install -y --name venv r=${R_VER}
+#RUN for i in $DEP; do R -e "install.packages(`echo "'$i'"`,dependencies=TRUE, repos='http://cran.rstudio.com/')"; done
+RUN for i in $DEP; do conda install -c conda-forge `echo "$i"`; done
+ENTRYPOINT sh run_workflow.sh

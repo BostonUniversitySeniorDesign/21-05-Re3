@@ -28,6 +28,7 @@ const RE3Run = () => {
   const [currentURL, setCurrentURL] = useState('');
   const [scores, setScores] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [dependencies, setDependencies] = useState('');
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -52,6 +53,7 @@ const RE3Run = () => {
           { merge: true }
         );
         firebase.storeProjectData(
+          dependencies.split(/\s*(?:,|$)\s*/),
           version,
           title,
           name,
@@ -172,12 +174,13 @@ const RE3Run = () => {
   }
 
   const startRun = async () => {
-    const response = await fetch('http://192.168.0.2:8080/run', {
+    const response = await fetch('http://192.168.1.2:8080/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        dependencies: dependencies,
         version: version,
         projectRef: firebase.currentProjectDoc.path
       })
@@ -353,7 +356,16 @@ const RE3Run = () => {
             {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
           </div>
         </div>
-
+        <div className="flex flex-row items-center m-4">
+            <div className="w-48 text-2xl font-light">Dependencies: </div>
+            <TextInput
+              placeholder="ex: ggplot gridExtra"
+              id="dependencies"
+              w="w-64 px-4"
+              border="shadow"
+              onChange={ e => setDependencies(document.getElementById('dependencies').value)}
+            />
+          </div>
         <div className="row-span-4 items-center self-right">
           <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
             <div className="flex flex-row m-2 p-2">

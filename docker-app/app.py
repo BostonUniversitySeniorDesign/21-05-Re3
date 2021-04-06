@@ -56,12 +56,13 @@ def say_hello():
 @app.route('/run', methods=['POST'])
 def run_process():
     data = request.json
+    dependencies = data['dependencies']
     version = data['version']
     project_ref = data['projectRef']
 
     ref_base = os.path.basename(project_ref)
     try:
-        build_and_report.delay(version, project_ref)
+        build_and_report.delay(dependencies, version, project_ref)
     except Exception as e:
         print(e)
         return 'error'
@@ -70,14 +71,14 @@ def run_process():
 
 
 @celery.task
-def build_and_report(version, project_ref):
+def build_and_report(dependencies, version, project_ref):
     ref_base = os.path.basename(project_ref)
 
     doc_ref = db.document(project_ref)
 
     print('starting build')
     doc_ref.update({'status': 'building'})
-    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=30m', '--ignore-file=.dockerignore', f'--substitutions=_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
+    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=360m', '--ignore-file=.dockerignore', f'--substitutions=_DEPENDENCIES={dependencies},_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
                           shell=False, stdout=PIPE, stderr=PIPE)
     stdout, stderr = build_process.communicate(timeout=1800)
     build_status = ''
@@ -111,12 +112,12 @@ def build_and_report(version, project_ref):
         os.remove(filename)
 
     print('starting run')
-    run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated'],
+    run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated'],
                         shell=False, stdout=PIPE, stderr=PIPE)
     stdout, stderr = run_process.communicate(timeout=1800)
 
     filename = f'run_{ref_base}.txt'
-    log_process = Popen(['gcloud', 'logging', 'read', f'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}', '--project', 're3-virtualization', '--format', 'value(textPayload)'], shell=False, stdout=PIPE, stderr=PIPE)
+    log_process = Popen(['gcloud', 'logging', 'read', f'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}', '--project', 're3deploy', '--format', 'value(textPayload)'], shell=False, stdout=PIPE, stderr=PIPE)
     with open(filename, 'w') as f:
         save_process = Popen(['awk', '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'], shell=False, stdin=log_process.stdout, stdout=f)
 

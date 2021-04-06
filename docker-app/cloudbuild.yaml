@@ -5,7 +5,7 @@ steps:
     args:
       [
         '-c',
-        'docker pull us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:base || exit 0'
+        'docker pull us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:base || exit 0'
       ]
   - name: 'gcr.io/cloud-builders/docker'
     id: PROJECT BUILD
@@ -13,14 +13,16 @@ steps:
       [
         'build',
         '--build-arg',
+        'DEP=${_DEPENDENCIES}',
+        '--build-arg',
         'R_VER=${_R_VERSION}',
         '--build-arg',
         'PROJECT_REF=containers/${_PROJECT_REF}',
         '-t',
-        'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:${_PROJECT_REF}',
+        'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:${_PROJECT_REF}',
         '--cache-from',
-        'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:base',
+        'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:base',
         '.'
       ]
 images:
-  - 'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:${_PROJECT_REF}'
+  - 'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:${_PROJECT_REF}'
