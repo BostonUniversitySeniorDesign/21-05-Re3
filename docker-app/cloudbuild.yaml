@@ -1,0 +1,26 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: BASE IMAGE CACHE
+    entrypoint: 'bash'
+    args:
+      [
+        '-c',
+        'docker pull us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:base || exit 0'
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: PROJECT BUILD
+    args:
+      [
+        'build',
+        '--build-arg',
+        'R_VER=${_R_VERSION}',
+        '--build-arg',
+        'PROJECT_REF=containers/${_PROJECT_REF}',
+        '-t',
+        'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:${_PROJECT_REF}',
+        '--cache-from',
+        'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:base',
+        '.'
+      ]
+images:
+  - 'us-east1-docker.pkg.dev/re3-virtualization/re3-repo/re3-image:${_PROJECT_REF}'

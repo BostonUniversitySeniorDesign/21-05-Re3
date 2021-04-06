@@ -11,11 +11,11 @@ const Transition = () => {
         Thank you for answering our questions
       </div>
       <div className="self-start text-3xl text-black flex text-left font-roboto py-0 px-16">
-        We will ask you to rate code snippets on the next page
+        Now you can proceed to enjoy our services 
       </div>
       <img alt="thinking" src={thinking} className="w-2/5 h-2/3 p-8" />
       <Next
-      page = {'/dashboard'}/>
+      page = {'/homepage'}/>
     </div>
   );
 };

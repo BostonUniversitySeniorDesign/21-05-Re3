@@ -1,0 +1,11 @@
+app.py
+procfile
+python-app.conf
+requirements.txt
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+fb_service.json
+*.json

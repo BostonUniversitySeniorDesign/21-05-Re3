@@ -1,0 +1,17 @@
+tc<-tile(trace1,
+         trace2,
+         vertmark,
+         xaxis=list(at1 = at.x1, 
+            at2= at.x2, 
+         cex=.8), 
+        topaxis=list(at1 = at.x1, 
+                     at2= at.x2, 
+                     cex=.8,
+                     add = rep(TRUE,2)),
+         undertitle = list(labels="Change in Predicted Probability (Min-Max)", cex=.8, x=1),
+         plottitle= list(labels1= "Black/Asian vs. British", 
+         labels2= "Equally Both vs. Black/Asian"),
+         output = list(file = "EMBES_figure5", width=12, type="pdf"), 
+         frame=FALSE,
+         gridlines=list(type="x", col="grey65")
+)

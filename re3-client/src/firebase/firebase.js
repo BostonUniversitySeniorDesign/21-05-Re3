@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+// import {useEffect,useState} from 'react'
 
 export default class Firebase {
   constructor() {
@@ -23,6 +24,7 @@ export default class Firebase {
     this.folderName = 'gs://re3-fb.appspot.com/snippets';
     this.userOnboarded = false;
     this.maxSnippet = 101; //currently 4 but need to change to 100
+    this.currentProjectDoc = '';
   }
 
   isAuthenticated = async () => {
@@ -59,7 +61,7 @@ export default class Firebase {
         return -1;
       });
     this.currentSnippet = currentSnippetx[0];
-    if(this.currentSnippet === 101){
+    if (this.currentSnippet === 101) {
       this.currentSnippet = 100;
     }
     this.ratings = currentSnippetx[1];
@@ -166,11 +168,9 @@ export default class Firebase {
   // Display the content inside the file after fetching it from the Firebase storage
   DisplayContents = async () => {
     // Get the snippet that the current user last worked on
-    
 
     var snippet = this.currentSnippet;
 
-    
     // Get the snippet from storage to display and send it the display file function
     if (snippet in this.snippets) {
       return this.snippets[snippet];
@@ -213,5 +213,117 @@ export default class Firebase {
     }
     // decrement current snippet
     this.currentSnippet = snippet - 1;
+  };
+
+  // REPRODUCIBILITY
+  // {version: version, title: title, name: name, keywords: keywords}
+  storeProjectData = async (
+    version,
+    title,
+    name,
+    keywords,
+    user,
+    dataLicense,
+    codeLicense,
+    scores
+  ) => {
+    console.log(version);
+    console.log(title);
+    const ref = this.currentProjectDoc;
+    const res = await ref
+      .set(
+        {
+          version: version,
+          title: title,
+          author: name,
+          keywords: keywords,
+          userID: user,
+          dataLicense: dataLicense,
+          codeLicense: codeLicense,
+          readability_scores: scores,
+          status: 'pending',
+          created: app.firestore.Timestamp.now()
+        },
+        { merge: true }
+      )
+      .then(() => {
+        console.log('success, stored - ', scores);
+        return 1;
+      })
+      .catch((error) => {
+        return -1;
+      });
+    return res;
+  };
+  updateProjectData = async (
+    docID,
+    version,
+    title,
+    name,
+    keywords,
+    codeLicense,
+    dataLicense
+  ) => {
+    // if(codeLicense===undefined)
+    //   console.log("there is no code license");
+    //   else
+    //   console.log(codeLicense);
+    const ref = this.db.collection('containers').doc(docID);
+    const res = await ref
+      .update(
+        {
+          version: version,
+          title: title,
+          author: name,
+          keywords: keywords,
+          codeLicense: codeLicense,
+          dataLicense: dataLicense
+        },
+        { merge: true }
+      )
+      .then(() => {
+        return 1;
+      })
+      .catch((error) => {
+        return -1;
+      });
+    return res;
+  };
+
+  fetchProjects = async () => {
+    const user = this.auth().currentUser;
+    const projects = this.db
+      .collection('containers')
+      .where('userID', '==', `${user.uid}`)
+      .orderBy('created', 'desc')
+      .get()
+      .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          docID: doc.id
+        }));
+      });
+
+    return projects;
+  };
+  DisplayFile = async (url) => {
+    // Get the current userID
+
+    // ref to the foulder we want access to from storage
+  
+    var httpsReference = this.storage.refFromURL(url);
+    var urlc = await httpsReference
+      .getDownloadURL()
+      .then(function (urlc) {
+        return urlc;
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error);
+      });
+    let contents = await fetch(urlc).then((res) => {
+      return res.text();
+    });
+    return contents;
+    
   };
 }
