@@ -1,0 +1,401 @@
+Email,rating,invitefollowup,namedsalut,contactinfo,words,automated,question.answered,friendly,content
+501,60.916668,0,1,0,13,0,0,Greeting,Neither
+502,52.454544,1,1,0,27,0,1,Greeting + Invite,Answer
+503,43.599998,0,1,0,20,0,0,Greeting,Neither
+504,51.142857,0,1,0,46,0,1,Greeting,Answer
+505,72.900002,0,1,0,37,0,1,Greeting,Answer
+506,87.285713,0,1,0,46,0,1,Greeting,Answer
+507,71.36364,1,1,0,119,0,1,Greeting + Invite,Answer
+508,72.263161,0,0,0,38,0,1,Neither,Answer
+509,84.588234,0,1,0,158,0,1,Greeting,Answer
+510,70.047623,0,1,1,41,0,1,Greeting,Answer + Contact
+511,89.944443,1,0,0,121,0,1,Invite,Answer
+512,52.692307,0,1,0,42,0,0,Greeting,Neither
+513,72.599998,0,1,1,34,0,1,Greeting,Answer + Contact
+514,45.090908,0,1,0,47,0,0,Greeting,Neither
+515,75.63636,0,1,0,81,0,1,Greeting,Answer
+516,76.933334,0,1,0,42,0,1,Greeting,Answer
+517,68.928574,1,0,0,50,0,1,Invite,Answer
+518,82.428574,1,1,0,47,0,1,Greeting + Invite,Answer
+519,57.450001,0,1,0,120,0,1,Greeting,Answer
+520,57.846153,0,1,0,53,0,0,Greeting,Neither
+521,71.307693,1,0,0,243,0,1,Invite,Answer
+522,62.833332,0,1,0,59,0,0,Greeting,Neither
+523,64.699997,0,1,0,60,0,0,Greeting,Neither
+524,55.875,0,1,0,41,0,1,Greeting,Answer
+525,75.428574,0,0,0,52,0,0,Neither,Neither
+526,91.949997,0,1,0,67,0,1,Greeting,Answer
+527,86.526314,1,1,1,139,0,1,Greeting + Invite,Answer + Contact
+528,72.666664,1,0,0,100,0,1,Invite,Answer
+529,33.727272,0,1,0,19,0,0,Greeting,Neither
+530,76.75,0,1,1,37,0,1,Greeting,Answer + Contact
+531,12.222222,0,0,0,6,0,0,Neither,Neither
+532,36.357143,0,1,0,33,0,0,Greeting,Neither
+533,89.92308,1,1,0,71,0,1,Greeting + Invite,Answer
+534,71.5,0,1,1,58,0,0,Greeting,Contact info
+535,84.53846,1,1,0,171,0,1,Greeting + Invite,Answer
+536,72.307693,0,1,0,26,0,0,Greeting,Neither
+537,71.529411,0,1,0,38,0,0,Greeting,Neither
+538,80.75,0,1,1,83,0,1,Greeting,Answer + Contact
+539,55.5625,0,1,0,97,0,1,Greeting,Answer
+540,81.916664,0,1,0,145,0,1,Greeting,Answer
+541,59.75,0,1,1,65,0,1,Greeting,Answer + Contact
+542,64.199997,0,1,0,26,0,0,Greeting,Neither
+543,66.666664,0,1,0,82,0,1,Greeting,Answer
+544,66.75,0,0,0,23,0,1,Neither,Answer
+545,50.083332,0,0,0,23,0,1,Neither,Answer
+546,74.5,0,0,1,849,0,1,Neither,Answer + Contact
+547,28.75,0,1,0,16,0,0,Greeting,Neither
+548,50.700001,0,0,0,36,0,1,Neither,Answer
+549,63.153847,0,1,0,62,0,0,Greeting,Neither
+550,75.214287,1,1,0,193,0,1,Greeting + Invite,Answer
+551,73.416664,1,1,0,50,0,0,Greeting + Invite,Neither
+552,48.909092,1,0,0,117,0,1,Invite,Answer
+553,75,1,1,1,38,0,1,Greeting + Invite,Answer + Contact
+554,80.692307,1,1,0,94,0,1,Greeting + Invite,Answer
+555,76.727272,1,1,0,106,0,1,Greeting + Invite,Answer
+556,37.5,0,0,0,19,0,0,Neither,Neither
+557,81.916664,1,1,0,86,0,1,Greeting + Invite,Answer
+558,79,0,0,1,49,0,1,Neither,Answer + Contact
+559,31.933332,0,1,0,26,0,0,Greeting,Neither
+560,58.166668,0,0,1,67,0,1,Neither,Answer + Contact
+561,75.800003,1,1,0,458,0,1,Greeting + Invite,Answer
+562,69,1,1,0,74,0,1,Greeting + Invite,Answer
+563,48.23077,0,1,0,15,0,0,Greeting,Neither
+564,93.444443,1,1,0,96,0,1,Greeting + Invite,Answer
+565,61.700001,0,1,0,26,0,0,Greeting,Neither
+566,71.25,0,1,0,15,0,0,Greeting,Neither
+567,50.384617,0,1,0,22,0,0,Greeting,Neither
+568,65.875,1,1,0,30,0,1,Greeting + Invite,Answer
+569,71.36364,1,1,0,74,0,1,Greeting + Invite,Answer
+570,61.714287,0,0,0,12,0,1,Neither,Answer
+571,69.375,0,0,0,42,0,0,Neither,Neither
+572,77.714287,1,0,0,2019,0,1,Invite,Answer
+573,78,0,1,0,958,0,1,Greeting,Answer
+574,68.071426,0,1,0,40,0,1,Greeting,Answer
+575,70.125,0,0,0,17,0,1,Neither,Answer
+576,57.764706,0,1,1,33,0,1,Greeting,Answer + Contact
+577,76.916664,1,1,0,89,0,1,Greeting + Invite,Answer
+578,53.041668,0,1,1,36,0,1,Greeting,Answer + Contact
+579,53.533333,1,0,0,41,0,0,Invite,Neither
+580,69.333336,0,1,0,68,0,1,Greeting,Answer
+581,45.357143,0,0,0,43,0,1,Neither,Answer
+582,73.916664,0,0,0,41,0,0,Neither,Neither
+583,75.666664,0,1,0,63,0,1,Greeting,Answer
+584,82.25,1,1,0,80,0,1,Greeting + Invite,Answer
+585,71,1,1,1,66,0,1,Greeting + Invite,Answer + Contact
+586,52.18182,0,1,0,25,0,0,Greeting,Neither
+587,33.18182,0,0,0,9,0,0,Neither,Neither
+588,27.200001,0,1,0,54,0,0,Greeting,Neither
+589,84.545456,0,1,0,72,0,1,Greeting,Answer
+590,74.5,1,1,0,57,0,0,Greeting + Invite,Neither
+591,59.166668,0,0,1,17,0,1,Neither,Answer + Contact
+592,42.083332,1,1,0,50,0,0,Greeting + Invite,Neither
+593,66.699997,1,1,0,66,0,1,Greeting + Invite,Answer
+594,37.142857,0,0,0,6,0,1,Neither,Answer
+595,69.785713,0,0,1,73,0,1,Neither,Answer + Contact
+596,82.36364,0,1,0,80,0,1,Greeting,Answer
+597,68.705879,0,1,0,100,0,0,Greeting,Neither
+598,63.555557,0,1,0,58,0,0,Greeting,Neither
+599,65.833336,0,1,0,631,0,1,Greeting,Answer
+600,59.285713,0,0,0,350,0,1,Neither,Answer
+601,58.625,1,0,1,36,0,1,Invite,Answer + Contact
+602,39.299999,0,0,1,72,0,0,Neither,Contact info
+603,78.222221,1,1,0,88,0,1,Greeting + Invite,Answer
+604,90.599998,1,1,0,128,0,1,Greeting + Invite,Answer
+605,83.833336,1,1,0,48,0,1,Greeting + Invite,Answer
+606,51.799999,0,1,0,38,0,0,Greeting,Neither
+607,54.714287,0,0,1,28,0,0,Neither,Contact info
+608,88.5,1,1,0,87,0,0,Greeting + Invite,Neither
+609,54.142857,0,0,0,35,0,1,Neither,Answer
+610,72.133331,0,1,0,40,0,1,Greeting,Answer
+611,83.533333,1,1,1,58,0,1,Greeting + Invite,Answer + Contact
+612,87.421051,1,1,0,93,0,1,Greeting + Invite,Answer
+613,36.421051,0,0,0,2,0,0,Neither,Neither
+614,21.111111,0,1,0,5,0,0,Greeting,Neither
+615,83.333336,1,1,1,104,0,1,Greeting + Invite,Answer + Contact
+616,87.25,1,1,0,49,0,1,Greeting + Invite,Answer
+617,16.700001,0,0,0,12,0,0,Neither,Neither
+618,72.083336,0,1,0,273,0,1,Greeting,Answer
+619,73.846153,1,1,1,115,0,1,Greeting + Invite,Answer + Contact
+620,85.909088,1,1,0,137,0,1,Greeting + Invite,Answer
+621,51.285713,0,0,0,12,0,0,Neither,Neither
+622,38.4375,0,1,0,32,0,0,Greeting,Neither
+623,71.333336,1,1,0,177,0,1,Greeting + Invite,Answer
+624,63.454544,0,1,0,65,0,0,Greeting,Neither
+625,73.75,0,1,0,33,0,1,Greeting,Answer
+626,52.909092,0,1,0,39,0,0,Greeting,Neither
+627,24.363636,0,0,0,26,0,0,Neither,Neither
+628,81.9375,0,1,0,118,0,1,Greeting,Answer
+629,53,1,1,1,140,0,1,Greeting + Invite,Answer + Contact
+630,59.714287,0,0,0,32,0,0,Neither,Neither
+631,74.3125,0,0,0,63,0,1,Neither,Answer
+632,81.571426,1,1,0,81,0,1,Greeting + Invite,Answer
+633,44.222221,0,0,0,42,0,0,Neither,Neither
+634,71.25,0,0,0,60,0,0,Neither,Neither
+635,76.25,0,1,0,258,0,1,Greeting,Answer
+636,71.888885,1,0,0,36,0,1,Invite,Answer
+637,84.25,0,1,1,57,0,1,Greeting,Answer + Contact
+638,93.285713,0,1,0,215,0,1,Greeting,Answer
+639,79.400002,1,1,1,205,0,1,Greeting + Invite,Answer + Contact
+640,80.875,1,1,0,89,0,1,Greeting + Invite,Answer
+641,68.083336,0,1,0,43,0,1,Greeting,Answer
+642,78.090912,1,0,1,78,0,1,Invite,Answer + Contact
+643,72.615387,1,1,1,123,0,1,Greeting + Invite,Answer + Contact
+644,85.333336,0,1,0,120,0,1,Greeting,Answer
+645,62.111111,1,1,0,33,0,1,Greeting + Invite,Answer
+646,65,0,1,0,28,0,0,Greeting,Neither
+647,88.625,1,1,0,147,0,1,Greeting + Invite,Answer
+648,54.416668,0,1,0,58,0,1,Greeting,Answer
+649,77.5,1,1,1,188,0,1,Greeting + Invite,Answer + Contact
+650,52.5,0,1,0,20,0,0,Greeting,Neither
+651,84.800003,1,1,0,371,0,1,Greeting + Invite,Answer
+652,65.083336,0,0,1,7,0,1,Neither,Answer + Contact
+653,83.315788,0,1,0,57,0,1,Greeting,Answer
+654,79.833336,1,1,0,119,0,1,Greeting + Invite,Answer
+655,72.699997,1,0,1,46,0,1,Invite,Answer + Contact
+656,61.615383,0,0,0,53,0,1,Neither,Answer
+657,28.083334,0,0,0,18,0,0,Neither,Neither
+658,67.400002,0,1,0,46,0,1,Greeting,Answer
+659,53.76923,0,1,0,44,0,1,Greeting,Answer
+660,80.800003,0,1,1,39,0,1,Greeting,Answer + Contact
+661,76.5,1,1,0,61,0,0,Greeting + Invite,Neither
+662,49.916668,0,0,0,15,0,0,Neither,Neither
+663,53.875,0,1,0,19,0,0,Greeting,Neither
+664,85.3125,1,1,1,67,0,1,Greeting + Invite,Answer + Contact
+665,61.909092,0,1,0,53,0,1,Greeting,Answer
+666,73.555557,1,1,0,86,0,1,Greeting + Invite,Answer
+667,58,0,0,0,41,0,0,Neither,Neither
+668,63.615383,0,1,0,398,0,1,Greeting,Answer
+669,77.400002,1,1,0,118,0,1,Greeting + Invite,Answer
+670,54.81818,0,1,0,21,0,0,Greeting,Neither
+671,62.391304,0,1,0,28,0,1,Greeting,Answer
+672,74.26667,1,1,0,83,0,1,Greeting + Invite,Answer
+673,84.5,1,1,0,84,0,1,Greeting + Invite,Answer
+674,70.099998,1,1,0,72,0,1,Greeting + Invite,Answer
+675,80.14286,0,0,0,7,0,1,Neither,Answer
+676,83.25,1,1,0,82,0,1,Greeting + Invite,Answer
+677,66.111115,1,1,0,62,0,1,Greeting + Invite,Answer
+678,44.5,0,0,0,11,0,1,Neither,Answer
+679,42.416668,0,1,0,28,0,0,Greeting,Neither
+680,43.166668,0,1,0,28,0,1,Greeting,Answer
+681,38.083332,0,1,0,14,0,1,Greeting,Answer
+682,57.222221,0,1,0,22,0,0,Greeting,Neither
+683,74.5,0,1,0,61,0,1,Greeting,Answer
+684,58.400002,0,1,0,27,0,1,Greeting,Answer
+685,55.916668,0,1,0,47,0,1,Greeting,Answer
+686,58.307693,1,0,0,49,0,0,Invite,Neither
+687,75.272728,0,1,1,141,0,1,Greeting,Answer + Contact
+688,75.590912,1,1,0,66,0,1,Greeting + Invite,Answer
+689,65.5,1,1,0,49,0,1,Greeting + Invite,Answer
+690,69.909088,1,1,0,57,0,1,Greeting + Invite,Answer
+691,71.315788,1,1,0,50,0,0,Greeting + Invite,Neither
+692,72.882355,0,1,0,23,0,1,Greeting,Answer
+693,79.833336,1,1,0,56,0,1,Greeting + Invite,Answer
+694,88,0,1,0,28,0,1,Greeting,Answer
+695,28.125,0,0,0,8,0,0,Neither,Neither
+696,71.25,0,0,0,13,0,1,Neither,Answer
+697,74.294121,0,1,0,27,0,1,Greeting,Answer
+698,84,1,1,0,136,0,1,Greeting + Invite,Answer
+699,80,1,1,0,23,0,1,Greeting + Invite,Answer
+700,25,1,0,0,212,1,0,Invite,Neither
+701,81.666664,1,1,1,97,0,1,Greeting + Invite,Answer + Contact
+702,54.777779,0,1,0,54,0,1,Greeting,Answer
+703,76.818184,1,1,0,37,0,1,Greeting + Invite,Answer
+704,97.583336,1,1,0,63,0,1,Greeting + Invite,Answer
+705,62.076923,0,1,1,43,0,0,Greeting,Contact info
+706,69.85714,1,1,0,36,0,1,Greeting + Invite,Answer
+707,69.6875,0,0,0,50,0,1,Neither,Answer
+708,42.4375,1,0,0,168,1,0,Invite,Neither
+709,81.25,1,0,0,285,0,1,Invite,Answer
+710,36.944443,1,0,0,161,1,0,Invite,Neither
+711,88.875,1,1,0,89,0,1,Greeting + Invite,Answer
+712,80.875,1,0,0,225,0,1,Invite,Answer
+713,38.400002,0,0,0,128,1,0,Neither,Neither
+714,68.583336,0,1,0,56,0,0,Greeting,Neither
+715,74.92308,0,1,0,45,0,0,Greeting,Neither
+716,62.57143,1,0,0,51,0,0,Invite,Neither
+717,81.73333,0,0,0,57,0,1,Neither,Answer
+718,45.777779,0,0,0,146,1,0,Neither,Neither
+719,45.777779,0,0,0,138,1,0,Neither,Neither
+720,39.785713,0,0,0,56,1,0,Neither,Neither
+721,33.5,0,0,0,212,1,0,Neither,Neither
+722,67.07692,0,1,0,33,0,1,Greeting,Answer
+723,42.64706,0,0,1,62,0,0,Neither,Contact info
+724,68.0625,0,1,0,36,0,1,Greeting,Answer
+725,38.5,0,0,0,22,0,0,Neither,Neither
+726,74.07692,0,0,0,10,0,1,Neither,Answer
+727,68.1875,0,1,0,59,0,1,Greeting,Answer
+728,81.73333,1,1,0,46,0,1,Greeting + Invite,Answer
+729,63.272728,0,0,0,140,1,0,Neither,Neither
+730,32.875,0,0,0,67,1,0,Neither,Neither
+731,63.714287,0,1,0,17,0,1,Greeting,Answer
+732,23.777779,0,0,0,72,1,0,Neither,Neither
+733,59.53846,0,0,0,242,1,0,Neither,Neither
+734,43,0,0,0,152,1,0,Neither,Neither
+735,56.142857,0,1,0,17,0,1,Greeting,Answer
+736,37.299999,0,0,0,97,0,0,Neither,Neither
+737,49.900002,0,0,0,31,0,0,Neither,Neither
+738,57.333332,1,0,0,93,0,0,Invite,Neither
+739,25.083334,0,1,0,30,0,0,Greeting,Neither
+740,83.36364,1,1,0,116,0,1,Greeting + Invite,Answer
+741,63.111111,1,1,0,43,0,0,Greeting + Invite,Neither
+742,65.230766,1,0,0,106,0,0,Invite,Neither
+743,93.14286,0,1,1,57,0,1,Greeting,Answer + Contact
+744,75,1,1,1,74,0,1,Greeting + Invite,Answer + Contact
+745,74.650002,1,1,0,73,0,1,Greeting + Invite,Answer
+746,35.904762,0,0,0,56,1,0,Neither,Neither
+747,75.133331,1,1,0,63,0,1,Greeting + Invite,Answer
+748,68.599998,0,0,0,183,1,0,Neither,Neither
+749,66.63636,1,1,1,206,0,1,Greeting + Invite,Answer + Contact
+750,46.400002,0,0,0,25,1,0,Neither,Neither
+751,94.07692,0,0,0,149,0,1,Neither,Answer
+752,70.666664,0,1,0,229,0,1,Greeting,Answer
+753,38.625,0,0,0,212,1,0,Neither,Neither
+754,34.222221,0,0,0,127,1,0,Neither,Neither
+755,35.714287,0,0,1,5,0,1,Neither,Answer + Contact
+756,58.545456,1,1,0,54,0,0,Greeting + Invite,Neither
+757,53.466667,0,0,0,92,1,0,Neither,Neither
+758,57,0,0,0,225,1,0,Neither,Neither
+759,59.666668,0,1,1,58,0,1,Greeting,Answer + Contact
+760,60.666668,0,0,0,44,0,0,Neither,Neither
+761,36.416668,0,1,0,28,0,0,Greeting,Neither
+762,65.800003,0,1,0,61,0,0,Greeting,Neither
+763,69,1,1,0,102,0,1,Greeting + Invite,Answer
+764,44.307693,0,0,0,12,0,1,Neither,Answer
+765,71.875,0,1,0,22,0,0,Greeting,Neither
+766,12.777778,0,0,0,6,0,0,Neither,Neither
+767,35.625,0,0,0,5,0,0,Neither,Neither
+768,44.5,0,0,0,140,1,0,Neither,Neither
+769,67.818184,0,1,1,32,0,1,Greeting,Answer + Contact
+770,66.888885,0,1,0,334,0,1,Greeting,Answer
+771,71,0,0,0,21,0,0,Neither,Neither
+772,75.588234,1,1,0,80,0,1,Greeting + Invite,Answer
+773,82.761902,1,1,0,81,0,1,Greeting + Invite,Answer
+774,20.681818,0,0,1,17,0,0,Neither,Contact info
+775,53.8125,0,0,0,153,1,0,Neither,Neither
+776,46.888889,0,0,0,97,1,0,Neither,Neither
+777,39.166668,0,0,0,102,1,0,Neither,Neither
+778,55.846153,0,0,1,9,0,0,Neither,Contact info
+779,84.333336,0,1,0,66,0,1,Greeting,Answer
+780,74.25,1,0,1,91,0,1,Invite,Answer + Contact
+781,89.53846,0,1,0,280,0,1,Greeting,Answer
+782,22.375,0,0,0,0,1,0,Neither,Neither
+783,60.083332,0,0,0,153,1,0,Neither,Neither
+784,60,0,1,0,27,0,0,Greeting,Neither
+785,57.076923,0,0,0,12,0,0,Neither,Neither
+786,48.1875,0,0,0,30,0,1,Neither,Answer
+787,81.833336,1,1,0,85,0,1,Greeting + Invite,Answer
+788,75.090912,0,0,0,119,0,1,Neither,Answer
+789,44,0,1,0,49,0,0,Greeting,Neither
+790,54.42857,0,1,0,8,0,0,Greeting,Neither
+791,59.357143,0,1,0,50,0,0,Greeting,Neither
+792,81.473686,1,1,1,80,0,1,Greeting + Invite,Answer + Contact
+793,80.26667,1,1,0,82,0,1,Greeting + Invite,Answer
+794,36.083332,0,0,0,180,1,0,Neither,Neither
+795,29.5,0,0,0,63,1,0,Neither,Neither
+796,83.166664,1,1,0,46,0,1,Greeting + Invite,Answer
+797,76.909088,0,1,1,38,0,1,Greeting,Answer + Contact
+798,36,0,0,0,178,1,0,Neither,Neither
+799,55.277779,0,0,0,71,1,0,Neither,Neither
+800,73.166664,1,0,1,50,0,1,Invite,Answer + Contact
+801,10.076923,0,0,0,19,1,0,Neither,Neither
+802,53.583332,0,1,0,26,0,0,Greeting,Neither
+803,62.857143,0,1,0,47,0,0,Greeting,Neither
+804,63.8125,0,1,0,21,0,1,Greeting,Answer
+805,76.199997,0,1,0,48,0,0,Greeting,Neither
+806,30.357143,0,0,0,59,1,0,Neither,Neither
+807,56.733334,0,0,1,16,0,0,Neither,Contact info
+808,36.444443,0,0,0,218,1,0,Neither,Neither
+809,44.285713,0,0,1,27,0,0,Neither,Contact info
+810,35.833332,0,1,0,17,0,0,Greeting,Neither
+811,49.125,0,0,0,0,0,1,Neither,Answer
+812,39.875,1,0,0,77,1,0,Invite,Neither
+813,78.846153,1,1,0,192,0,1,Greeting + Invite,Answer
+814,51.25,0,0,0,34,0,0,Neither,Neither
+815,69.684212,0,1,0,142,0,1,Greeting,Answer
+816,65,0,1,1,52,0,1,Greeting,Answer + Contact
+817,39,0,0,0,5,0,0,Neither,Neither
+818,45.888889,0,0,0,137,1,0,Neither,Neither
+819,20.76923,0,0,0,24,1,0,Neither,Neither
+820,66.07692,0,0,0,31,0,1,Neither,Answer
+821,32.799999,0,0,0,3,0,1,Neither,Answer
+822,77.294121,1,1,0,441,0,1,Greeting + Invite,Answer
+823,32.066666,0,0,0,3,0,1,Neither,Answer
+824,52.785713,0,0,0,65,1,0,Neither,Neither
+825,66.294121,1,1,0,33,0,0,Greeting + Invite,Neither
+826,86.153847,1,1,0,108,0,1,Greeting + Invite,Answer
+827,61.400002,0,1,0,17,0,1,Greeting,Answer
+828,60.63158,0,0,0,60,0,1,Neither,Answer
+829,75.111115,1,1,0,47,0,1,Greeting + Invite,Answer
+830,62.166668,0,1,1,342,0,1,Greeting,Answer + Contact
+831,71.285713,1,1,0,43,0,1,Greeting + Invite,Answer
+832,42.799999,0,1,0,8,0,0,Greeting,Neither
+833,78.083336,1,1,0,71,0,1,Greeting + Invite,Answer
+834,1.6153846,0,0,0,2,0,0,Neither,Neither
+835,92.75,0,1,0,81,0,1,Greeting,Answer
+836,78.5,1,1,0,139,0,1,Greeting + Invite,Answer
+837,74.75,0,0,0,32,0,0,Neither,Neither
+838,37.142857,0,0,0,57,1,0,Neither,Neither
+839,61.636364,0,0,0,96,1,0,Neither,Neither
+840,62.049999,0,1,0,56,0,0,Greeting,Neither
+841,83.888885,1,1,0,63,0,1,Greeting + Invite,Answer
+842,48.733334,0,0,0,119,1,0,Neither,Neither
+843,49.846153,0,0,0,62,0,0,Neither,Neither
+844,84.800003,1,1,0,311,0,1,Greeting + Invite,Answer
+845,18.466667,1,1,0,29,0,0,Greeting + Invite,Neither
+846,50.307693,0,0,0,17,0,0,Neither,Neither
+847,71.117645,0,0,0,109,0,1,Neither,Answer
+848,70.833336,0,0,1,186,0,1,Neither,Answer + Contact
+849,60.944443,0,0,0,37,0,1,Neither,Answer
+850,71.384613,0,1,0,58,0,1,Greeting,Answer
+851,69.333336,1,1,0,140,0,1,Greeting + Invite,Answer
+852,84.166664,1,1,0,194,0,1,Greeting + Invite,Answer
+853,61.625,0,1,0,66,0,1,Greeting,Answer
+854,83.699997,1,1,0,249,0,1,Greeting + Invite,Answer
+855,33.5,0,0,0,122,1,0,Neither,Neither
+856,55.18182,0,0,0,214,1,0,Neither,Neither
+857,58.111111,0,0,0,76,0,1,Neither,Answer
+858,56.333332,1,1,1,43,0,1,Greeting + Invite,Answer + Contact
+859,46.25,0,0,0,103,1,0,Neither,Neither
+860,29.357143,0,0,0,64,1,0,Neither,Neither
+861,44.5,0,0,0,325,1,0,Neither,Neither
+862,76.583336,0,1,0,43,0,1,Greeting,Answer
+863,38.18182,0,0,0,40,1,0,Neither,Neither
+864,81.5,0,1,0,137,0,1,Greeting,Answer
+865,27,0,0,0,18,1,0,Neither,Neither
+866,48.200001,0,0,1,27,0,0,Neither,Contact info
+867,80.5,0,0,0,18,0,1,Neither,Answer
+868,67.222221,1,1,1,78,0,1,Greeting + Invite,Answer + Contact
+869,56.57143,0,1,0,15,0,0,Greeting,Neither
+870,61.18182,1,1,0,153,0,1,Greeting + Invite,Answer
+871,77.833336,1,1,0,89,0,1,Greeting + Invite,Answer
+872,85.85714,1,1,1,167,0,1,Greeting + Invite,Answer + Contact
+873,86.64286,1,1,1,53,0,1,Greeting + Invite,Answer + Contact
+874,76.272728,1,1,0,50,0,1,Greeting + Invite,Answer
+875,41.866665,0,0,0,160,1,0,Neither,Neither
+876,28.764706,0,0,0,356,1,0,Neither,Neither
+877,83.866669,1,1,0,737,0,0,Greeting + Invite,Neither
+878,51,0,0,0,21,0,0,Neither,Neither
+879,40.944443,0,1,0,11,0,0,Greeting,Neither
+880,58.5,0,1,0,49,0,1,Greeting,Answer
+881,65.5,0,0,0,143,0,1,Neither,Answer
+882,83.666664,0,1,0,34,0,1,Greeting,Answer
+883,38.222221,1,0,0,168,1,0,Invite,Neither
+884,21.555555,0,0,0,44,1,0,Neither,Neither
+885,69.533333,0,1,1,84,1,1,Greeting,Answer + Contact
+886,86.615387,0,0,0,64,0,1,Neither,Answer
+887,51.555557,0,1,0,128,0,1,Greeting,Answer
+888,80.181816,0,1,0,62,0,1,Greeting,Answer
+889,59.5,0,1,0,35,0,1,Greeting,Answer
+890,76.571426,0,1,1,204,0,1,Greeting,Answer + Contact
+891,74.583336,1,1,0,104,0,1,Greeting + Invite,Answer
+892,44.083332,1,1,0,83,1,0,Greeting + Invite,Neither
+893,44.833332,0,0,0,110,1,0,Neither,Neither
+894,41.142857,0,0,0,161,1,0,Neither,Neither
+895,91.199997,0,1,0,83,0,1,Greeting,Answer
+896,36.333332,0,0,0,169,1,0,Neither,Neither
+897,35.529411,0,0,0,136,1,0,Neither,Neither
+898,71.5,0,0,0,45,0,1,Neither,Answer
+899,83.214287,1,1,0,112,0,1,Greeting + Invite,Answer
+900,77,0,0,1,114,0,1,Neither,Answer + Contact
