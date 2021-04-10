@@ -27,16 +27,16 @@ const UserPage = () => {
   const [buildLogs, setBuildLogs] = useState('');
   const [fileContents, setFileContents] = useState('');
 
-  
-
   useEffect(() => {
     const fetchProjects = async () => {
       const projects = await firebase.fetchProjects();
       console.log(projects);
       setData(projects);
     };
-    fetchProjects();
-  }, [setData, firebase, update]);
+    if (user && user.uid) {
+      fetchProjects(user.uid);
+    }
+  }, [setData, firebase, update, user]);
 
   useEffect(() => {
     if (currentID !== '') {
@@ -338,7 +338,9 @@ const UserPage = () => {
           visible2 ? 'flex' : 'hidden'
         }`}
       />
-      <p className="text-5xl font-roboto text-center text-black m-8 self-start">{`${user.displayName}`}</p>
+      <p className="text-5xl font-roboto text-center text-black m-8 self-start">{`${
+        user ? user.displayName : 'Name'
+      }`}</p>
       <div className="grid grid-cols-2">
         <div className="min-h-96 w-4/5 rounded-md m-10 p-3 text-4xl bg-gradient-to-br from-blue-200 via-blue-300 to-blue-200 shadow-lg">
           Past Projects:

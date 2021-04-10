@@ -174,7 +174,7 @@ const RE3Run = () => {
   }
 
   const startRun = async () => {
-    const response = await fetch('http://192.168.1.2:8080/run', {
+    const response = await fetch('http://192.168.0.12:8080/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -357,15 +357,17 @@ const RE3Run = () => {
           </div>
         </div>
         <div className="flex flex-row items-center m-4">
-            <div className="w-48 text-2xl font-light">Dependencies: </div>
-            <TextInput
-              placeholder="ex: ggplot gridExtra"
-              id="dependencies"
-              w="w-64 px-4"
-              border="shadow"
-              onChange={ e => setDependencies(document.getElementById('dependencies').value)}
-            />
-          </div>
+          <div className="w-48 text-2xl font-light">Dependencies: </div>
+          <TextInput
+            placeholder="ex: ggplot gridExtra"
+            id="dependencies"
+            w="w-64 px-4"
+            border="shadow"
+            onChange={(e) =>
+              setDependencies(document.getElementById('dependencies').value)
+            }
+          />
+        </div>
         <div className="row-span-4 items-center self-right">
           <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
             <div className="flex flex-row m-2 p-2">
