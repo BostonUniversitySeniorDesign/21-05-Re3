@@ -77,8 +77,7 @@ def build_and_report(dependencies, version, project_ref):
     doc_ref = db.document(project_ref)
 
     print('starting build')
-    doc_ref.update({'status': 'building'})
-    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=360m', '--ignore-file=.dockerignore', f'--substitutions=_DEPENDENCIES={dependencies},_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
+    build_process = Popen(['gcloud', 'builds', 'submit', '--config=cloudbuild.yaml', '--timeout=30m', '--ignore-file=.dockerignore', f'--substitutions=_DEPENDENCIES={dependencies},_R_VERSION={version},_PROJECT_REF={ref_base}', '.'],
                           shell=False, stdout=PIPE, stderr=PIPE)
     stdout, stderr = build_process.communicate(timeout=1800)
     build_status = ''
@@ -122,6 +121,8 @@ def build_and_report(dependencies, version, project_ref):
         save_process = Popen(['awk', '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'], shell=False, stdin=log_process.stdout, stdout=f)
 
     stdout, stderr = log_process.communicate(timeout=1800)
+
+    print('got logs', str(stdout), str(stderr))
 
     storage_path = f'run_logs/{filename}'
     storage.child(storage_path).put(filename)

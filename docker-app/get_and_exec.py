@@ -4,7 +4,7 @@ import ssl
 import pyrebase
 import google.oauth2.credentials
 from google.cloud import firestore
-from file_util import get_filenames, fetch_files
+from file_util import get_filenames, fetch_files, find_files
 from execute_files import execute_files
 
 
@@ -43,9 +43,11 @@ def main():
                                  credentials=credentials)
 
     files = get_filenames(db_client, project_ref)
-    files_to_exec = fetch_files(files, project_dir)
+    fetch_files(files, project_dir)
 
     auth_client.delete_user_account(token)
+
+    files_to_exec = find_files(project_dir)
 
     for f in files_to_exec:
         res = execute_files(f)

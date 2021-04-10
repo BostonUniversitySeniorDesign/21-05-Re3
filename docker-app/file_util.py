@@ -1,4 +1,6 @@
 import urllib.request
+import glob
+from subprocess import Popen
 
 def get_filenames(db_client, project_ref):
     
@@ -19,11 +21,21 @@ def fetch_files(file_list, put_dir):
         try:
             print("downloading file:", file)
             #storage_client.child(f"{project_path}/{file}").download(put_dir, file)
-            location = f"{put_dir}/file{i + 1}.r"
-            urllib.request.urlretrieve(file, location)
-            files_to_exec.append(location)
+            process = Popen(['wget', '--content-disposition', '-q', '-P', put_dir, file], shell=False)
+            stdout, stderr = process.communicate(timeout=1800)
+
+            if process.returncode != 0:
+                print("error downloading file:", file)
+
         except Exception as e:
             print(e)
             print("error downloading file:", file)
 
-    return files_to_exec
+    return 0
+
+
+def find_files(workdir):
+    list_of_r_files = glob.glob(f'{workdir}/*.R')
+    list_of_r_files.extend(glob.glob(f'{workdir}/*.r'))
+
+    return list_of_r_files
