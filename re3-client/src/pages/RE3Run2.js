@@ -174,17 +174,20 @@ const RE3Run = () => {
   }
 
   const startRun = async () => {
-    const response = await fetch('http://35.196.119.232:8080/run', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        dependencies: dependencies,
-        version: version,
-        projectRef: firebase.currentProjectDoc.path
-      })
-    }).catch((e) => {
+    const response = await fetch(
+      'https://intense-everglades-86095.herokuapp.com/https://api.re3deploy.com/run',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dependencies: dependencies,
+          version: version,
+          projectRef: firebase.currentProjectDoc.path
+        })
+      }
+    ).catch((e) => {
       console.log('fetch error...', e);
       setSubmitted(false);
       return -1;
