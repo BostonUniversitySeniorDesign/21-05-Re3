@@ -2,7 +2,6 @@ import os
 from flask import Flask, request
 from flask_cors import CORS
 from subprocess import PIPE, Popen, STDOUT
-from flask_socketio import SocketIO, emit, disconnect
 from google.cloud.devtools import cloudbuild_v1
 import time
 from celery import Celery
@@ -106,29 +105,42 @@ def build_and_report(dependencies, version, project_ref):
         storage.child(storage_path).put(filename)
         token = cred.get_access_token()[0]
         logs_url = storage.child(storage_path).get_url(token)
-        doc_ref.update({'status': 'build success', 'buildLogs': logs_url})
+        doc_ref.update({'status': 'running', 'buildLogs': logs_url})
         build_status = 'success'
         os.remove(filename)
 
     print('starting run')
-    run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated'],
+    run_process = Popen(['gcloud', 'run', 'deploy', f're3-{ref_base.lower()}', '--image', f'us-east1-docker.pkg.dev/re3deploy/re3-images/re3-image:{ref_base}', '--max-instances', '1', '--cpu', '1', '--region=us-east1', '--platform=managed', '--allow-unauthenticated', '--memory', '512M'],
                         shell=False, stdout=PIPE, stderr=PIPE)
     stdout, stderr = run_process.communicate(timeout=1800)
 
     filename = f'run_{ref_base}.txt'
-    log_process = Popen(['gcloud', 'logging', 'read', f'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}', '--project', 're3deploy', '--format', 'value(textPayload)'], shell=False, stdout=PIPE, stderr=PIPE)
+    stdout = b''
+    did_timeout = False
     with open(filename, 'w') as f:
-        save_process = Popen(['awk', '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'], shell=False, stdin=log_process.stdout, stdout=f)
+        timeout = time.time() + 60*3
+        while ('Project reference' not in str(stdout)):
+            if time.time() > timeout:
+                print('log timeout')
+                did_timeout = True
+                break
+            print('still not here', str(stdout))
+            log_process = Popen(['gcloud', 'logging', 'read', f'resource.type=cloud_run_revision AND resource.labels.service_name=re3-{ref_base.lower()}', '--project', 're3deploy', '--format', 'value(textPayload)'], shell=False, stdout=PIPE, stderr=PIPE)
+            stdout, stderr = log_process.communicate(timeout=1800)
 
-    stdout, stderr = log_process.communicate(timeout=1800)
+        print('exited loop, current state:', timeout, str(stdout))
 
-    print('got logs', str(stdout), str(stderr))
+        if did_timeout:
+            f.writelines('Container logs timed out.\n')
+        else:
+            logs = str(stdout)[2:].split('\\n')[2:-2][::-1]
+            print(logs)
+            f.writelines(log + '\n' for log in logs)
 
     storage_path = f'run_logs/{filename}'
     storage.child(storage_path).put(filename)
     token = cred.get_access_token()[0]
     logs_url = storage.child(storage_path).get_url(token)
-
 
     doc_ref.update({'status': 'finished', 'runLogs': logs_url})
 

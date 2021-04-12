@@ -174,7 +174,7 @@ const RE3Run = () => {
   }
 
   const startRun = async () => {
-    const response = await fetch('http://192.168.0.12:8080/run', {
+    const response = await fetch('http://35.196.119.232:8080/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

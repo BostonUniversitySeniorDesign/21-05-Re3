@@ -16,7 +16,6 @@ dnspython==1.16.0
 firebase-admin==4.5.3
 Flask==1.1.2
 Flask-Cors==1.10.3
-Flask-SocketIO==5.0.1
 gcloud==0.18.3
 google-api-core==1.26.0
 google-api-python-client==2.1.0

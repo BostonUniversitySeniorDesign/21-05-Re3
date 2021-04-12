@@ -1,13 +1,13 @@
 import glob
 
-def execute_files(f):
+def execute_files(f, version):
     from subprocess import PIPE, CalledProcessError, check_call, Popen, TimeoutExpired
 
     # python file_name.py
     # Rscript file_name.R
 
     # creates new subprocess to execute R file as: "Rscript filename.R"
-    p3 = Popen(['/opt/conda/envs/venv/bin/Rscript', f], \
+    p3 = Popen([f'/opt/conda/envs/venv-{version}/bin/Rscript', f], \
         stdout=PIPE, stderr=PIPE, cwd="/usr/workdir/project/")
     res = ""
 

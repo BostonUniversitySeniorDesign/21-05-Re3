@@ -1,5 +1,6 @@
 import urllib.request
 import glob
+import os
 from subprocess import Popen
 
 def get_filenames(db_client, project_ref):
@@ -33,9 +34,28 @@ def fetch_files(file_list, put_dir):
 
     return 0
 
+def find_original_files(workdir):
+    original_files = set()
+    for root, dirs, files in os.walk(workdir):
+        for file in files:
+            original_files.add(os.path.join(root, file))
+
+    return original_files
+
 
 def find_files(workdir):
     list_of_r_files = glob.glob(f'{workdir}/*.R')
     list_of_r_files.extend(glob.glob(f'{workdir}/*.r'))
 
     return list_of_r_files
+
+def find_artifacts(workdir, original_files):
+    artifacts = set()
+    for root, dirs, files in os.walk(workdir):
+        for file in files:
+            artifacts.add(os.path.join(root, file))
+
+    artifacts = artifacts - original_files
+
+    return artifacts
+    
