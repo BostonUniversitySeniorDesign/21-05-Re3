@@ -287,7 +287,7 @@ const RE3Run = () => {
         Code and Dataset Information
       </div>
 
-      <div className="grid grid-rows-5 grid-flow-col gap-6 mx-7 my-2 px-16">
+      <div className="grid grid-rows-6 grid-flow-col gap-6 mx-7 my-2 px-16">
         <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
           <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
             Author Name
@@ -359,17 +359,21 @@ const RE3Run = () => {
             {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
           </div>
         </div>
-        <div className="flex flex-row items-center m-4">
-          <div className="w-48 text-2xl font-light">Dependencies: </div>
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
+            Dependencies:{' '}
+          </div>
           <TextInput
             placeholder="ex: ggplot gridExtra"
             id="dependencies"
-            w="w-64 px-4"
-            border="shadow"
+            w="w-44 px-2"
+            border="border-black"
             onChange={(e) =>
               setDependencies(document.getElementById('dependencies').value)
             }
           />
+
+          {dependencies === '' ? hourglass : checkmark}
         </div>
         <div className="row-span-4 items-center self-right">
           <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
