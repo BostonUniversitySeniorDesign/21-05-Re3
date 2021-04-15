@@ -1,18 +1,18 @@
 import glob
 
-def execute_files(f):
+def execute_files(f, version):
     from subprocess import PIPE, CalledProcessError, check_call, Popen, TimeoutExpired
 
     # python file_name.py
     # Rscript file_name.R
 
-    # creates new subprocess to execute R file as: "Rscript filename.R" 
-    p3 = Popen(['/opt/conda/envs/venv/bin/Rscript', f], \
-        stdout=PIPE, stderr=PIPE)
+    # creates new subprocess to execute R file as: "Rscript filename.R"
+    p3 = Popen([f'/opt/conda/envs/venv-{version}/bin/Rscript', f], \
+        stdout=PIPE, stderr=PIPE, cwd="/usr/workdir/project/")
     res = ""
 
     try:
-        # time limit for execution is one hour 
+        # time limit for execution is one hour
         stdout, stderr = p3.communicate(timeout=3600)
 
         # if subprocess is not successful, it returns the error:
@@ -30,12 +30,12 @@ def execute_files(f):
         p3.kill()
         stdout, stderr = p3.communicate()
         ret = "time limit exceeded"
-    
+
     return ret
 
 
 def main():
-   
+
     # 1st step: collect all files
     list_of_r_files = glob.glob("*.R")
     list_of_r_files.extend(glob.glob('*.r'))
@@ -45,7 +45,7 @@ def main():
     for f in list_of_r_files:
         res = execute_files(f)
         print(f'FILENAME: {f.strip()}\nRESULT: {res}')
-  
+
     # 3rd step: send results to the form
     # for a,b in results:
     #     socketIO.print(a, b)

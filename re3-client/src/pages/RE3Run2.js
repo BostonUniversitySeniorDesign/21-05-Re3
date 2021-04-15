@@ -28,6 +28,7 @@ const RE3Run = () => {
   const [currentURL, setCurrentURL] = useState('');
   const [scores, setScores] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [dependencies, setDependencies] = useState('');
 
   // create state in parent component that can be mutated by a child component; in this case, DragAndDrop -Lukas
   const [orderedFiles, setOrderedFiles] = useState([]);
@@ -52,6 +53,7 @@ const RE3Run = () => {
           { merge: true }
         );
         firebase.storeProjectData(
+          dependencies.split(/\s*(?:,|$)\s*/),
           version,
           title,
           name,
@@ -172,16 +174,20 @@ const RE3Run = () => {
   }
 
   const startRun = async () => {
-    const response = await fetch('http://192.168.0.2:8080/run', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        version: version,
-        projectRef: firebase.currentProjectDoc.path
-      })
-    }).catch((e) => {
+    const response = await fetch(
+      'https://intense-everglades-86095.herokuapp.com/https://api.re3deploy.com/run',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          dependencies: dependencies,
+          version: version,
+          projectRef: firebase.currentProjectDoc.path
+        })
+      }
+    ).catch((e) => {
       console.log('fetch error...', e);
       setSubmitted(false);
       return -1;
@@ -281,7 +287,7 @@ const RE3Run = () => {
         Code and Dataset Information
       </div>
 
-      <div className="grid grid-rows-5 grid-flow-col gap-6 mx-7 my-2 px-16">
+      <div className="grid grid-rows-6 grid-flow-col gap-6 mx-7 my-2 px-16">
         <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
           <div className="self-start text-2xl font-light text-black flex text-left font-roboto w-full ">
             Author Name
@@ -353,7 +359,22 @@ const RE3Run = () => {
             {dataLicense === '' && codeLicense === '' ? hourglass : checkmark}
           </div>
         </div>
+        <div className="grid grid-cols-3 gap-4 justify-start self-start items-center">
+          <div className="self-start text-2xl font-light text-black flex text-left font-roboto items-center  w-full">
+            Dependencies:{' '}
+          </div>
+          <TextInput
+            placeholder="ex: ggplot gridExtra"
+            id="dependencies"
+            w="w-44 px-2"
+            border="border-black"
+            onChange={(e) =>
+              setDependencies(document.getElementById('dependencies').value)
+            }
+          />
 
+          {dependencies === '' ? hourglass : checkmark}
+        </div>
         <div className="row-span-4 items-center self-right">
           <div className="w-2/3 h-2/3 flex flex-col items-center justify-center bg-gray-200 rounded-md text-center ml-16">
             <div className="flex flex-row m-2 p-2">

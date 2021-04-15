@@ -141,3 +141,5 @@ cython_debug/
 
 fb_service.json
 *.json
+
+.DS_Store

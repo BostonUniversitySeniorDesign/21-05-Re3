@@ -218,6 +218,7 @@ export default class Firebase {
   // REPRODUCIBILITY
   // {version: version, title: title, name: name, keywords: keywords}
   storeProjectData = async (
+    dependencies,
     version,
     title,
     name,
@@ -233,6 +234,7 @@ export default class Firebase {
     const res = await ref
       .set(
         {
+          dependencies: dependencies,
           version: version,
           title: title,
           author: name,
@@ -241,7 +243,7 @@ export default class Firebase {
           dataLicense: dataLicense,
           codeLicense: codeLicense,
           readability_scores: scores,
-          status: 'pending',
+          status: 'building',
           created: app.firestore.Timestamp.now()
         },
         { merge: true }
@@ -290,8 +292,9 @@ export default class Firebase {
     return res;
   };
 
-  fetchProjects = async () => {
+  fetchProjects = async (uid) => {
     const user = this.auth().currentUser;
+    console.log(uid);
     const projects = this.db
       .collection('containers')
       .where('userID', '==', `${user.uid}`)
@@ -310,7 +313,7 @@ export default class Firebase {
     // Get the current userID
 
     // ref to the foulder we want access to from storage
-  
+
     var httpsReference = this.storage.refFromURL(url);
     var urlc = await httpsReference
       .getDownloadURL()
@@ -324,6 +327,5 @@ export default class Firebase {
       return res.text();
     });
     return contents;
-    
   };
 }
