@@ -11,10 +11,10 @@ An essential part of research and scientific communication is the researchers’
 ## Structure
 
 Our platform is structured into 4 main parts:
-Readability - train and deploy machine learning readability model.
-Reproducibility - Automatic containerization of user uploaded research projects.
-Front End - React code and styling.
-Back-End - Firebase (storage, firestore, authentication)
+- Readability - train and deploy machine learning readability model.
+- Reproducibility - Automatic containerization of user uploaded research projects.
+- Front End - React code and styling.
+- Back-End - Firebase (storage, firestore, authentication)
 
 ### Readability
 
