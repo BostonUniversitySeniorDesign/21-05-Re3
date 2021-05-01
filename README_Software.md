@@ -48,7 +48,7 @@ cd into the flask app directory
 cd Re3-readability/flask_api/app
 ```
 
-Deploy flask app. The configuration settings are already set up in the app.yaml file.
+Deploy flask app. The configuration settings are already set up in the `app.yaml` file.
 
 ```
 gcloud app deploy
@@ -114,27 +114,27 @@ Re3-Readability
 │   ├── requirements.txt
 ```
 
-- data/data_cleaning/outliers.py: code to remove outliers from survey ratings into a new csv.
-- data/data_cleaning/scale_ratings.py: code to scale survey ratings from 1-5 into a new csv.
-- data/data_cleaning/normalize_ratings.py: code to normalize ratings to 1-10 into a new csv.
-- data/dataverse/score_dv_files.py: run ml model on over 1000+ real world code examples.
-- data/dataverse/score_dv_files_with_vars.py: run ml model on over 1000+ real world code examples.
-- flask_api/app/get_features.py: Parse code file for structural features.
-- flask_api/app/main.py: flask server that calls our machine learning model on user uploaded code.
-- notebooks/Inter Annotator Agreement.ipynb - script to visualize agreement between survey participants.
-- notebooks/ Suggestion Box Models.ipynb - code to generate models for code improvement suggestions.
-- notebooks/analysis.ipynb - code to generate models for code readability scores.
-- notebooks/dataverse_files.ipynb - visualize readability scores from 1000+ real-world code examples from harvard dataverse.
-- notebooks/feature_correlation.ipynb - code to find which features have the greatest impact on our machine learning model.
-- notebooks/graph_attr.ipynb - visualize user demographics.
-- notebooks/graphs.ipynb - visualize survey ratings from code readability survey.
-- src/data fetching/fetch_ratings.py: code to fetch survey ratings from firestore
-- src/data fetching/fetch_user_attr.py: code to fetch user demographics from firestore
-- src/data fetching/organize_features.py: code to organize code features into a csv.
-- src/get_readability_stats/readability-snippets-r/readability_analysis_with_vars.py: code to parse file for structural features.
-- src/get_readability_stats/readability-snippets-r/readability_analysis.py: code to parse file for structural features.
-- src/get_readability_stats/readability-snippets-r/tests_with_vars.py: unit tests to test code parser
-- src/get_readability_stats/readability-snippets-r/tests.py: unit tests to test code parser
+- `data/data_cleaning/outliers.py`: code to remove outliers from survey ratings into a new csv.
+- `data/data_cleaning/scale_ratings.py`: code to scale survey ratings from 1-5 into a new csv.
+- `data/data_cleaning/normalize_ratings.py`: code to normalize ratings to 1-10 into a new csv.
+- `data/dataverse/score_dv_files.py`: run ml model on over 1000+ real world code examples.
+- `data/dataverse/score_dv_files_with_vars.py`: run ml model on over 1000+ real world code examples.
+- `flask_api/app/get_features.py`: Parse code file for structural features.
+- `flask_api/app/main.py`: flask server that calls our machine learning model on user uploaded code.
+- `notebooks/Inter Annotator Agreement.ipynb` - script to visualize agreement between survey participants.
+- `notebooks/ Suggestion Box Models.ipynb` - code to generate models for code improvement suggestions.
+- `notebooks/analysis.ipynb` - code to generate models for code readability scores.
+- `notebooks/dataverse_files.ipynb` - visualize readability scores from 1000+ real-world code examples from harvard dataverse.
+- `notebooks/feature_correlation.ipynb` - code to find which features have the greatest impact on our machine learning model.
+- `notebooks/graph_attr.ipynb` - visualize user demographics.
+- `notebooks/graphs.ipynb` - visualize survey ratings from code readability survey.
+- `src/data fetching/fetch_ratings.py`: code to fetch survey ratings from firestore
+- `src/data fetching/fetch_user_attr.py`: code to fetch user demographics from firestore
+- `src/data fetching/organize_features.py`: code to organize code features into a csv.
+- `src/get_readability_stats/readability-snippets-r/readability_analysis_with_vars.py`: code to parse file for structural features.
+- `src/get_readability_stats/readability-snippets-r/readability_analysis.py`: code to parse file for structural features.
+- `src/get_readability_stats/readability-snippets-r/tests_with_vars.py`: unit tests to test code parser
+- `src/get_readability_stats/readability-snippets-r/tests.py`: unit tests to test code parser
 
 ### Readability model dependencies
 
@@ -303,23 +303,23 @@ re3-client
 
 ```
 
-- index.html : The main HTML file, the entire app gets appended to the element in this file
-- svg : This folder contains the animated pictures we used in our project to make it visually more appealing
-- README.md : This file contains the overview of the entire project including the reproducibility and readability aspects of the project
-- App.js : The parent file for the application that defines the routing
-- App.css : The parent file for the application that defines the styling of the entire app
-- spinner.css : this file contains the CSS Loader
-- DisplayLogs.js : It contains the logic to format the build and run logs
-- DragAndDrop.js : The UI includes the component that lets the user order the files that were uploaded, this module takes care of that.
-- DropDown.js : This file contains the logic that is required for the drop down menu that displays the R version.
-- HeaderHomePageButton.js : Its a button that takes a user to the home page
-- HeaderSignUpButton.js : This takes the user to the sign up page
-- TestDisplayFile.js : For displaying the code snippet the formatting is handled by this file
-- Dashboard.js : The page that contains the survey
-- Onboarding.js : The page that is shown to the user when he/she log in for the first time
-- RE3Run2.js : This page contains the logic that displayed to user when he/she submits a project to the reproducibility platform
-- tailwind.css : contains the styling features used in our project.
-- Router.js : It handles the routing of all pages
+- `index.html` : The main HTML file, the entire app gets appended to the element in this file
+- `/svg` : This folder contains the animated pictures we used in our project to make it visually more appealing
+- `README.md` : This file contains the overview of the entire project including the reproducibility and readability aspects of the project
+- `App.js` : The parent file for the application that defines the routing
+- `App.css` : The parent file for the application that defines the styling of the entire app
+- `spinner.css` : this file contains the CSS Loader
+- `DisplayLogs.js` : It contains the logic to format the build and run logs
+- `DragAndDrop.js` : The UI includes the component that lets the user order the files that were uploaded, this module takes care of that.
+- `DropDown.js` : This file contains the logic that is required for the drop down menu that displays the R version.
+- `HeaderHomePageButton.js` : Its a button that takes a user to the home page
+- `HeaderSignUpButton.js` : This takes the user to the sign up page
+- `TestDisplayFile.js` : For displaying the code snippet the formatting is handled by this file
+- `Dashboard.js` : The page that contains the survey
+- `Onboarding.js` : The page that is shown to the user when he/she log in for the first time
+- `RE3Run2.js` : This page contains the logic that displayed to user when he/she submits a project to the reproducibility platform
+- `tailwind.css` : contains the styling features used in our project.
+- `Router.js` : It handles the routing of all pages
 
 #### Code Flow Diagram
 
@@ -363,13 +363,13 @@ re3-client
 
 ```
 
-- Dockerfile: template Dockerfile used for reproducibility projects. Arguments are passed to this file and used to build images for the user’s projects
-  app.py: this is the main file driving the Flask application. This Flask application is hosted in a Kubernetes cluster in its own pod.
-- cloudbuild.yaml: this file specifies configurations for Cloud Build processes. For example, it specifies where to store container images in our artifact registry once images finish building.
-- execute_files.py: this is a helper file that has a function that can execute R files using subprocess calls. This file exists in all user project containers and is used inside of Kubernetes jobs when users run projects.
-- file_util.py: another helper file that has functions that are used to pull user uploaded files into running Kubernetes jobs so they can be executed
-- get_and_exec.py: the main python script that is executed inside of the Kubernetes jobs that pulls user files from file storage and executes them using exexcute_files.py
-- run_workflow.sh: entrypoint file inside of user project images
+- `Dockerfile`: template Dockerfile used for reproducibility projects. Arguments are passed to this file and used to build images for the user’s projects
+- `app.py`: this is the main file driving the Flask application. This Flask application is hosted in a Kubernetes cluster in its own pod.
+- `cloudbuild.yaml`: this file specifies configurations for Cloud Build processes. For example, it specifies where to store container images in our artifact registry once images finish building.
+- `execute_files.py`: this is a helper file that has a function that can execute R files using subprocess calls. This file exists in all user project containers and is used inside of Kubernetes jobs when users run projects.
+- `file_util.py`: another helper file that has functions that are used to pull user uploaded files into running Kubernetes jobs so they can be executed
+- `get_and_exec.py`: the main python script that is executed inside of the Kubernetes jobs that pulls user files from file storage and executes them using exexcute_files.py
+- `run_workflow.sh`: entrypoint file inside of user project images
 
 #### Reproducibility Architecture Diagram
 
