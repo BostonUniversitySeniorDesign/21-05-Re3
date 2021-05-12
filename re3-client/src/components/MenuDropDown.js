@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import {AiOutlineMenu} from 'react-icons/ai';
+import React, { useState } from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
 import useRouter from '../utils/Router';
 
 const MenuDropDown = () => {
-    const router = useRouter();
-    function pushpage(page) {
-        router.push(`${page}`);
-    }
-    const [drop, setDrop]= useState(false);
-    var hide ="transform opacity-0 scale-95";
-    var show="transform opacity-100 scale-100";
-    const className = drop ? show : hide;
+  const router = useRouter();
+  function pushpage(page) {
+    router.push(`${page}`);
+  }
+  const [drop, setDrop] = useState(false);
+  var hide = 'transform opacity-0 scale-95';
+  var show = 'transform opacity-100 scale-100';
+  const className = drop ? show : hide;
   return (
     <div className="relative inline-block text-left">
       <div>
@@ -70,7 +70,7 @@ const MenuDropDown = () => {
             onClick={() => pushpage('/re3-run')}
             disabled={!drop}
           >
-            Reproducability
+            Reproducibility
           </button>
         </div>
       </div>

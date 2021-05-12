@@ -14,14 +14,14 @@ const MenuPage = () => {
         Welcome to
       </div>
       <img
-          alt="re3Logo"
-          src={re3Logo}
-          className="w-1/5 justify-center items-center transform duration-700 hover:scale-110"
-        />
-        <div className="text-3xl text-black text-center flex font-roboto font-hairline mb-10">
-          Reproducibility, Reusability, Readability
-        </div>
-        {/* <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
+        alt="re3Logo"
+        src={re3Logo}
+        className="w-1/5 justify-center items-center transform duration-700 hover:scale-110"
+      />
+      <div className="text-3xl text-black text-center flex font-roboto font-hairline mb-10">
+        Reproducibility, Reusability, Readability
+      </div>
+      {/* <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
         Enjoy some of what we have to offer, you can check the Readability of your code and get a few pointers on how to improve it.
         OR you can check the Reproducability of any paper you want. learn more
         </div> */}
@@ -29,7 +29,7 @@ const MenuPage = () => {
         <div className="transform duration-700 hover:-translate-y-6 inline">
           <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/code-readability-services">
-            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+              <div className=" justify-center text-center text-4xl font-roboto font-bold ">
                 Code Readability
               </div>
               <div className=" justify-center text-center text-md font-roboto font-hairline italic">
@@ -37,7 +37,7 @@ const MenuPage = () => {
               </div>
               <img alt="thePic" src={MLPic} />
               <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
-                Learn more 
+                Learn more
               </div>
             </a>
           </Card>
@@ -45,7 +45,7 @@ const MenuPage = () => {
         <div className="transform duration-700 hover:-translate-y-6 inline">
           <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/dashboard">
-            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+              <div className=" justify-center text-center text-4xl font-roboto font-bold ">
                 Snippet Rating
               </div>
               <div className=" justify-center text-center text-md font-roboto font-hairline italic">
@@ -53,7 +53,7 @@ const MenuPage = () => {
               </div>
               <img alt="thePic" src={RatingPic} />
               <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
-                Learn more 
+                Learn more
               </div>
             </a>
           </Card>
@@ -61,19 +61,31 @@ const MenuPage = () => {
         <div className="transform duration-700 hover:-translate-y-6 inline">
           <Card w="w-4/5 px-4" h="h-72 py-4" color="bg-transparent">
             <a href="/re3-run">
-            <div className=" justify-center text-center text-4xl font-roboto font-bold ">
-                Reproducability Test
+              <div className=" justify-center text-center text-4xl font-roboto font-bold ">
+                Reproducibility Test
               </div>
               <div className=" justify-center text-center text-md font-roboto font-hairline italic">
-                Upload code and check if it's reproducable
+                Upload code and check if it's reproducible
               </div>
               <img alt="thePic" src={ReproducabilityPic} />
               <div className=" justify-center text-center text-md font-roboto font-hairline hover:underline text-blue-500 mt-2">
-                Learn more 
+                Learn more
               </div>
             </a>
           </Card>
         </div>
+      </div>
+      <div className="w-full flex items-center justify-center my-16">
+        <p className="text-xl">
+          The source code for the platform is available on{' '}
+          <a
+            className="text-blue-600"
+            href="https://github.com/BostonUniversitySeniorDesign/21-05-Re3"
+          >
+            GitHub
+          </a>
+          .
+        </p>
       </div>
     </div>
   );

@@ -18,15 +18,15 @@ const ReproducabilityOptionsPage = () => {
         <div className="text-3xl text-black text-center flex font-roboto font-hairline mb-10">
           Reproducibility, Reusability, Readability
         </div> */}
-        <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
-        Where you can Upload files or a DOI to test for reproducability  
-        </div>
+      <div className="text-2xl text-black text-center flex font-roboto font-hairline my-10 mx-40">
+        Where you can Upload files or a DOI to test for reproducibility
+      </div>
       <div className="grid grid-cols-2 grid-rows-1 items-end gap-5 m-10">
         <div className="transform duration-700 hover:-translate-y-6 self-center">
           <Card w="w-3/5 px-4" h="h-72 py-4">
             <a href="/re3-run">
               <div className=" justify-center text-center text-2xl font-roboto">
-                Upload your code and check if it's reproducabile
+                Upload your code and check if it's reproducible
               </div>
               <img alt="thePic" src={MLPic} />
             </a>
@@ -36,7 +36,7 @@ const ReproducabilityOptionsPage = () => {
           <Card w="w-3/5 px-4" h="h-72 py-4">
             <a href="/dashboard">
               <div className=" justify-center text-center text-2xl font-roboto">
-                Search for an existing project to check it's reproducability
+                Search for an existing project to check it's reproducibility
               </div>
               <img alt="thePic" src={RatingPic} />
             </a>
