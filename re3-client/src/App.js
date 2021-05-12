@@ -18,10 +18,9 @@ import { AuthContext } from './firebase';
 import UserPage from './pages/UserPage';
 import ReproducabilityOptions from './pages/ReproducabilityOptionsPage';
 
-
 import Transition from './pages/Transition';
 import BestPractices from './pages/BestPractices';
-import CodeReadability from './pages/CodeReadability'
+import CodeReadability from './pages/CodeReadability';
 
 const App = () => {
   const user = useContext(AuthContext);
@@ -32,7 +31,7 @@ const App = () => {
         <Route
           exact
           path="/"
-          render={() => (user ? <Redirect to="dashboard" /> : <HomePage />)}
+          render={() => (user ? <Redirect to="homepage" /> : <HomePage />)}
         />
         <Route
           exact
@@ -43,11 +42,19 @@ const App = () => {
         <PrivateRoute exact path="/dashboard" component={Rating} />
         <PrivateRoute exact path="/homepage" component={MenuPage} />
         <PrivateRoute exact path="/thanksagain" component={Transition2} />
-        <Route exact path="/ReproducabilityOptions" component={ReproducabilityOptions}/>
-        <PrivateRoute exact path='/thanks' component={Transition}/>
-        <Route exact path='/userpage' component={UserPage}/>
-        <Route exact path='/bestpractices' component={BestPractices}/>
-        <Route exact path='/code-readability-services' component={CodeReadability}/>
+        <Route
+          exact
+          path="/ReproducabilityOptions"
+          component={ReproducabilityOptions}
+        />
+        <PrivateRoute exact path="/thanks" component={Transition} />
+        <Route exact path="/userpage" component={UserPage} />
+        <Route exact path="/bestpractices" component={BestPractices} />
+        <Route
+          exact
+          path="/code-readability-services"
+          component={CodeReadability}
+        />
         <Route exact path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>
